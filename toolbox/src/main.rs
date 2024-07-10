@@ -7,12 +7,17 @@ use std::io::ErrorKind;
 fn main() {
     // Define the repository URL and the local path to clone to
     let repo_url = "https://github.com/aayushx402/sway";
-    let local_path = "/tmp/sway-config";
+    let local_path = Path::new("/tmp/sway-config");
 
-    // Clone the repository
-    match Repository::clone(repo_url, local_path) {
-        Ok(_) => println!("Repository cloned successfully."),
-        Err(e) => panic!("Failed to clone repository: {}", e),
+    // Check if the local path exists and is not empty
+    if local_path.exists() && local_path.read_dir().unwrap().next().is_some() {
+        println!("Directory already exists and is not empty. Skipping clone.");
+    } else {
+        // Clone the repository
+        match Repository::clone(repo_url, local_path) {
+            Ok(_) => println!("Repository cloned successfully."),
+            Err(e) => panic!("Failed to clone repository: {}", e),
+        }
     }
 
     // Define the paths for the Sway configuration
@@ -40,7 +45,7 @@ fn main() {
     }
 
     // Copy the new configuration files from the cloned repository
-    let new_config_path = Path::new(local_path).join("sway");
+    let new_config_path = local_path.join("sway");
     fs::create_dir_all(sway_config_path).unwrap_or_else(|e| {
         if e.kind() == ErrorKind::PermissionDenied {
             panic!("Failed to create Sway config directory: Permission denied. Try running the program with elevated permissions (e.g., using sudo).");
