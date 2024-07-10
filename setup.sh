@@ -10,18 +10,14 @@ else
     echo "Rust is already installed."
 fi
 
-# Create a temporary Rust file
-cat << 'EOF' > temp.rs
-fn main() {
-    println!("Hello, world!");
-}
-EOF
+# Navigate to the directory containing main.rs
+cd toolbox/src
 
-# Compile the Rust file
-rustc temp.rs
+# Compile the main.rs file
+rustc main.rs
 
 # Run the compiled Rust program
-./temp
+./main
 
 # Clean up
-rm temp.rs temp
+rm main
