@@ -26,7 +26,7 @@ fn main() {
 
     // Check if we have write permissions to the sway config path
     if !sway_config_path.exists() || fs::metadata(sway_config_path).is_err() {
-        // Prompt for sudo permissions
+        // Prompt for sudo permissions to create the directory
         let status = Command::new("sudo")
             .arg("mkdir")
             .arg("-p")
@@ -39,21 +39,33 @@ fn main() {
         }
     }
 
-    // Remove the existing Sway configuration
+    // Remove the existing Sway configuration with sudo if necessary
     if sway_config_path.exists() {
-        fs::remove_dir_all(sway_config_path).expect("Failed to remove existing Sway config");
+        let status = Command::new("sudo")
+            .arg("rm")
+            .arg("-rf")
+            .arg(sway_config_path)
+            .status()
+            .expect("Failed to execute sudo command to remove existing Sway config");
+
+        if !status.success() {
+            panic!("Failed to remove existing Sway config with sudo.");
+        }
     }
 
     // Copy the new configuration files from the cloned repository
     let new_config_path = local_path.join("sway");
-    fs::create_dir_all(sway_config_path).unwrap_or_else(|e| {
-        if e.kind() == ErrorKind::PermissionDenied {
-            panic!("Failed to create Sway config directory: Permission denied. Try running the program with elevated permissions (e.g., using sudo).");
-        } else {
-            panic!("Failed to create Sway config directory: {}", e);
-        }
-    });
-    fs::copy(new_config_path, sway_config_path).expect("Failed to copy new Sway config");
+    let status = Command::new("sudo")
+        .arg("cp")
+        .arg("-r")
+        .arg(new_config_path)
+        .arg(sway_config_path)
+        .status()
+        .expect("Failed to execute sudo command to copy new Sway config");
+
+    if !status.success() {
+        panic!("Failed to copy new Sway config with sudo.");
+    }
 
     // Ensure swayr is installed
     Command::new("sh")
