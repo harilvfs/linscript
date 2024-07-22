@@ -2,7 +2,7 @@ use git2::Repository;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
-use std::io::{self, Write};
+use std::io::{self, Write, BufRead};
 use std::fs::File;
 use std::env;
 
@@ -117,4 +117,108 @@ fn main() {
     } else {
         println!("Failed to download the Vim configuration file.");
     }
+
+    // Prompt the user for their choice of plugin manager
+    println!("Choose your Neovim plugin manager (1 for vim-plug, 2 for packer.nvim):");
+
+    let stdin = io::stdin();
+    let mut choice = String::new();
+    stdin.lock().read_line(&mut choice).expect("Failed to read line");
+
+    match choice.trim() {
+        "1" => install_vim_plug(),
+        "2" => install_packer_nvim(),
+        _ => println!("Invalid choice. Please run the program again and choose 1 or 2."),
+    }
+}
+
+fn install_vim_plug() {
+    // Ensure vim-plug is installed
+    Command::new("sh")
+        .arg("-c")
+        .arg("curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim")
+        .status()
+        .expect("Failed to install vim-plug");
+
+    // Add the Catppuccin theme configuration to init.vim
+    let init_vim_path = PathBuf::from(format!("{}/.config/nvim/init.vim", env::var("HOME").unwrap()));
+
+    let config = r#"
+call plug#begin('~/.config/nvim/plugged')
+
+Plug 'catppuccin/nvim', {'as': 'catppuccin'}
+
+call plug#end()
+
+syntax enable
+set background=dark
+colorscheme catppuccin
+"#;
+
+    fs::create_dir_all(init_vim_path.parent().unwrap()).unwrap();
+    let mut file = File::create(init_vim_path).unwrap();
+    file.write_all(config.as_bytes()).unwrap();
+
+    // Install plugins
+    Command::new("nvim")
+        .arg("+PlugInstall")
+        .arg("+qall")
+        .status()
+        .expect("Failed to run :PlugInstall in Neovim");
+
+    println!("vim-plug and Catppuccin theme installed successfully.");
+}
+
+fn install_packer_nvim() {
+    // Ensure packer.nvim is installed
+    Command::new("sh")
+        .arg("-c")
+        .arg("git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim")
+        .status()
+        .expect("Failed to install packer.nvim");
+
+    // Add the Catppuccin theme configuration to init.lua
+    let init_lua_path = PathBuf::from(format!("{}/.config/nvim/init.lua", env::var("HOME").unwrap()));
+
+    let config = r#"
+-- Ensure packer is installed
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
+end
+
+local packer_bootstrap = ensure_packer()
+
+return require('packer').startup(function(use)
+  use 'wbthomason/packer.nvim'
+  use 'catppuccin/nvim'
+
+  if packer_bootstrap then
+    require('packer').sync()
+  end
+end)
+
+vim.cmd('syntax enable')
+vim.o.background = 'dark'
+vim.cmd('colorscheme catppuccin')
+"#;
+
+    fs::create_dir_all(init_lua_path.parent().unwrap()).unwrap();
+    let mut file = File::create(init_lua_path).unwrap();
+    file.write_all(config.as_bytes()).unwrap();
+
+    // Install plugins
+    Command::new("nvim")
+        .arg("+PackerSync")
+        .arg("+qall")
+        .status()
+        .expect("Failed to run :PackerSync in Neovim");
+
+    println!("packer.nvim and Catppuccin theme installed successfully.");
 }

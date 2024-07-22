@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Ensure the script has execute permissions
+chmod +x "$0"
+
 # Ensure Rust is installed
 if ! command -v rustc &> /dev/null
 then

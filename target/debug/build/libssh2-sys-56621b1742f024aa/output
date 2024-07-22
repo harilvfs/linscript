@@ -1,6 +1,6 @@
 cargo:rerun-if-env-changed=LIBSSH2_SYS_USE_PKG_CONFIG
-cargo:include=/home/aayush/Documents/GitHub/linux-project/toolbox/target/debug/build/libssh2-sys-56621b1742f024aa/out/include
-cargo:root=/home/aayush/Documents/GitHub/linux-project/toolbox/target/debug/build/libssh2-sys-56621b1742f024aa/out
+cargo:include=/home/aayush/Documents/GitHub/linux-project/target/debug/build/libssh2-sys-56621b1742f024aa/out/include
+cargo:root=/home/aayush/Documents/GitHub/linux-project/target/debug/build/libssh2-sys-56621b1742f024aa/out
 cargo:rerun-if-env-changed=DEP_Z_INCLUDE
 cargo:rerun-if-env-changed=DEP_OPENSSL_INCLUDE
 TARGET = Some(x86_64-unknown-linux-gnu)
@@ -56,14 +56,6 @@ cargo:warning=In file included from /usr/include/openssl/engine.h:28:
 cargo:warning=/usr/include/openssl/ec.h:1022:28: note: declared here
 cargo:warning= 1022 | OSSL_DEPRECATEDIN_3_0 void EC_KEY_free(EC_KEY *key);
 cargo:warning=      |                            ^~~~~~~~~~~
-exit status: 0
-exit status: 0
-exit status: 0
-exit status: 0
-exit status: 0
-exit status: 0
-exit status: 0
-exit status: 0
 cargo:warning=libssh2/src/kex.c: In function ‘kex_method_ecdh_key_exchange’:
 cargo:warning=libssh2/src/kex.c:2322:9: warning: ‘EC_KEY_free’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
 cargo:warning= 2322 |         _libssh2_ecdsa_free(key_state->private_key);
@@ -76,6 +68,14 @@ cargo:warning=                 from libssh2/src/kex.c:39:
 cargo:warning=/usr/include/openssl/ec.h:1022:28: note: declared here
 cargo:warning= 1022 | OSSL_DEPRECATEDIN_3_0 void EC_KEY_free(EC_KEY *key);
 cargo:warning=      |                            ^~~~~~~~~~~
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
 cargo:warning=libssh2/src/knownhost.c: In function ‘knownhost_check’:
 cargo:warning=libssh2/src/knownhost.c:423:21: warning: ‘HMAC_CTX_new’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
 cargo:warning=  423 |                     libssh2_hmac_ctx_init(ctx);
@@ -773,4 +773,4 @@ HOST_ARFLAGS = None
 cargo:rerun-if-env-changed=ARFLAGS
 ARFLAGS = None
 cargo:rustc-link-lib=static=ssh2
-cargo:rustc-link-search=native=/home/aayush/Documents/GitHub/linux-project/toolbox/target/debug/build/libssh2-sys-56621b1742f024aa/out/build
+cargo:rustc-link-search=native=/home/aayush/Documents/GitHub/linux-project/target/debug/build/libssh2-sys-56621b1742f024aa/out/build

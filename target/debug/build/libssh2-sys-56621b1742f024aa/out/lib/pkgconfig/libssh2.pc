@@ -2,10 +2,10 @@
 # libssh2 installation details
 ###########################################################################
 
-prefix=/home/aayush/Documents/GitHub/linux-project/toolbox/target/debug/build/libssh2-sys-56621b1742f024aa/out
+prefix=/home/aayush/Documents/GitHub/linux-project/target/debug/build/libssh2-sys-56621b1742f024aa/out
 exec_prefix=
-libdir=/home/aayush/Documents/GitHub/linux-project/toolbox/target/debug/build/libssh2-sys-56621b1742f024aa/out/lib
-includedir=/home/aayush/Documents/GitHub/linux-project/toolbox/target/debug/build/libssh2-sys-56621b1742f024aa/out/include
+libdir=/home/aayush/Documents/GitHub/linux-project/target/debug/build/libssh2-sys-56621b1742f024aa/out/lib
+includedir=/home/aayush/Documents/GitHub/linux-project/target/debug/build/libssh2-sys-56621b1742f024aa/out/include
 
 Name: libssh2
 URL: https://www.libssh2.org/

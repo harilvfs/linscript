@@ -1,6 +1,6 @@
 cargo:rerun-if-env-changed=LIBSSH2_SYS_USE_PKG_CONFIG
-cargo:include=/home/aayush/Documents/GitHub/linux-project/toolbox/target/debug/build/libssh2-sys-e5b60be55c8c71df/out/include
-cargo:root=/home/aayush/Documents/GitHub/linux-project/toolbox/target/debug/build/libssh2-sys-e5b60be55c8c71df/out
+cargo:include=/home/aayush/Documents/GitHub/linux-project/target/debug/build/libssh2-sys-e5b60be55c8c71df/out/include
+cargo:root=/home/aayush/Documents/GitHub/linux-project/target/debug/build/libssh2-sys-e5b60be55c8c71df/out
 cargo:rerun-if-env-changed=DEP_Z_INCLUDE
 cargo:rerun-if-env-changed=DEP_OPENSSL_INCLUDE
 TARGET = Some(x86_64-unknown-linux-gnu)
@@ -773,4 +773,4 @@ HOST_ARFLAGS = None
 cargo:rerun-if-env-changed=ARFLAGS
 ARFLAGS = None
 cargo:rustc-link-lib=static=ssh2
-cargo:rustc-link-search=native=/home/aayush/Documents/GitHub/linux-project/toolbox/target/debug/build/libssh2-sys-e5b60be55c8c71df/out/build
+cargo:rustc-link-search=native=/home/aayush/Documents/GitHub/linux-project/target/debug/build/libssh2-sys-e5b60be55c8c71df/out/build
