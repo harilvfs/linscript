@@ -32,4 +32,4 @@ This script runs my main Rust program. You might need to install Rust if it's no
 
 
 ## Update
-- Added my vimrc script and plugins
+- Added my vimrc and plugins
