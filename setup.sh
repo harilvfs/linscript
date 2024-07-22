@@ -11,13 +11,13 @@ else
 fi
 
 # Navigate to the directory containing main.rs
-cd toolbox/src
+cd src
 
 # Compile the main.rs file
 rustc main.rs
 
 # Run the compiled Rust program
-./main
+cargo run
 
 # Clean up
 rm main
