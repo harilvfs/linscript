@@ -22,5 +22,4 @@ After the installation is finished the script will automaticly reboot into the n
 
 
 ## Update
-- Added my vimrc script
-- Working ...
+- Added my vimrc script and plugins
