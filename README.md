@@ -3,12 +3,12 @@
 
 ## Installation
 
-The installation script is made for Arch Based System.
+The installation script is designed for Arch-based systems.
 
 > CAUTION!
-> This script is designed to configure the defaults configs and add on my configs it will work on arch based system for now. Make sure you are using swayr WM for this config but not to worry if the swayr WM not found in your system it will automatically skip that part and applied my vimrc config and plugin
+> This script configures default settings and adds my custom configs. It’s designed for Arch-based systems and currently supports SwayWM. If SwayWM isn't installed, the script will skip that section and apply my vimrc config and plugins instead.
 
-After installing vim and swayr, execute -
+After installing Vim and SwayWM, run:
 
 ```shell
 pacman -Syy git
@@ -18,7 +18,17 @@ chmod +x setup.sh
 ./setup.sh
 ```
 
-After the installation is finished the script will automaticly reboot into the new enviroment.
+Second Method:
+
+```shell
+pacman -Syy git
+git clone https://github.com/Justus0405/i3wm-dotfiles.git
+cd linux-project/src
+chmod +x main.rs
+./main.rs
+```
+
+This script runs my main Rust program. You might need to install Rust if it's not already present.
 
 
 ## Update
