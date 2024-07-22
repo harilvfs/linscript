@@ -1,5 +1,5 @@
 ## Linux Project
-- This script will grab my configs apply to your system replacing defaults configs
+- This script customizes your Linux setup by grabbing my configs and replacing the default settings.
 
 ## Installation
 
