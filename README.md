@@ -18,7 +18,6 @@ chmod +x setup.sh
 ./setup.sh
 ```
 
-```markdown
 **If anything goes wrong, run the following commands in your terminal:**
 
 ```shell
