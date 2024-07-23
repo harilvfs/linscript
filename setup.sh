@@ -23,12 +23,18 @@ else
     echo "Cargo is already installed."
 fi
 
-# Navigate to the directory containing main.rs
-cd src || { echo "src directory not found."; exit 1; }
+# Navigate to the project root directory
+cd "$(dirname "$0")" || { echo "Failed to navigate to script directory."; exit 1; }
 
-# Ensure Cargo.toml exists for cargo to work
+# Ensure Cargo.toml exists in the root directory
 if [ ! -f Cargo.toml ]; then
-    echo "Cargo.toml not found. Please ensure it exists in the src directory."
+    echo "Cargo.toml not found. Please ensure it exists in the project root directory."
+    exit 1
+fi
+
+# Ensure the src directory exists
+if [ ! -d src ]; then
+    echo "src directory not found. Please ensure it exists in the project root directory."
     exit 1
 fi
 
