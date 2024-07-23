@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Check if the script has execute permissions
-if [ ! -x "$0" ]; then
-    echo "The script does not have execute permissions. Please run: chmod +x $0"
-    exit 1
-fi
-
 # Ensure Rust is installed
 if ! command -v rustc &> /dev/null; then
     echo "Rust is not installed. Installing Rust..."
@@ -45,4 +39,3 @@ cargo run
 # rm -rf target
 
 echo "Setup and execution complete."
-
