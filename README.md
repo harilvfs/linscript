@@ -22,7 +22,7 @@ Second Method:
 
 ```shell
 pacman -Syy git
-git clone https://github.com/Justus0405/i3wm-dotfiles.git
+git clone https://github.com/aayushx402/linux-project
 cd linux-project/src
 chmod +x main.rs
 ./main.rs
