@@ -18,14 +18,14 @@ chmod +x setup.sh
 ./setup.sh
 ```
 
-Second Method:
+Alternatively, you can run the script using the following command:
 
 ```shell
-pacman -Syy git
+sudo pacman -Syy git
 git clone https://github.com/aayushx402/linux-project
 cd linux-project/src
-chmod +x main.rs
-./main.rs
+rustc main.rs
+./main
 ```
 
 This script runs my main Rust program. You might need to install Rust if it's not already present.
