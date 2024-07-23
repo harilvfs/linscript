@@ -7,6 +7,69 @@ use std::fs::File;
 use std::env;
 
 fn main() {
+    // Check if Sway is present
+    if !is_sway_installed() {
+        println!("Sway is not present in this system. Skipping Sway configuration part.");
+    } else {
+        configure_sway();
+    }
+
+    // URL of the Vim configuration file
+    let vimrc_url = "https://raw.githubusercontent.com/aayushx402/MyVim/main/vimrc";
+    // Path to the original vimrc file
+    let vimrc_path = "/etc/vimrc";
+
+    // Download the Vim configuration file
+    let response = reqwest::blocking::get(vimrc_url).unwrap();
+    if response.status().is_success() {
+        // Save the downloaded Vim configuration to a temporary file
+        let mut file = File::create("temp_vimrc").unwrap();
+        file.write_all(&response.bytes().unwrap()).unwrap();
+
+        // Replace the original vimrc file with sudo permissions
+        let status = Command::new("sudo")
+            .arg("cp")
+            .arg("temp_vimrc")
+            .arg(vimrc_path)
+            .status()
+            .expect("Failed to execute sudo command to copy new Vim config");
+
+        if status.success() {
+            println!("Vim configuration file replaced successfully.");
+        } else {
+            panic!("Failed to replace Vim configuration file with sudo.");
+        }
+
+        // Remove the temporary file
+        fs::remove_file("temp_vimrc").unwrap();
+    } else {
+        println!("Failed to download the Vim configuration file.");
+    }
+
+    // Prompt the user for their choice of plugin manager
+    println!("Choose your Neovim plugin manager (1 for vim-plug, 2 for packer.nvim):");
+
+    let stdin = io::stdin();
+    let mut choice = String::new();
+    stdin.lock().read_line(&mut choice).expect("Failed to read line");
+
+    match choice.trim() {
+        "1" => install_vim_plug(),
+        "2" => install_packer_nvim(),
+        _ => println!("Invalid choice. Please run the program again and choose 1 or 2."),
+    }
+}
+
+fn is_sway_installed() -> bool {
+    Command::new("sh")
+        .arg("-c")
+        .arg("pgrep sway > /dev/null 2>&1")
+        .status()
+        .map(|status| status.success())
+        .unwrap_or(false)
+}
+
+fn configure_sway() {
     // Define the repository URL and the local path to clone to
     let repo_url = "https://github.com/aayushx402/sway";
     let local_path = Path::new("/tmp/sway-config");
@@ -85,51 +148,6 @@ fn main() {
         .expect("Failed to check/install swayr");
 
     println!("Sway configuration updated successfully.");
-
-    // URL of the Vim configuration file
-    let vimrc_url = "https://raw.githubusercontent.com/aayushx402/MyVim/main/vimrc";
-    // Path to the original vimrc file
-    let vimrc_path = "/etc/vimrc";
-
-    // Download the Vim configuration file
-    let response = reqwest::blocking::get(vimrc_url).unwrap();
-    if response.status().is_success() {
-        // Save the downloaded Vim configuration to a temporary file
-        let mut file = File::create("temp_vimrc").unwrap();
-        file.write_all(&response.bytes().unwrap()).unwrap();
-
-        // Replace the original vimrc file with sudo permissions
-        let status = Command::new("sudo")
-            .arg("cp")
-            .arg("temp_vimrc")
-            .arg(vimrc_path)
-            .status()
-            .expect("Failed to execute sudo command to copy new Vim config");
-
-        if status.success() {
-            println!("Vim configuration file replaced successfully.");
-        } else {
-            panic!("Failed to replace Vim configuration file with sudo.");
-        }
-
-        // Remove the temporary file
-        fs::remove_file("temp_vimrc").unwrap();
-    } else {
-        println!("Failed to download the Vim configuration file.");
-    }
-
-    // Prompt the user for their choice of plugin manager
-    println!("Choose your Neovim plugin manager (1 for vim-plug, 2 for packer.nvim):");
-
-    let stdin = io::stdin();
-    let mut choice = String::new();
-    stdin.lock().read_line(&mut choice).expect("Failed to read line");
-
-    match choice.trim() {
-        "1" => install_vim_plug(),
-        "2" => install_packer_nvim(),
-        _ => println!("Invalid choice. Please run the program again and choose 1 or 2."),
-    }
 }
 
 fn install_vim_plug() {
@@ -222,3 +240,4 @@ vim.cmd('colorscheme catppuccin')
 
     println!("packer.nvim and Catppuccin theme installed successfully.");
 }
+
