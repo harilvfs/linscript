@@ -28,6 +28,11 @@ rustc main.rs
 ./main
 ```
 
+```shell
+cd linux-project
+cargo run
+```
+
 This script runs my main Rust program. You might need to install Rust if it's not already present.
 
 
