@@ -17,27 +17,6 @@ cd linux-project/
 chmod +x setup.sh
 ./setup.sh
 ```
-If anything goes wrong run this into your terminal
-
-```shell
-sudo pacman -Syy git
-git clone --depth 1 https://github.com/aayushx402/linux-project
-cd linux-project/
-chmod +x setup.sh
-./setup.sh
-```
-## Update
-- Added my vimrc and plugins
-- Added Script For Downloading Fav Browser's
-- Added Script For Some Useful Packages
-
-### Tips for Further Enhancement:
-1. **Add Colors:** You could add color codes to make it more eye-catching, but this may depend on the terminal you use.
-2. **Use Emojis:** Adding emojis to indicate success or error can make the instructions more engaging. For example:
-   - ✅ for success
-   - ⚠️ for warnings
-
-Here's how it might look with emojis:
 
 ```markdown
 **If anything goes wrong, run the following commands in your terminal:**
@@ -57,3 +36,10 @@ chmod +x setup.sh
 
 # 🚀 Run the setup script
 ./setup.sh
+
+## Update
+- Added my vimrc and plugins
+- Added Script For Downloading Fav Browser's
+- Added Script For Some Useful Packages
+
+
