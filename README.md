@@ -5,7 +5,7 @@
 
 The installation script is designed for Arch-based systems.
 
-> ⚠️ CAUTION!
+> > [!⚠️CAUTION]⚠️ CAUTION!
 > This script configures default settings and adds my custom configs. It’s designed for Arch-based systems and currently supports SwayWM. If SwayWM isn't installed, the script will skip that section and apply my vimrc config and plugins instead.
 
 After installing Vim and SwayWM, run:
