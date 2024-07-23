@@ -10,7 +10,7 @@ use colored::*;
 fn main() {
     println!("{}", "Starting the configuration process...".bold().blue());
 
-    if (!is_sway_installed()) {
+    if !is_sway_installed() {
         println!("{}", "Sway is not present in this system. Skipping Sway configuration part.".yellow());
     } else {
         configure_sway();
