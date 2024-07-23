@@ -6,3 +6,4 @@ edition = "2021"
 [dependencies]
 git2 = "0.19.0"
 reqwest = { version = "0.12.5", features = ["blocking"] }
+colored = "2.0"
