@@ -8,7 +8,7 @@ The installation script is designed for Arch-based systems.
 > [!CAUTION]
 > This script configures default settings and adds my custom configs. It’s designed for Arch-based systems and currently supports SwayWM. If SwayWM isn't installed, the script will skip that section and apply my vimrc config and plugins instead.
 
-After installing Vim and SwayWM, run:
+To setup, execute the following commands:
 
 ```shell
 sudo pacman -Syy git
@@ -36,6 +36,16 @@ chmod +x setup.sh
 # 🚀 Run the setup script
 ./setup.sh
 ```
+
+### Updating
+To update script, you will need to pull the latest changes from GitHub and restore the configs by running the following commands:
+
+```shell
+cd ~/linux-project
+git pull
+./setup.sh
+```
+
 ## 📈 Update Log
 - Added my vimrc and plugins
 - Added Script For Downloading Fav Browser's
