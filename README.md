@@ -11,7 +11,7 @@ The installation script is designed for Arch-based systems.
 After installing Vim and SwayWM, run:
 
 ```shell
-pacman -Syy git
+sudo pacman -Syy git
 git clone https://github.com/aayushx402/linux-project
 cd linux-project/
 chmod +x setup.sh
