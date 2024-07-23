@@ -27,6 +27,7 @@ cd linux-project/src
 rustc main.rs
 ./main
 ```
+If you are working with a Rust project that uses Cargo, you should be in the root directory (not src) and use:
 
 ```shell
 cd linux-project
