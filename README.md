@@ -39,3 +39,5 @@ This script runs my main Rust program. You might need to install Rust if it's no
 
 ## Update
 - Added my vimrc and plugins
+- Added Script For Downloading Fav Browser's
+- Added Script For Some Useful Packages 
