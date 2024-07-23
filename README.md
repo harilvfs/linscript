@@ -12,7 +12,7 @@ After installing Vim and SwayWM, run:
 
 ```shell
 sudo pacman -Syy git
-git clone https://github.com/aayushx402/linux-project
+git clone --depth 1 https://github.com/aayushx402/linux-project
 cd linux-project/
 chmod +x setup.sh
 ./setup.sh
@@ -22,7 +22,7 @@ Alternatively, you can run the script using the following command:
 
 ```shell
 sudo pacman -Syy git
-git clone https://github.com/aayushx402/linux-project
+git clone --depth 1 https://github.com/aayushx402/linux-project
 cd linux-project/src
 rustc main.rs
 ./main
