@@ -36,7 +36,7 @@ chmod +x setup.sh
 
 # 🚀 Run the setup script
 ./setup.sh
-
+```
 ## Update
 - Added my vimrc and plugins
 - Added Script For Downloading Fav Browser's
