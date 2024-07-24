@@ -5,7 +5,7 @@
 
 The installation script is designed for Arch-based systems.
 
-> [!CAUTION]
+> [!IMPORTANT]
 > This script sets up default configurations and incorporates my custom settings. It is tailored for Arch-based systems and is currently compatible with SwayWM. If SwayWM is not installed, the script will bypass that section and proceed with the remaining configurations.
 
 To setup, execute the following commands:
