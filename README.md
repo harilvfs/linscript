@@ -47,9 +47,9 @@ git pull
 ```
 
 ## 📈 Update Log
-- Added my vimrc and plugins
-- Added Script For Downloading Fav Browser's
-- Added Script For Some Useful Packages
-- Added Selecting Grub Theme
+- Added custom Vim configuration (vimrc) and plugins.
+- Included a script for downloading favorite browsers.
+- Added a script for installing useful packages.
+- Implemented a script for selecting a GRUB theme.
 
 
