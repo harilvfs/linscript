@@ -346,6 +346,7 @@ fn install_useful_packages() {
         "gedit",
         "neovim",
         "vim",
+        "discord",
     ];
 
     for package in &packages {
@@ -356,5 +357,3 @@ fn install_useful_packages() {
         }
     }
 }
-
-
