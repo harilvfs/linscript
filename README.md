@@ -1,12 +1,12 @@
 ## 🌟 Linux Project
-- This script customizes your Linux setup by grabbing my configs and replacing the default settings.
+- This script customizes your Linux setup by applying my configurations and replacing the default settings. It offers extensive customization options, allowing you to modify and minimize default settings, install various packages, browsers, and GRUB themes. The script will continue to evolve with new features and add-ons in future updates.
 
 ## 🚀 Installation
 
 The installation script is designed for Arch-based systems.
 
 > [!CAUTION]
-> This script configures default settings and adds my custom configs. It’s designed for Arch-based systems and currently supports SwayWM. If SwayWM isn't installed, the script will skip that section and apply my vimrc config and plugins instead.
+> This script sets up default configurations and incorporates my custom settings. It is tailored for Arch-based systems and is currently compatible with SwayWM. If SwayWM is not installed, the script will bypass that section and proceed with the remaining configurations.
 
 To setup, execute the following commands:
 
@@ -50,5 +50,6 @@ git pull
 - Added my vimrc and plugins
 - Added Script For Downloading Fav Browser's
 - Added Script For Some Useful Packages
+- Added Selecting Grub Theme
 
 
