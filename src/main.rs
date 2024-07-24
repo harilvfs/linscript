@@ -1,9 +1,8 @@
 use git2::Repository;
-use std::fs;
+use std::fs::{self, File}; // Removed OpenOptions
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::io::{self, Write, BufRead};
-use std::fs::File;
 use std::env;
 use colored::*;
 
@@ -46,6 +45,7 @@ fn main() {
     choose_neovim_plugin_manager();
     choose_browser();
     install_useful_packages();
+    choose_and_apply_grub_theme();
 }
 
 fn is_sway_installed() -> bool {
@@ -355,5 +355,94 @@ fn install_useful_packages() {
             "apt" => install_with_apt(package),
             _ => println!("{}", "Unsupported package manager.".red()),
         }
+    }
+}
+
+fn choose_and_apply_grub_theme() {
+    println!("\n{}", "Choose a GRUB theme to install and apply:".bold().blue());
+    println!("{}", "1. Catppuccin Macchiato".cyan());
+
+    let stdin = io::stdin();
+    let mut choice = String::new();
+    stdin.lock().read_line(&mut choice).expect("Failed to read line");
+
+    match choice.trim() {
+        "1" => install_grub_theme("https://github.com/catppuccin/grub.git", "catppuccin-macchiato-grub-theme"),
+        _ => println!("{}", "Invalid choice. Please run the program again and choose 1.".red()),
+    }
+}
+
+fn install_grub_theme(repo_url: &str, theme_name: &str) {
+    println!("{}", "Cloning GRUB theme repository...".bold().blue());
+
+    let local_path = Path::new("/tmp/grub-theme");
+    if local_path.exists() {
+        fs::remove_dir_all(local_path).unwrap();
+    }
+
+    match Repository::clone(repo_url, local_path) {
+        Ok(_) => println!("{}", "Repository cloned successfully.".green()),
+        Err(e) => panic!("Failed to clone repository: {}", e),
+    }
+
+    let theme_path = local_path.join("src").join(theme_name);
+    let grub_theme_dir = Path::new("/usr/share/grub/themes");
+
+    if theme_path.exists() && theme_path.read_dir().unwrap().next().is_some() {
+        let status = Command::new("sudo")
+            .arg("cp")
+            .arg("-r")
+            .arg(&theme_path)
+            .arg(grub_theme_dir)
+            .status()
+            .expect("Failed to execute sudo command to copy GRUB theme");
+        if status.success() {
+            println!("{}", "GRUB theme copied successfully.".green());
+        } else {
+            println!("{}", "Failed to copy GRUB theme with sudo.".red());
+            panic!("Failed to copy GRUB theme with sudo.");
+        }
+
+        let grub_config_path = "/etc/default/grub";
+        let old_grub_theme = r#"GRUB_THEME="/usr/share/grub/themes/Retroboot/theme.txt""#;
+        let new_grub_theme = format!(
+            r#"GRUB_THEME="{}/{}""#,
+            grub_theme_dir.display(),
+            format!("{}/theme.txt", theme_name)
+        );
+
+        // Use `sed` to update the GRUB theme in the configuration file
+        let status = Command::new("sudo")
+            .arg("sed")
+            .arg("-i")
+            .arg(format!(
+                "s|{}|{}|",
+                old_grub_theme, new_grub_theme
+            ))
+            .arg(grub_config_path)
+            .status()
+            .expect("Failed to execute sudo command to update GRUB theme in config file");
+        if status.success() {
+            println!("{}", "GRUB configuration updated successfully.".green());
+        } else {
+            println!("{}", "Failed to update GRUB configuration with sudo.".red());
+            panic!("Failed to update GRUB configuration with sudo.");
+        }
+
+        let status = Command::new("sudo")
+            .arg("grub-mkconfig")
+            .arg("-o")
+            .arg("/boot/grub/grub.cfg")
+            .status()
+            .expect("Failed to execute sudo command to update GRUB");
+        if status.success() {
+            println!("{}", "GRUB configuration updated successfully.".green());
+        } else {
+            println!("{}", "Failed to update GRUB configuration with sudo.".red());
+            panic!("Failed to update GRUB configuration with sudo.");
+        }
+    } else {
+        println!("{}", "Theme directory does not exist or is empty.".red());
+        panic!("Theme directory does not exist or is empty.");
     }
 }
