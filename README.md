@@ -50,6 +50,6 @@ git pull
 - Added custom Vim configuration (vimrc) and plugins.
 - Included a script for downloading favorite browsers.
 - Added a script for installing useful packages.
-- Implemented a script for selecting a GRUB theme.
+- Added a script for selecting the Catppuccin theme for your GRUB bootloader.
 
 
