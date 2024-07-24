@@ -389,6 +389,7 @@ fn install_grub_theme(repo_url: &str, theme_name: &str) {
     let grub_theme_dir = Path::new("/usr/share/grub/themes");
 
     if theme_path.exists() && theme_path.read_dir().unwrap().next().is_some() {
+        // Copy the theme to the GRUB theme directory
         let status = Command::new("sudo")
             .arg("cp")
             .arg("-r")
@@ -403,23 +404,27 @@ fn install_grub_theme(repo_url: &str, theme_name: &str) {
             panic!("Failed to copy GRUB theme with sudo.");
         }
 
+        // Define the path to the new theme
+        let theme_path_in_grub = format!("/usr/share/grub/themes/{}/theme.txt", theme_name);
+
+        // Update the GRUB configuration file to use the new theme
         let grub_config_path = "/etc/default/grub";
-        let old_grub_theme = r#"GRUB_THEME="/usr/share/grub/themes/Retroboot/theme.txt""#;
-        let new_grub_theme = format!(
-            r#"GRUB_THEME="{}/{}""#,
-            grub_theme_dir.display(),
-            format!("{}/theme.txt", theme_name)
+        let new_grub_theme_line = format!(
+            r#"GRUB_THEME="{}""#,
+            theme_path_in_grub
         );
 
-        // Use `sed` to update the GRUB theme in the configuration file
+        // Update the GRUB configuration file with the new theme line
         let status = Command::new("sudo")
-            .arg("sed")
-            .arg("-i")
+            .arg("sh")
+            .arg("-c")
             .arg(format!(
-                "s|{}|{}|",
-                old_grub_theme, new_grub_theme
+                r#"
+                sed -i 's|^GRUB_THEME=.*|{}|' {}
+                "#,
+                new_grub_theme_line,
+                grub_config_path
             ))
-            .arg(grub_config_path)
             .status()
             .expect("Failed to execute sudo command to update GRUB theme in config file");
         if status.success() {
@@ -429,6 +434,7 @@ fn install_grub_theme(repo_url: &str, theme_name: &str) {
             panic!("Failed to update GRUB configuration with sudo.");
         }
 
+        // Regenerate the GRUB configuration
         let status = Command::new("sudo")
             .arg("grub-mkconfig")
             .arg("-o")
@@ -436,10 +442,10 @@ fn install_grub_theme(repo_url: &str, theme_name: &str) {
             .status()
             .expect("Failed to execute sudo command to update GRUB");
         if status.success() {
-            println!("{}", "GRUB configuration updated successfully.".green());
+            println!("{}", "GRUB configuration regenerated successfully.".green());
         } else {
-            println!("{}", "Failed to update GRUB configuration with sudo.".red());
-            panic!("Failed to update GRUB configuration with sudo.");
+            println!("{}", "Failed to regenerate GRUB configuration with sudo.".red());
+            panic!("Failed to regenerate GRUB configuration with sudo.");
         }
     } else {
         println!("{}", "Theme directory does not exist or is empty.".red());
