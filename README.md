@@ -1,5 +1,27 @@
-## 🌟 Linux Project
-- This script customizes your Linux setup by applying my configurations and replacing the default settings. It offers extensive customization options, allowing you to modify and minimize default settings, install various packages, browsers, and GRUB themes. The script will continue to evolve with new features and add-ons in future updates.
+🚀 Linux Script 
+<p align="center">
+  <a href="https://github.com/aayushx402/linux-project" target="_blank" rel="noreferrer">
+    <img src="https://img.shields.io/badge/Check%20Out%20My%20Linux%20Script-Repo-61DAFB?style=for-the-badge&logo=github&logoColor=white" alt="Linux Project">
+  </a>
+    <a href="https://github.com/aayushx402/linux-project/releases/tag/v0.1.0" target="_blank" rel="noreferrer">
+      <img src="https://img.shields.io/badge/Version-0.1-brightgreen?style=for-the-badge&logo=github&logoColor=white" alt="Version">
+</p>
+
+<h1 align="center">Customizable Linux Setup Script</h1>
+
+<p align="center">Welcome to a versatile setup script designed for Arch-based systems. Effortlessly configure your Linux environment with my personal settings and additional features.</p>
+
+<h2>✨ Features</h2>
+<ul>
+    <li><strong>🔧 Personal Configurations:</strong> Automatically applies my custom Vim configuration (<code>vimrc</code>) and plugins to enhance your editing experience.</li>
+    <li><strong>🪟 SwayWM Support:</strong> Integrates seamlessly with SwayWM for a smooth and modern window management experience.</li>
+    <li><strong>🎨 GRUB Theme Customization:</strong> Switch your GRUB theme to the elegant Catppuccin theme with a single script.</li>
+    <li><strong>📦 Package Installation:</strong> Installs a range of useful packages to boost your system's functionality and performance.</li>
+    <li><strong>🔒 Secure Browsers:</strong> Easy installation of secure browsers like Firefox, Brave, and Thorium for safer web browsing.</li>
+</ul>
+
+<h2>🚀 Getting Started</h2>
+<p>Follow the instructions in the repository to quickly set up your system and apply your preferred configurations. Enjoy a streamlined and personalized Linux experience!</p>
 
 ## 🚀 Installation
 
