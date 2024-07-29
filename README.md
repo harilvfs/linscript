@@ -39,26 +39,6 @@ cd linux-project/
 chmod +x setup.sh
 ./setup.sh
 ```
-
-**If anything goes wrong, run the following commands in your terminal:**
-
-```shell
-# 🆙 Update your system and install git
-sudo pacman -Syy git
-
-# 📥 Clone the project repository
-git clone --depth 1 https://github.com/aayushx402/linux-project
-
-# 📂 Navigate to the project directory
-cd linux-project/
-
-# 🔒 Make the setup script executable
-chmod +x setup.sh
-
-# 🚀 Run the setup script
-./setup.sh
-```
-
 ### Updating
 To update script, you will need to pull the latest changes from GitHub and restore the configs by running the following commands:
 
