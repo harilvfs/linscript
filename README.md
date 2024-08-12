@@ -41,6 +41,15 @@ cd linux-project/
 chmod +x setup.sh
 ./setup.sh
 ```
+
+Alternatively, you can run the binary file directly:
+
+```shell
+git clone https://github.com/aayushx402/linux-project
+cd linux-project/
+./setup
+```
+
 ### Updating
 To update script, you will need to pull the latest changes from GitHub and restore the configs by running the following commands:
 
