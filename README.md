@@ -3,7 +3,7 @@
   <a href="https://github.com/aayushx402/linux-project" target="_blank" rel="noreferrer">
     <img src="https://img.shields.io/badge/Check%20Out%20My%20Linux%20Script-Repo-61DAFB?style=for-the-badge&logo=github&logoColor=white" alt="Linux Project">
   </a>
-   <a href=" https://github.com/aayushx402/linux-project/releases/tag/v0.3.0" target="_blank" rel="noreferrer">
+The script now only supports version 0.3. I've switched from a personal binary to a Rust binary.  <a href=" https://github.com/aayushx402/linux-project/releases/tag/v0.3.0" target="_blank" rel="noreferrer">
       <img src="https://img.shields.io/badge/Version-0.3-brightgreen?style=for-the-badge&logo=github&logoColor=white" alt="Version">
 </p>
 
