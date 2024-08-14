@@ -45,6 +45,7 @@ Alternatively, you can run the binary file directly:
 ```shell
 git clone https://github.com/aayushx402/linux-project
 cd linux-project/
+chmod +x toolbox
 ./toolbox
 ```
 
