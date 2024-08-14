@@ -5,10 +5,6 @@
   </a>
    <a href=" https://github.com/aayushx402/linux-project/releases/tag/v0.3.0" target="_blank" rel="noreferrer">
       <img src="https://img.shields.io/badge/Version-0.3-brightgreen?style=for-the-badge&logo=github&logoColor=white" alt="Version">
-       <a href="https://github.com/aayushx402/linux-project/releases/tag/v0.2.0" target="_blank" rel="noreferrer">
-      <img src="https://img.shields.io/badge/Version-0.2-brightgreen?style=for-the-badge&logo=github&logoColor=white" alt="Version">
-      <a href="https://github.com/aayushx402/linux-project/releases/tag/v0.1.0" target="_blank" rel="noreferrer">
-      <img src="https://img.shields.io/badge/Version-0.1-brightgreen?style=for-the-badge&logo=github&logoColor=white" alt="Version">
 </p>
 
 <h1 align="center">Customizable Linux Setup Script</h1>
