@@ -123,6 +123,22 @@ fn configure_sway() {
     println!("{}", "Sway configuration updated successfully.".green());
 }
 
+fn choose_neovim_plugin_manager() {
+    println!("\n{}", "Choose your Neovim plugin manager:".bold().blue());
+    println!("{}", "1. vim-plug".cyan());
+    println!("{}", "2. packer.nvim".cyan());
+
+    let stdin = io::stdin();
+    let mut choice = String::new();
+    stdin.lock().read_line(&mut choice).expect("Failed to read line");
+
+    match choice.trim() {
+        "1" => install_vim_plug(),
+        "2" => install_packer_nvim(),
+        _ => println!("{}", "Invalid choice. Please run the program again and choose 1 or 2.".red()),
+    }
+}
+
 fn install_vim_plug() {
     println!("{}", "Installing vim-plug...".bold().blue());
     Command::new("sh")
@@ -201,21 +217,6 @@ fn install_packer_nvim() {
     println!("{}", "packer.nvim and Catppuccin theme installed successfully.".green());
 }
 
-fn choose_neovim_plugin_manager() {
-    println!("\n{}", "Choose your Neovim plugin manager:".bold().blue());
-    println!("{}", "1. vim-plug".cyan());
-    println!("{}", "2. packer.nvim".cyan());
-
-    let stdin = io::stdin();
-    let mut choice = String::new();
-    stdin.lock().read_line(&mut choice).expect("Failed to read line");
-
-    match choice.trim() {
-        "1" => install_vim_plug(),
-        "2" => install_packer_nvim(),
-        _ => println!("{}", "Invalid choice. Please run the program again and choose 1 or 2.".red()),
-    }
-}
 
 fn choose_browser() {
     println!("\n{}", "Choose your favorite browser:".bold().blue());
