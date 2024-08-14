@@ -4,9 +4,10 @@
     <img src="https://img.shields.io/badge/Check%20Out%20My%20Linux%20Script-Repo-61DAFB?style=for-the-badge&logo=github&logoColor=white" alt="Linux Project">
   </a>
 </p>
-<p>The script now only supports version 0.3. I've switched from a personal binary to a Rust binary.</p>
+<p align="center">
+The script now only supports version 0.3. I've switched from a personal binary to a Rust binary.</p>
 <a href="https://github.com/aayushx402/linux-project/releases/tag/v0.3.0" target="_blank" rel="noreferrer">
-    <img src="https://img.shields.io/badge/Version-0.3-brightgreen?style=for-the-badge&logo=github&logoColor=white" alt="Version">
+<img src="https://img.shields.io/badge/Version-0.3-brightgreen?style=for-the-badge&logo=github&logoColor=white" alt="Version">
 </a>
 
 <h1 align="center">Customizable Linux Setup Script</h1>
