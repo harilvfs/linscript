@@ -127,6 +127,7 @@ fn choose_neovim_plugin_manager() {
     println!("\n{}", "Choose your Neovim plugin manager:".bold().blue());
     println!("{}", "1. vim-plug".cyan());
     println!("{}", "2. packer.nvim".cyan());
+    println!("{}", "3. Skip".cyan());
 
     let stdin = io::stdin();
     let mut choice = String::new();
@@ -135,7 +136,8 @@ fn choose_neovim_plugin_manager() {
     match choice.trim() {
         "1" => install_vim_plug(),
         "2" => install_packer_nvim(),
-        _ => println!("{}", "Invalid choice. Please run the program again and choose 1 or 2.".red()),
+        "3" => println!("{}", "Skipping plugin manager selection.".yellow()),
+        _ => println!("{}", "Invalid choice. Please run the program again and choose 1, 2, or 3.".red()),
     }
 }
 
