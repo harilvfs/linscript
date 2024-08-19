@@ -18,6 +18,62 @@ fn main() {
     let vimrc_url = "https://raw.githubusercontent.com/aayushx402/MyVim/main/vimrc";
     let vimrc_path = "/etc/vimrc";
 
+    // Check if Vim is installed
+    let vim_check = Command::new("vim")
+        .arg("--version")
+        .output();
+
+    if vim_check.is_err() {
+        println!("{}", "Vim is not installed on your system.".red());
+        println!("Do you want to install Vim? (y/n):");
+
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).unwrap();
+        if input.trim().to_lowercase() == "y" {
+            // Determine the package manager and install Vim
+            let package_manager_check = Command::new("sh")
+                .arg("-c")
+                .arg("which apt-get || which pacman")
+                .output()
+                .expect("Failed to determine the package manager");
+
+            let package_manager = String::from_utf8_lossy(&package_manager_check.stdout);
+
+            if package_manager.contains("apt-get") {
+                let install_status = Command::new("sudo")
+                    .arg("apt-get")
+                    .arg("install")
+                    .arg("vim")
+                    .status()
+                    .expect("Failed to execute sudo command to install Vim with apt-get");
+
+                if !install_status.success() {
+                    panic!("{}", "Failed to install Vim using apt-get.".red());
+                }
+                println!("{}", "Vim installed successfully using apt-get.".green());
+            } else if package_manager.contains("pacman") {
+                let install_status = Command::new("sudo")
+                    .arg("pacman")
+                    .arg("-S")
+                    .arg("--noconfirm")
+                    .arg("vim")
+                    .status()
+                    .expect("Failed to execute sudo command to install Vim with pacman");
+
+                if !install_status.success() {
+                    panic!("{}", "Failed to install Vim using pacman.".red());
+                }
+                println!("{}", "Vim installed successfully using pacman.".green());
+            } else {
+                println!("{}", "Unsupported package manager.".red());
+                return;
+            }
+        } else {
+            println!("{}", "Vim installation skipped.".yellow());
+            return;
+        }
+    }
+
     println!("{}", "Downloading Vim configuration...".bold().blue());
     let response = reqwest::blocking::get(vimrc_url).unwrap();
     if response.status().is_success() {
@@ -42,12 +98,12 @@ fn main() {
         println!("{}", "Failed to download the Vim configuration file.".red());
     }
 
+
     choose_neovim_plugin_manager();
     choose_browser();
     install_useful_packages();
     choose_and_apply_grub_theme();
 }
-
 fn is_sway_installed() -> bool {
     Command::new("sh")
         .arg("-c")
