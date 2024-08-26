@@ -1,9 +1,8 @@
 name: Update Release Badge
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]  
 
 jobs:
   update-badge:
