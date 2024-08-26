@@ -1,6 +1,6 @@
 🚀 Linux Script 
 
-[![Version](https://img.shields.io/github/v/release/aayushx402/linux-project?color=%230567ff&label=Latest%20Release&style=for-the-badge)](https://github.com/aayushx402/linux-project/releases)
+[![Version](https://img.shields.io/github/v/release/aayushx402/linux-project?color=%230567ff&label=Latest%20Release&style=for-the-badge)](https://github.com/aayushx402/linux-project/releases/latest)
 
 <h1 align="center">Customizable Linux Setup Script</h1>
 
