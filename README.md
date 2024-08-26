@@ -8,15 +8,13 @@
 > [!CAUTION]
 > This project is still in development, and you may encounter some bugs. Please feel free to submit an issue if you run into any problems: [Submit an Issue](https://github.com/aayushx402/linux-project/issues).
 
-<p align="center">Welcome to a versatile setup script designed for Arch-based systems. Effortlessly configure your Linux environment with my personal settings and additional features.</p>
-
 <h2>✨ Features</h2>
 <ul>
-    <li><strong>🔧 Personal Configurations:</strong> Automatically applies my custom Vim configuration (<code>vimrc</code>) and plugins to enhance your editing experience.</li>
-    <li><strong>🪟 SwayWM Support:</strong> Integrates seamlessly with SwayWM for a smooth and modern window management experience.</li>
+    <li><strong>🔧 Personal Configurations:</strong> Automatically applies custom Vim configurations (<code>vimrc</code>) and plugins to enhance your editing experience.</li>
+    <li><strong>🪟 Window Manager Installation:</strong> Easily install and set up popular window managers like dwm, Sway, and i3 for a customized desktop environment.</li>
     <li><strong>🎨 GRUB Theme Customization:</strong> Switch your GRUB theme to the elegant Catppuccin theme with a single script.</li>
     <li><strong>📦 Package Installation:</strong> Installs a range of useful packages to boost your system's functionality and performance.</li>
-    <li><strong>🔒 Secure Browsers:</strong> Easy installation of secure browsers like Firefox, Brave, and Thorium for safer web browsing.</li>
+    <li><strong>🔒 Browsers:</strong> Simple installation of browsers like Firefox, Brave, and Thorium.</li>
 </ul>
 
 <h2>🚀 Getting Started</h2>
