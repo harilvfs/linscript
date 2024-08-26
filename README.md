@@ -1,6 +1,6 @@
 ## *Aayush's Linux Project*  
 
-<strong>A 'simple' script to set up window managers, install packages, and give GRUB a makeover—because who doesn't love more automation? 🚀</strong>
+<strong>A 'simple' script to set up window managers, install packages, and give GRUB a makeover—because who doesn't love more automation? <img src='https://user-images.githubusercontent.com/74038190/216122041-518ac897-8d92-4c6b-9b3f-ca01dcaf38ee.png' width="40"></strong>
 
 [![Version](https://img.shields.io/github/v/release/aayushx402/linux-project?color=%230567ff&label=Latest%20Release&style=for-the-badge)](https://github.com/aayushx402/linux-project/releases/latest)
 
