@@ -1,0 +1,39 @@
+name: Update README with Latest Release
+
+on:
+  release:
+    types: [published]  # Trigger this workflow when a new release is published
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Fetch latest release info
+        id: fetch_release
+        run: |
+          # Fetch the latest release tag and URL
+          curl -s https://api.github.com/repos/aayushx402/linux-project/releases/latest | jq -r '.tag_name, .html_url' > release_info.txt
+
+      - name: Update README.md
+        run: |
+          tag_name=$(head -n 1 release_info.txt)
+          release_url=$(tail -n 1 release_info.txt)
+          badge_url="https://img.shields.io/badge/Version-${tag_name}-brightgreen?style=for-the-badge&logo=github&logoColor=white"
+
+          # Update the README.md file with the new release badge
+          sed -i "s|<a href=\"https://github.com/aayushx402/linux-project/releases/tag/[^\"]*\" target=\"_blank\" rel=\"noreferrer\">.*</a>|<a href=\"${release_url}\" target=\"_blank\" rel=\"noreferrer\"><img src=\"${badge_url}\" alt=\"Version\"></a>|" README.md
+
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'README.md'
+          message: 'Update README with latest release badge'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
