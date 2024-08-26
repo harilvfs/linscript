@@ -44,9 +44,9 @@ fn main() {
 
 fn setup_window_manager() {
     println!("{}", "Setting up window manager:".bold().blue());
-    println!("{}", "1. dwm".cyan());
+    println!("{}", "1. DWM".cyan());
     println!("{}", "2. i3".cyan());
-    println!("{}", "3. sway".cyan());
+    println!("{}", "3. Sway".cyan());
     println!("{}", "4. Skip".cyan());
 
     let stdin = io::stdin();
