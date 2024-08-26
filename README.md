@@ -28,12 +28,21 @@ To setup, execute the following commands:
 curl -fsSL https://raw.githubusercontent.com/aayushx402/linux-project/main/setup.sh | sh
 ```
 
+## Support
+
+If you find this project helpful, please consider giving it a star ⭐ to show your support!
+
+## Contributors
+[![Contributors](https://contrib.rocks/image?repo=aayushx402/linux-project)](https://github.com/aayushx402/linux-project/graphs/contributors)
+
 ## 📈 Update Log
 - Added an option to install and set up popular <code>window managers</code> like <code>dwm</code>, <code>Sway</code>, and <code>i3</code>.
 - Added custom <code>vim</code> configuration and plugins.
 - Included a script for downloading favorite <code>browsers</code>.
 - Added a script for installing useful <code>packages</code>.
 - Added a script for selecting the <code>Catppuccin</code> theme for your <code>GRUB</code> bootloader.
+
+
 
 
 
