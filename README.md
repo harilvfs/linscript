@@ -2,12 +2,13 @@
 
 [![Version](https://img.shields.io/github/v/release/aayushx402/linux-project?color=%230567ff&label=Latest%20Release&style=for-the-badge)](https://github.com/aayushx402/linux-project/releases/latest)
 
-**Linux Project** is a script that offers an easy way to choose and set up various window managers, install useful packages, and seamlessly update GRUB with a beautiful theme. It simplifies your Linux environment setup and customization.
+**Linux Project** Easily set up window managers, install packages, and update GRUB with a custom theme.
 
 
 > [!CAUTION]
 > This project is still in development, and you may encounter some bugs. Please feel free to submit an issue if you run into any problems: [Submit an Issue](https://github.com/aayushx402/linux-project/issues).
 
+<br>
 
 > [!IMPORTANT]
 > The installation script is designed for Arch-based and Debian-based systems, though it hasn't been tested on Debian. If you encounter any bugs, please submit an issue.
@@ -20,7 +21,7 @@ To setup, execute the following commands:
 curl -fsSL https://raw.githubusercontent.com/aayushx402/linux-project/main/setup.sh | sh
 ```
 
-<p><strong>Run the program directly using the compiled Rust binary</strong></p>
+<p><strong>Run the script directly using the compiled Rust binary</strong></p>
 
 ```shell
 wget https://github.com/aayushx402/linux-project/releases/download/v0.5.0/toolbox -O toolbox
