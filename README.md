@@ -17,49 +17,25 @@
     <li><strong>🔒 Secure Browsers:</strong> Simple installation of secure browsers like <code>Firefox</code>, <code>Brave</code>, and <code>Tor</code> for safer web browsing.</li>
 </ul>
 
-
-<h2>🚀 Getting Started</h2>
-<p>Follow the instructions in the repository to quickly set up your system and apply your preferred configurations. Enjoy a streamlined and personalized Linux experience!</p>
+> [!IMPORTANT]
+> 
+The installation script is designed for Arch-based and Debian-based systems, though it hasn't been tested on Debian. If you encounter any bugs, please submit an issue.
 
 ## 🚀 Installation
-
-The installation script is designed for Arch-based systems.
-
-> [!IMPORTANT]
-> This script sets up default configurations and incorporates my custom settings. It is tailored for Arch-based systems and is currently compatible with SwayWM. If SwayWM is not installed, the script will bypass that section and proceed with the remaining configurations.
 
 To setup, execute the following commands:
 
 ```shell
-sudo pacman -Syy git
-git clone https://github.com/aayushx402/linux-project
-cd linux-project/
-chmod +x setup.sh
-./setup.sh
-```
-
-Alternatively, you can run the binary file directly:
-
-```shell
-git clone https://github.com/aayushx402/linux-project
-cd linux-project/
-chmod +x toolbox
-./toolbox
-```
-
-### Updating
-To update script, you will need to pull the latest changes from GitHub and restore the configs by running the following commands:
-
-```shell
-cd ~/linux-project
-git pull
-./setup.sh
+curl -fsSL https://raw.githubusercontent.com/aayushx402/linux-project/main/setup.sh | sh
 ```
 
 ## 📈 Update Log
-- Added custom Vim configuration (vimrc) and plugins.
-- Included a script for downloading favorite browsers.
-- Added a script for installing useful packages.
-- Added a script for selecting the Catppuccin theme for your GRUB bootloader.
+- Added an option to install and set up popular <code>window managers</code> like <code>dwm</code>, <code>Sway</code>, and <code>i3</code>.
+- Added custom <code>vimrc</code> configuration and plugins.
+- Included a script for downloading favorite <code>browsers</code>.
+- Added a script for installing useful <code>packages</code>.
+- Added a script for selecting the <code>Catppuccin</code> theme for your <code>GRUB</code> bootloader.
+
+
 
 
