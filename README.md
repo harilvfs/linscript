@@ -20,6 +20,14 @@ To setup, execute the following commands:
 curl -fsSL https://raw.githubusercontent.com/aayushx402/linux-project/main/setup.sh | sh
 ```
 
+Or you can directly execute the binary from the releases section.
+
+```shell
+wget https://github.com/aayushx402/linux-project/releases/download/v0.5.0/toolbox -O toolbox
+chmod +x toolbox
+./toolbox
+```
+
 <h2>✨ Features</h2>
 <ul>
      <li><strong>🪟 Window Manager Installation:</strong> Easily install and set up popular window managers like <code>dwm</code>, <code>Sway</code>, and <code>i3</code> for a customized desktop environment.</li>
