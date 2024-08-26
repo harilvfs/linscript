@@ -39,7 +39,7 @@ chmod +x toolbox
     <li><strong>🔒 Secure Browsers:</strong> Get <code>Firefox</code>, <code>Brave</code>, and <code>Thorium</code> without lifting a finger.</li>
 </ul>
 
-*If you somehow haven't heard of Thorium Browser, you might want to catch up and check it out.*[Thorium Broswer](https://github.com/Alex313031/thorium)
+*If you somehow haven't heard of Thorium Browser, you might want to catch up and check it out:* [Thorium Broswer](https://github.com/Alex313031/thorium)
 
 ## 󰣉  Support
 
