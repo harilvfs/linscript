@@ -30,17 +30,6 @@ chmod +x toolbox
 ./toolbox
 ```
 
-<h2>✨ Features</h2>
-<ul>
-    <li><strong>🪟 Window Managers:</strong> Just pick <code>Dwm</code>, <code>Sway</code>, or <code>i3</code> and let the script do the rest.</li>
-    <li><strong>🔧 Vim Configs:</strong> Instantly set up Vim with custom tweaks because who has time for manual configuration?</li>
-    <li><strong>🎨 GRUB Theme:</strong> One click to make your bootloader fancy with the <code>Catppuccin</code> theme.</li>
-    <li><strong>📦 Packages:</strong> Automatically installs all the "essential" packages you'll ever need.</li>
-    <li><strong>🔒 Secure Browsers:</strong> Get <code>Firefox</code>, <code>Brave</code>, and <code>Thorium</code> without lifting a finger.</li>
-</ul>
-
-*If you somehow haven't heard of Thorium Browser, you might want to catch up and check it out:* [Thorium Broswer](https://github.com/Alex313031/thorium)
-
 ## 󰣉  Support
 
 <strong>*If you find this project helpful, please consider giving it a star ⭐ to show your support!* </strong>
