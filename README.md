@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/github/v/release/aayushx402/linux-project?color=%230567ff&label=Latest%20Release&style=for-the-badge)](https://github.com/aayushx402/linux-project/releases/latest)
 
-**Linux Project** This script offers an easy way to choose and set up various window managers, install useful packages, and seamlessly update GRUB with a beautiful theme. It simplifies your Linux environment setup and customization.
+**Linux Project** is a script that offers an easy way to choose and set up various window managers, install useful packages, and seamlessly update GRUB with a beautiful theme. It simplifies your Linux environment setup and customization.
 
 
 > [!CAUTION]
