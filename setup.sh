@@ -1,47 +1,47 @@
 #!/bin/bash
 
+
+echo -ne "
+
+                  ████████╗ ██████╗  ██████╗ ██╗     ██████╗  ██████╗ ██╗  ██╗
+                  ╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔══██╗██╔═══██╗╚██╗██╔╝
+                     ██║   ██║   ██║██║   ██║██║     ██████╔╝██║   ██║ ╚███╔╝ 
+                     ██║   ██║   ██║██║   ██║██║     ██╔══██╗██║   ██║ ██╔██╗ 
+                     ██║   ╚██████╔╝╚██████╔╝███████╗██████╔╝╚██████╔╝██╔╝ ██╗
+                     ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝
+-----------------------------------------------------------------------------------------------------
+        This script customizes themes and dotfiles for a seamless, personalized setup.
+-----------------------------------------------------------------------------------------------------                                                            
+"
+# Color theming
+GREEN="\033[0;32m"
+RED="\033[0;31m"
+YELLOW="\033[1;33m"
+NC="\033[0m" # No color
+
 # Ensure the script is run as root (with sudo)
 if [ "$EUID" -ne 0 ]; then
-    echo "This script requires root privileges. Please run it with sudo."
+    echo -e "${RED}This script requires root privileges. Please run it with sudo.${NC}"
     exec sudo "$0" "$@"
     exit 1
 fi
 
-# Ensure Rust is installed
-if ! command -v rustc &> /dev/null; then
-    echo "Rust is not installed. Installing Rust..."
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    source $HOME/.cargo/env
-else
-    echo "Rust is already installed."
-fi
+# Clone the repository
+REPO_URL="https://github.com/aayushx402/linux-project"
+REPO_NAME="linux-project"
 
-# Navigate to the project root directory
-cd "$(dirname "$0")" || { echo "Failed to navigate to script directory."; exit 1; }
+echo -e "${GREEN}Cloning the repository from $REPO_URL...${NC}"
+git clone "$REPO_URL" || { echo -e "${RED}Failed to clone the repository. Please check the URL or your internet connection.${NC}"; exit 1; }
 
-# Ensure Cargo.toml exists in the root directory
-if [ ! -f Cargo.toml ]; then
-    echo "Cargo.toml not found. Please ensure it exists in the project root directory."
-    exit 1
-fi
+# Navigate to the cloned repository directory
+cd "$REPO_NAME" || { echo -e "${RED}Failed to navigate to the repository directory.${NC}"; exit 1; }
 
-# Ensure the src directory exists
-if [ ! -d src ]; then
-    echo "src directory not found. Please ensure it exists in the project root directory."
-    exit 1
-fi
+# Make the toolbox script executable
+echo -e "${YELLOW}Making the toolbox script executable...${NC}"
+chmod +x toolbox
 
-# Compile in the background silently and run the binary
-(cargo build --release &> /dev/null) &
-echo "Setting up, please wait..."
-wait
+# Run the toolbox script
+echo -e "${GREEN}Running the toolbox script...${NC}"
+./toolbox
 
-# Run the compiled binary
-./target/release/toolbox
-
-# Clean up the target directory if needed (optional)
-# rm -rf target
-
-echo "Setup and execution complete."
-
-
+echo -e "${GREEN}Setup and execution complete.${NC}"
