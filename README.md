@@ -1,7 +1,9 @@
 # Linux Setup Script 🚀
 
 [![Version](https://img.shields.io/github/v/release/aayushx402/linux-project?color=%230567ff&label=Latest%20Release&style=for-the-badge)](https://github.com/aayushx402/linux-project/releases/latest)
+
 <br>
+
 **Linux Project:**  Easily set up window managers, install packages, and update GRUB with a custom theme.
 
 
