@@ -1,6 +1,6 @@
-*Aayush's Linux Project:*  
+## *Aayush's Linux Project*  
 
-<strong>A simplified setup script to set up window managers, install packages, and update GRUB with a custom theme 🚀</strong>
+<strong>A 'simple' script to set up window managers, install packages, and give GRUB a makeover—because who doesn't love more automation? 🚀</strong>
 
 [![Version](https://img.shields.io/github/v/release/aayushx402/linux-project?color=%230567ff&label=Latest%20Release&style=for-the-badge)](https://github.com/aayushx402/linux-project/releases/latest)
 
