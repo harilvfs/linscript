@@ -34,7 +34,7 @@ chmod +x toolbox
 
 <strong>*If you find this project helpful, please consider giving it a star ⭐ to show your support!* </strong>
 
-##   Contributors
+<img src='https://user-images.githubusercontent.com/74038190/216120981-b9507c36-0e04-4469-8e27-c99271b45ba5.png' width="20"> Contributors
 [![Contributors](https://contrib.rocks/image?repo=aayushx402/linux-project)](https://github.com/aayushx402/linux-project/graphs/contributors)
 
 ## 📈 Update Log
