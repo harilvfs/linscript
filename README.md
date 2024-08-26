@@ -18,8 +18,7 @@
 </ul>
 
 > [!IMPORTANT]
-> 
-The installation script is designed for Arch-based and Debian-based systems, though it hasn't been tested on Debian. If you encounter any bugs, please submit an issue.
+> The installation script is designed for Arch-based and Debian-based systems, though it hasn't been tested on Debian. If you encounter any bugs, please submit an issue.
 
 ## 🚀 Installation
 
