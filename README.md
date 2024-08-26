@@ -4,6 +4,10 @@
 
 **Linux Project** This script offers an easy way to choose and set up various window managers, install useful packages, and seamlessly update GRUB with a beautiful theme. It simplifies your Linux environment setup and customization.
 
+
+> [!CAUTION]
+> This project is still in development, and you may encounter some bugs. Please feel free to submit an issue if you run into any problems: [Submit an Issue](https://github.com/aayushx402/linux-project/issues).
+
 <p align="center">Welcome to a versatile setup script designed for Arch-based systems. Effortlessly configure your Linux environment with my personal settings and additional features.</p>
 
 <h2>✨ Features</h2>
