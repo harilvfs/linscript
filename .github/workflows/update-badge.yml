@@ -2,7 +2,7 @@ name: Update Release Badge
 
 on:
   release:
-    types: [published]  
+    types: [published]  # Trigger the workflow when a new release is published
 
 jobs:
   update-badge:
@@ -11,6 +11,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Fetch latest release info
         id: fetch_release
@@ -23,6 +26,7 @@ jobs:
           release_url=$(tail -n 1 release_info.txt)
           badge_url="https://img.shields.io/badge/Version-${tag_name}-brightgreen?style=for-the-badge&logo=github&logoColor=white"
           
+          # Update README.md with the new badge URL
           sed -i "s|<a href=\"[^\"]*\" target=\"_blank\" rel=\"noreferrer\">.*</a>|<a href=\"${release_url}\" target=\"_blank\" rel=\"noreferrer\"><img src=\"${badge_url}\" alt=\"Version\"></a>|" README.md
 
       - name: Commit and push changes
@@ -30,3 +34,5 @@ jobs:
         with:
           add: 'README.md'
           message: 'Update version badge to latest release'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
