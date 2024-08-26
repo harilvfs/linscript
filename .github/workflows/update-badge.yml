@@ -26,7 +26,7 @@ jobs:
           release_url=$(tail -n 1 release_info.txt)
           badge_url="https://img.shields.io/badge/Version-${tag_name}-brightgreen?style=for-the-badge&logo=github&logoColor=white"
           
-          # Update README.md with the new badge URL
+          # Ensure the placeholder in README.md matches this pattern for replacement
           sed -i "s|<a href=\"[^\"]*\" target=\"_blank\" rel=\"noreferrer\">.*</a>|<a href=\"${release_url}\" target=\"_blank\" rel=\"noreferrer\"><img src=\"${badge_url}\" alt=\"Version\"></a>|" README.md
 
       - name: Commit and push changes
