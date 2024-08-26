@@ -20,7 +20,7 @@ To setup, execute the following commands:
 curl -fsSL https://raw.githubusercontent.com/aayushx402/linux-project/main/setup.sh | sh
 ```
 
-Or you can directly execute the binary from the releases section.
+## Run the program directly using the compiled Rust binary
 
 ```shell
 wget https://github.com/aayushx402/linux-project/releases/download/v0.5.0/toolbox -O toolbox
