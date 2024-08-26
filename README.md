@@ -11,11 +11,12 @@
 <h2>✨ Features</h2>
 <ul>
     <li><strong>🔧 Personal Configurations:</strong> Automatically applies custom Vim configurations (<code>vimrc</code>) and plugins to enhance your editing experience.</li>
-    <li><strong>🪟 Window Manager Installation:</strong> Easily install and set up popular window managers like dwm, Sway, and i3 for a customized desktop environment.</li>
-    <li><strong>🎨 GRUB Theme Customization:</strong> Switch your GRUB theme to the elegant Catppuccin theme with a single script.</li>
+    <li><strong>🪟 Window Manager Installation:</strong> Easily install and set up popular window managers like <code>dwm</code>, <code>Sway</code>, and <code>i3</code> for a customized desktop environment.</li>
+    <li><strong>🎨 GRUB Theme Customization:</strong> Switch your GRUB theme to the elegant <code>Catppuccin</code> theme with a single script.</li>
     <li><strong>📦 Package Installation:</strong> Installs a range of useful packages to boost your system's functionality and performance.</li>
-    <li><strong>🔒 Browsers:</strong> Simple installation of browsers like Firefox, Brave, and Thorium.</li>
+    <li><strong>🔒 Secure Browsers:</strong> Simple installation of secure browsers like <code>Firefox</code>, <code>Brave</code>, and <code>Tor</code> for safer web browsing.</li>
 </ul>
+
 
 <h2>🚀 Getting Started</h2>
 <p>Follow the instructions in the repository to quickly set up your system and apply your preferred configurations. Enjoy a streamlined and personalized Linux experience!</p>
