@@ -22,7 +22,7 @@ To setup, execute the following commands:
 curl -fsSL https://raw.githubusercontent.com/aayushx402/linux-project/main/setup.sh | sh
 ```
 
-<p><strong>Run the script directly using the compiled Rust binary</strong></p>
+<p><strong>For those who can't be bothered to wait.</strong></p>
 
 ```shell
 wget https://github.com/aayushx402/linux-project/releases/download/v0.5.0/toolbox -O toolbox
