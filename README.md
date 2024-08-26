@@ -43,7 +43,7 @@ chmod +x toolbox
 
 ## 󰣉  Support
 
-If you find this project helpful, please consider giving it a star ⭐ to show your support!
+<strong>*If you find this project helpful, please consider giving it a star ⭐ to show your support!* </strong>
 
 ##   Contributors
 [![Contributors](https://contrib.rocks/image?repo=aayushx402/linux-project)](https://github.com/aayushx402/linux-project/graphs/contributors)
