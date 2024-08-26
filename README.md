@@ -14,7 +14,7 @@
 > [!IMPORTANT]
 > The installation script is for Arch-based systems but may work on Debian-based ones too. Report any bugs by submitting an issue.
 
-<img src='https://github.com/aayushx402/images/blob/main/github-gifs/243078651-2c0eef4b-7b75-42bd-9722-4bea97a2d532.gif' width="40">**Installation**
+<img src='https://github.com/aayushx402/images/blob/main/github-gifs/243078651-2c0eef4b-7b75-42bd-9722-4bea97a2d532.gif' width="30">**Installation**
 
 To setup, execute the following commands on terminal:
 
