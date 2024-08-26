@@ -42,7 +42,7 @@ chmod +x toolbox
 
 [![Contributors](https://contrib.rocks/image?repo=aayushx402/linux-project)](https://github.com/aayushx402/linux-project/graphs/contributors)
 
-<strong> <img src='https://user-images.githubusercontent.com/74038190/216122049-276bc7a5-c760-4849-805a-995d8fa6ea13.png' width="20"> **Update Log** </strong>
+<strong> <img src='https://user-images.githubusercontent.com/74038190/216122049-276bc7a5-c760-4849-805a-995d8fa6ea13.png' width="20"> *Update Log* </strong>
 - Added an option to install and set up popular <code>window managers</code> like <code>dwm</code>, <code>Sway</code>, and <code>i3</code>.
 - Added custom <code>vim</code> configuration and plugins.
 - Included a script for downloading favorite <code>browsers</code>.
