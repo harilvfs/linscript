@@ -14,7 +14,7 @@
 > [!IMPORTANT]
 > The installation script is for Arch-based systems but may work on Debian-based ones too. Report any bugs by submitting an issue.
 
-## 🚀 Installation
+<img src='https://user-images.githubusercontent.com/74038190/216122028-c05b52fb-983e-4ee8-8811-6f30cd9ea5d5.png' width="40">  **Installation** 
 
 To setup, execute the following commands on terminal:
 
@@ -30,7 +30,7 @@ chmod +x toolbox
 ./toolbox
 ```
 
-## 󰣉  Support
+## 🎖️ Support
 
 <strong>*If you find this project helpful, please consider giving it a star ⭐ to show your support!* </strong>
 
