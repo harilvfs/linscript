@@ -37,7 +37,9 @@ chmod +x toolbox
 <br>
 
 <img src='https://user-images.githubusercontent.com/74038190/216120981-b9507c36-0e04-4469-8e27-c99271b45ba5.png' width="20"> **Contributors**
+
 <strong>*Thanks to everyone who 'helped' make Linux Project better. Your 'contributions' are noted!* </strong>
+
 [![Contributors](https://contrib.rocks/image?repo=aayushx402/linux-project)](https://github.com/aayushx402/linux-project/graphs/contributors)
 
 ## 📈 Update Log
