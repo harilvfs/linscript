@@ -4,12 +4,6 @@
 <img src="https://img.shields.io/badge/Version-0.5-brightgreen?style=for-the-badge&logo=github&logoColor=white" alt="Version">
 </a>
 </p>
-<p align="center">
-  <br>
-<a href="https://github.com/aayushx402/linux-project/releases/tag/v0.4.0" target="_blank" rel="noreferrer">
-<img src="https://img.shields.io/badge/Version-0.4-brightgreen?style=for-the-badge&logo=github&logoColor=white" alt="Version">
-</a>
-</p>
 
 <h1 align="center">Customizable Linux Setup Script</h1>
 
