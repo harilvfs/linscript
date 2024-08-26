@@ -6,13 +6,13 @@
 
 <br>
 
-> [!CAUTION]
+> [!*Note*]
 > This project is still in development, and you may encounter some bugs. Please feel free to submit an issue if you run into any problems: [Submit an Issue](https://github.com/aayushx402/linux-project/issues).
 
 <br>
 
 > [!IMPORTANT]
-> The installation script is designed for Arch-based and Debian-based systems, though it hasn't been tested on Debian. If you encounter any bugs, please submit an issue.
+> The installation script is for Arch-based systems but may work on Debian-based ones too. Report any bugs by submitting an issue.
 
 ## 🚀 Installation
 
