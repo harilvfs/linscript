@@ -10,8 +10,8 @@
 
 <h2>✨ Features</h2>
 <ul>
+     <li><strong>🪟 Window Manager Installation:</strong> Easily install and set up popular window managers like <code>dwm</code>, <code>Sway</code>, and <code>i3</code> for a customized desktop environment.</li>
     <li><strong>🔧 Personal Configurations:</strong> Automatically applies custom Vim configurations (<code>vimrc</code>) and plugins to enhance your editing experience.</li>
-    <li><strong>🪟 Window Manager Installation:</strong> Easily install and set up popular window managers like <code>dwm</code>, <code>Sway</code>, and <code>i3</code> for a customized desktop environment.</li>
     <li><strong>🎨 GRUB Theme Customization:</strong> Switch your GRUB theme to the elegant <code>Catppuccin</code> theme with a single script.</li>
     <li><strong>📦 Package Installation:</strong> Installs a range of useful packages to boost your system's functionality and performance.</li>
     <li><strong>🔒 Secure Browsers:</strong> Simple installation of secure browsers like <code>Firefox</code>, <code>Brave</code>, and <code>Tor</code> for safer web browsing.</li>
