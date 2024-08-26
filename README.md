@@ -30,19 +30,20 @@ chmod +x toolbox
 ./toolbox
 ```
 
-<img src='https://user-images.githubusercontent.com/74038190/216122069-5b8169d7-1d8e-4a13-b245-a8e4176c99f8.png' width="20"> **Support**
+<strong><img src='https://user-images.githubusercontent.com/74038190/216122069-5b8169d7-1d8e-4a13-b245-a8e4176c99f8.png' width="20"> **Support** </strong>
 
 <strong>*If you find this project helpful, please consider giving it a star ⭐ to show your support!* </strong>
 
 <br>
 
-<img src='https://user-images.githubusercontent.com/74038190/216120981-b9507c36-0e04-4469-8e27-c99271b45ba5.png' width="20"> **Contributors**
+<strong><img src='https://user-images.githubusercontent.com/74038190/216120981-b9507c36-0e04-4469-8e27-c99271b45ba5.png' width="20"> **Contributors** </strong>
 
 <strong>*Thanks to everyone who 'helped' make Linux Project better. Your 'contributions' are noted!* </strong>
 
 [![Contributors](https://contrib.rocks/image?repo=aayushx402/linux-project)](https://github.com/aayushx402/linux-project/graphs/contributors)
 
-## 📈 Update Log
+<strong><img src='https://user-images.githubusercontent.com/74038190/216122049-276bc7a5-c760-4849-805a-995d8fa6ea13.png' width="20"> **Update Log** </strong>
+
 - Added an option to install and set up popular <code>window managers</code> like <code>dwm</code>, <code>Sway</code>, and <code>i3</code>.
 - Added custom <code>vim</code> configuration and plugins.
 - Included a script for downloading favorite <code>browsers</code>.
