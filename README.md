@@ -6,9 +6,6 @@
 
 <br>
 
-**Linux Project:**  Easily set up window managers, install packages, and update GRUB with a custom theme.
-
-
 > [!CAUTION]
 > This project is still in development, and you may encounter some bugs. Please feel free to submit an issue if you run into any problems: [Submit an Issue](https://github.com/aayushx402/linux-project/issues).
 
