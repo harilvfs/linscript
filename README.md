@@ -16,7 +16,7 @@
 
 ## 🚀 Installation
 
-To setup, execute the following commands:
+To setup, execute the following commands on terminal:
 
 ```shell
 curl -fsSL https://raw.githubusercontent.com/aayushx402/linux-project/main/setup.sh | sh
@@ -32,14 +32,14 @@ chmod +x toolbox
 
 <h2>✨ Features</h2>
 <ul>
-     <li><strong>🪟 Window Manager Installation:</strong> Easily install and set up popular window managers like <code>dwm</code>, <code>Sway</code>, and <code>i3</code> for a customized desktop environment.</li>
-    <li><strong>🔧 Personal Configurations:</strong> Automatically applies custom Vim configurations (<code>vim</code>) and plugins to enhance your editing experience.</li>
-    <li><strong>🎨 GRUB Theme Customization:</strong> Switch your GRUB theme to the elegant <code>Catppuccin</code> theme with a single script.</li>
-    <li><strong>📦 Package Installation:</strong> Installs a range of useful packages to boost your system's functionality and performance.</li>
-    <li><strong>🔒 Secure Browsers:</strong> Simple installation of secure browsers like <code>Firefox</code>, <code>Brave</code>, and <code>Tor</code> for safer web browsing.</li>
+    <li><strong>🪟 Window Managers:</strong> Just pick <code>Dwm</code>, <code>Sway</code>, or <code>i3</code> and let the script do the rest.</li>
+    <li><strong>🔧 Vim Configs:</strong> Instantly set up Vim with custom tweaks because who has time for manual configuration?</li>
+    <li><strong>🎨 GRUB Theme:</strong> One click to make your bootloader fancy with the <code>Catppuccin</code> theme.</li>
+    <li><strong>📦 Packages:</strong> Automatically installs all the "essential" packages you'll ever need.</li>
+    <li><strong>🔒 Secure Browsers:</strong> Get <code>Firefox</code>, <code>Brave</code>, and <code>Thorium</code> without lifting a finger.</li>
 </ul>
 
-
+*If you somehow haven't heard of Thorium Browser, you might want to catch up and check it out.*[Thorium Broswer](https://github.com/Alex313031/thorium)
 
 ## 󰣉  Support
 
