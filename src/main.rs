@@ -9,11 +9,7 @@ use colored::*;
 fn main() {
     println!("{}", "Starting the configuration process...".bold().blue());
 
-    if !is_sway_installed() {
-        println!("{}", "Sway is not present in this system. Skipping Sway configuration part.".yellow());
-    } else {
-        configure_sway();
-    }
+    setup_window_manager();
 
     let vimrc_url = "https://raw.githubusercontent.com/aayushx402/MyVim/main/vimrc";
     let vimrc_path = "/etc/vimrc";
@@ -30,44 +26,7 @@ fn main() {
         let mut input = String::new();
         io::stdin().read_line(&mut input).unwrap();
         if input.trim().to_lowercase() == "y" {
-            // Determine the package manager and install Vim
-            let package_manager_check = Command::new("sh")
-                .arg("-c")
-                .arg("which apt-get || which pacman")
-                .output()
-                .expect("Failed to determine the package manager");
-
-            let package_manager = String::from_utf8_lossy(&package_manager_check.stdout);
-
-            if package_manager.contains("apt-get") {
-                let install_status = Command::new("sudo")
-                    .arg("apt-get")
-                    .arg("install")
-                    .arg("vim")
-                    .status()
-                    .expect("Failed to execute sudo command to install Vim with apt-get");
-
-                if !install_status.success() {
-                    panic!("{}", "Failed to install Vim using apt-get.".red());
-                }
-                println!("{}", "Vim installed successfully using apt-get.".green());
-            } else if package_manager.contains("pacman") {
-                let install_status = Command::new("sudo")
-                    .arg("pacman")
-                    .arg("-S")
-                    .arg("--noconfirm")
-                    .arg("vim")
-                    .status()
-                    .expect("Failed to execute sudo command to install Vim with pacman");
-
-                if !install_status.success() {
-                    panic!("{}", "Failed to install Vim using pacman.".red());
-                }
-                println!("{}", "Vim installed successfully using pacman.".green());
-            } else {
-                println!("{}", "Unsupported package manager.".red());
-                return;
-            }
+            install_vim();
         } else {
             println!("{}", "Vim installation skipped.".yellow());
             return;
@@ -75,47 +34,37 @@ fn main() {
     }
 
     println!("{}", "Downloading Vim configuration...".bold().blue());
-    let response = reqwest::blocking::get(vimrc_url).unwrap();
-    if response.status().is_success() {
-        let mut file = File::create("temp_vimrc").unwrap();
-        file.write_all(&response.bytes().unwrap()).unwrap();
-
-        let status = Command::new("sudo")
-            .arg("cp")
-            .arg("temp_vimrc")
-            .arg(vimrc_path)
-            .status()
-            .expect("Failed to execute sudo command to copy new Vim config");
-        if status.success() {
-            println!("{}", "Vim configuration file replaced successfully.".green());
-        } else {
-            println!("{}", "Failed to replace Vim configuration file with sudo.".red());
-            panic!("Failed to replace Vim configuration file with sudo.");
-        }
-
-        fs::remove_file("temp_vimrc").unwrap();
-    } else {
-        println!("{}", "Failed to download the Vim configuration file.".red());
-    }
-
+    download_vimrc(vimrc_url, vimrc_path);
 
     choose_neovim_plugin_manager();
     choose_browser();
     install_useful_packages();
     choose_and_apply_grub_theme();
 }
-fn is_sway_installed() -> bool {
-    Command::new("sh")
-        .arg("-c")
-        .arg("pgrep sway > /dev/null 2>&1")
-        .status()
-        .map(|status| status.success())
-        .unwrap_or(false)
+
+fn setup_window_manager() {
+    println!("{}", "Setting up window manager:".bold().blue());
+    println!("{}", "1. dwm".cyan());
+    println!("{}", "2. i3".cyan());
+    println!("{}", "3. sway".cyan());
+    println!("{}", "4. Skip".cyan());
+
+    let stdin = io::stdin();
+    let mut choice = String::new();
+    stdin.lock().read_line(&mut choice).expect("Failed to read line");
+
+    match choice.trim() {
+        "1" => install_dwm(),
+        "2" => install_i3(),
+        "3" => install_sway(),
+        "4" => println!("{}", "Skipping window manager setup.".yellow()),
+        _ => println!("{}", "Invalid choice. Please run the program again and choose 1, 2, 3, or 4.".red()),
+    }
 }
 
-fn configure_sway() {
-    let repo_url = "https://github.com/aayushx402/sway";
-    let local_path = Path::new("/tmp/sway-config");
+fn install_dwm() {
+    let repo_url = "https://github.com/aayushx402/dwm-ayx";
+    let local_path = Path::new("/tmp/dwm-ayx");
 
     if local_path.exists() && local_path.read_dir().unwrap().next().is_some() {
         println!("{}", "Directory already exists and is not empty. Skipping clone.".yellow());
@@ -126,57 +75,130 @@ fn configure_sway() {
         }
     }
 
-    let username = env::var("USER").expect("Failed to get the username");
-    let mut sway_config_path = PathBuf::new();
-    sway_config_path.push("/home");
-    sway_config_path.push(&username);
-    sway_config_path.push(".config/sway");
-
-    let sway_config_path = Path::new(&sway_config_path);
-
-    if !sway_config_path.exists() || fs::metadata(sway_config_path).is_err() {
-        let status = Command::new("sudo")
-            .arg("mkdir")
-            .arg("-p")
-            .arg(sway_config_path)
-            .status()
-            .expect("Failed to execute sudo command");
-        if !status.success() {
-            panic!("Failed to gain sudo permissions to create the Sway config directory.");
-        }
-    }
-
-    if sway_config_path.exists() {
-        let status = Command::new("sudo")
-            .arg("rm")
-            .arg("-rf")
-            .arg(sway_config_path)
-            .status()
-            .expect("Failed to execute sudo command to remove existing Sway config");
-        if !status.success() {
-            panic!("Failed to remove existing Sway config with sudo.");
-        }
-    }
-
-    let new_config_path = local_path.join("sway");
-    let status = Command::new("sudo")
-        .arg("cp")
-        .arg("-r")
-        .arg(&new_config_path)
-        .arg(sway_config_path)
-        .status()
-        .expect("Failed to execute sudo command to copy new Sway config");
-    if !status.success() {
-        panic!("Failed to copy new Sway config with sudo.");
-    }
-
-    Command::new("sh")
+    let status = Command::new("sh")
         .arg("-c")
-        .arg("which swayr || (command -v pacman > /dev/null && sudo pacman -S --noconfirm swayr) || sudo apt-get install swayr")
+        .arg("cd /tmp/dwm-ayx && chmod +x setup.sh && ./setup.sh && sudo make clean && sudo make clean install")
         .status()
-        .expect("Failed to check/install swayr");
+        .expect("Failed to install dwm");
+    if status.success() {
+        println!("{}", "dwm installed successfully.".green());
+    } else {
+        panic!("Failed to install dwm.");
+    }
+}
 
-    println!("{}", "Sway configuration updated successfully.".green());
+fn install_i3() {
+    let repo_url = "https://github.com/aayushx402/i3-CatDotfiles";
+    let local_path = Path::new("/tmp/i3-CatDotfiles");
+
+    if local_path.exists() && local_path.read_dir().unwrap().next().is_some() {
+        println!("{}", "Directory already exists and is not empty. Skipping clone.".yellow());
+    } else {
+        match Repository::clone(repo_url, local_path) {
+            Ok(_) => println!("{}", "Repository cloned successfully.".green()),
+            Err(e) => panic!("Failed to clone repository: {}", e),
+        }
+    }
+
+    let status = Command::new("sh")
+        .arg("-c")
+        .arg("cd /tmp/i3-CatDotfiles && chmod +x setup.sh && ./setup.sh")
+        .status()
+        .expect("Failed to install i3");
+    if status.success() {
+        println!("{}", "i3 installed successfully.".green());
+    } else {
+        panic!("Failed to install i3.");
+    }
+}
+
+fn install_sway() {
+    let repo_url = "https://github.com/aayushx402/sway";
+    let local_path = Path::new("/tmp/sway");
+
+    if local_path.exists() && local_path.read_dir().unwrap().next().is_some() {
+        println!("{}", "Directory already exists and is not empty. Skipping clone.".yellow());
+    } else {
+        match Repository::clone(repo_url, local_path) {
+            Ok(_) => println!("{}", "Repository cloned successfully.".green()),
+            Err(e) => panic!("Failed to clone repository: {}", e),
+        }
+    }
+
+    let status = Command::new("sh")
+        .arg("-c")
+        .arg("cd /tmp/sway && chmod +x setup.sh && ./setup.sh")
+        .status()
+        .expect("Failed to install sway");
+    if status.success() {
+        println!("{}", "sway installed successfully.".green());
+    } else {
+        panic!("Failed to install sway.");
+    }
+}
+
+fn install_vim() {
+    let package_manager_check = Command::new("sh")
+        .arg("-c")
+        .arg("which apt-get || which pacman")
+        .output()
+        .expect("Failed to determine the package manager");
+
+    let package_manager = String::from_utf8_lossy(&package_manager_check.stdout);
+
+    if package_manager.contains("apt-get") {
+        let install_status = Command::new("sudo")
+            .arg("apt-get")
+            .arg("install")
+            .arg("vim")
+            .status()
+            .expect("Failed to install Vim with apt-get");
+
+        if !install_status.success() {
+            panic!("{}", "Failed to install Vim using apt-get.".red());
+        }
+        println!("{}", "Vim installed successfully using apt-get.".green());
+    } else if package_manager.contains("pacman") {
+        let install_status = Command::new("sudo")
+            .arg("pacman")
+            .arg("-S")
+            .arg("--noconfirm")
+            .arg("vim")
+            .status()
+            .expect("Failed to install Vim with pacman");
+
+        if !install_status.success() {
+            panic!("{}", "Failed to install Vim using pacman.".red());
+        }
+        println!("{}", "Vim installed successfully using pacman.".green());
+    } else {
+        println!("{}", "Unsupported package manager.".red());
+    }
+}
+
+fn download_vimrc(vimrc_url: &str, vimrc_path: &str) {
+    let response = reqwest::blocking::get(vimrc_url).unwrap();
+    if response.status().is_success() {
+        let mut file = File::create("temp_vimrc").unwrap();
+        file.write_all(&response.bytes().unwrap()).unwrap();
+
+        let status = Command::new("sudo")
+            .arg("cp")
+            .arg("temp_vimrc")
+            .arg(vimrc_path)
+            .status()
+            .expect("Failed to copy new Vim config");
+        if status.success() {
+            println!("{}", "Vim configuration file replaced successfully.".green());
+        } else {
+            println!("{}", "Failed to replace Vim configuration file.".red());
+            panic!("Failed to replace Vim configuration file.");
+        }
+
+        fs::remove_file("temp_vimrc").unwrap();
+    } else {
+        println!("{}", "Failed to download the Vim configuration file.".red());
+    }
 }
 
 fn choose_neovim_plugin_manager() {
