@@ -1,4 +1,4 @@
-## *Aayush's Linux Project*  
+*Aayush's Linux Project*  <img src='https://github.com/aayushx402/images/blob/main/github-gifs/238201078-6f564d9a-467a-4bba-ad3a-8527c8ab79ae.gif' width="20">
 
 <strong>A 'simple' script to set up window managers, install packages, and give GRUB a makeover—because who doesn't love more automation? <img src='https://user-images.githubusercontent.com/74038190/216122041-518ac897-8d92-4c6b-9b3f-ca01dcaf38ee.png' width="20"></strong>
 
