@@ -19,6 +19,8 @@ To setup, execute the following commands on terminal:
 curl -fsSL https://chalisehari.com.np/toolbox | sh
 ```
 
+<br>
+
 > [!IMPORTANT]
 > The installation script is for Arch-based systems but may work on Debian-based ones too. Report any bugs by submitting an issue.
 
