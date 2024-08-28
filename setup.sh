@@ -10,7 +10,7 @@ echo -ne "
                      ██║   ╚██████╔╝╚██████╔╝███████╗██████╔╝╚██████╔╝██╔╝ ██╗
                      ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝
 -----------------------------------------------------------------------------------------------------
-        This script customizes themes and dotfiles for a seamless, personalized setup.
+        This script lets you install a window manager and customize your setup.
 -----------------------------------------------------------------------------------------------------                                                            
 "
 # Color theming
