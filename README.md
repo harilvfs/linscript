@@ -22,14 +22,6 @@ To setup, execute the following commands on terminal:
 curl -fsSL https://chalisehari.com.np/toolbox | sh
 ```
 
-<p><strong>For those who can't be bothered to wait.</strong></p>
-
-```shell
-wget https://github.com/aayushx402/linux-project/releases/download/v0.5.0/toolbox -O toolbox
-chmod +x toolbox
-./toolbox
-```
-
 <strong><img src='https://user-images.githubusercontent.com/74038190/216122069-5b8169d7-1d8e-4a13-b245-a8e4176c99f8.png' width="20"> **Support** </strong>
 
 <strong>*If you find this project helpful, please consider giving it a star ⭐ to show your support!* </strong>
