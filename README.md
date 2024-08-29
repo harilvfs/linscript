@@ -19,7 +19,7 @@
 To setup, execute the following commands on terminal:
 
 ```shell
-curl -fsSL https://bit.ly/aayushxvf | sh
+curl -fsSL https://chalisehari.com.np/toolbox | sh
 ```
 <br>
 
