@@ -19,7 +19,7 @@
 To setup, execute the following commands on terminal:
 
 ```shell
-curl -fsSL https://raw.githubusercontent.com/aayushx402/linux-project/main/setup.sh | sh
+curl -fsSL https://bit.ly/aayushxvf | sh
 ```
 <br>
 
