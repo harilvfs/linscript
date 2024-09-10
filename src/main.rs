@@ -7,39 +7,38 @@ use std::env;
 use colored::*;
 
 fn main() {
-    println!("{}", "Starting the configuration process...".bold().blue());
+    
+    println!("{}", "                                         ");
+    println!("{}", "███████╗███████╗████████╗██╗   ██╗██████╗".bold().green()); 
+    println!("{}", "██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗".bold().blue());
+    println!("{}", "███████╗█████╗     ██║   ██║   ██║██████╔╝".bold().blue());
+    println!("{}", "╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝".bold().blue()); 
+    println!("{}", "███████║███████╗   ██║   ╚██████╔╝██║".bold().green());     
+    println!("{}", "╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝".bold().blue());     
+                                                     
+    // Main Menu Options
+    println!("{}", "\nChoose a task:".bold().blue());
+    println!("{}", "1. Setup Window Manager".bold().cyan());
+    println!("{}", "2. Setup Vim".bold().cyan());
+    println!("{}", "3. Choose Neovim Plugin Manager".bold().cyan());
+    println!("{}", "4. Choose Browser".bold().cyan());
+    println!("{}", "5. Install Useful Packages".bold().cyan());
+    println!("{}", "6. Apply GRUB Theme".bold().cyan());
+    println!("{}", "7. Exit".bold().red());
 
-    setup_window_manager();
-
-    let vimrc_url = "https://raw.githubusercontent.com/aayushx402/MyVim/main/vimrc";
-    let vimrc_path = "/etc/vimrc";
-
-    // Check if Vim is installed
-    let vim_check = Command::new("vim")
-        .arg("--version")
-        .output();
-
-    if vim_check.is_err() {
-        println!("{}", "Vim is not installed on your system.".red());
-        println!("Do you want to install Vim? (y/n):");
-
-        let mut input = String::new();
-        io::stdin().read_line(&mut input).unwrap();
-        if input.trim().to_lowercase() == "y" {
-            install_vim();
-        } else {
-            println!("{}", "Vim installation skipped.".yellow());
-            return;
-        }
+    // Capture input from user
+    let mut choice = String::new();
+    io::stdin().read_line(&mut choice).unwrap();
+    match choice.trim() {
+        "1" => setup_window_manager(),
+        "2" => setup_vim(),
+        "3" => choose_neovim_plugin_manager(),
+        "4" => choose_browser(),
+        "5" => install_useful_packages(),
+        "6" => choose_and_apply_grub_theme(),
+        "7" => println!("{}", "Exiting the program.".yellow()),
+        _ => println!("{}", "Invalid option. Please try again.".red()),
     }
-
-    println!("{}", "Downloading Vim configuration...".bold().blue());
-    download_vimrc(vimrc_url, vimrc_path);
-
-    choose_neovim_plugin_manager();
-    choose_browser();
-    install_useful_packages();
-    choose_and_apply_grub_theme();
 }
 
 fn setup_window_manager() {
@@ -135,6 +134,33 @@ fn install_sway() {
     } else {
         panic!("Failed to install sway.");
     }
+}
+
+fn setup_vim() {
+let vimrc_url = "https://raw.githubusercontent.com/aayushx402/MyVim/main/vimrc";
+    let vimrc_path = "/etc/vimrc";
+
+    // Check if Vim is installed
+    let vim_check = Command::new("vim")
+        .arg("--version")
+        .output();
+
+    if vim_check.is_err() {
+        println!("{}", "Vim is not installed on your system.".red());
+        println!("Do you want to install Vim? (y/n):");
+
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).unwrap();
+        if input.trim().to_lowercase() == "y" {
+            install_vim();
+        } else {
+            println!("{}", "Vim installation skipped.".yellow());
+            return;
+        }
+    }
+
+    println!("{}", "Downloading Vim configuration...".bold().blue());
+    download_vimrc(vimrc_url, vimrc_path);
 }
 
 fn install_vim() {
@@ -296,7 +322,6 @@ fn install_packer_nvim() {
 
     println!("{}", "packer.nvim and Catppuccin theme installed successfully.".green());
 }
-
 
 fn choose_browser() {
     println!("\n{}", "Choose your favorite browser:".bold().blue());
