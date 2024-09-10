@@ -20,7 +20,7 @@ redirect_to_latest_pre_release() {
   local latest_release
   latest_release=$(get_latest_release)
   if [ -n "$latest_release" ]; then
-    url="https://github.com/aayushx402/linux-project/releases/download/v0.6.0/toolbox"
+    url="https://github.com/aayushx402/linux-project/releases/download/$latest_release/toolbox"
   else
     echo 'Unable to determine latest pre-release version.' >&2
     echo "Using latest Full Release"
