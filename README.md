@@ -19,8 +19,8 @@
 To setup, execute the following commands on terminal:
 
 ```shell
-wget https://github.com/aayushx402/linux-project/releases/download/v0.6.0/toolbox ~/linuxkit
-cd ~/linuxkit && chmod +x toolbox
+wget https://github.com/aayushx402/linux-project/releases/download/v0.6.0/toolbox ~/linuxkit/toolbox
+cd ~/linuxkit/toolbox && chmod +x toolbox
 ./toolbox
 ```
 <br>
