@@ -7,37 +7,44 @@ use std::env;
 use colored::*;
 
 fn main() {
-    
-    println!("{}", "                                         ");
-    println!("{}", "███████╗███████╗████████╗██╗   ██╗██████╗".bold().green()); 
-    println!("{}", "██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗".bold().blue());
-    println!("{}", "███████╗█████╗     ██║   ██║   ██║██████╔╝".bold().blue());
-    println!("{}", "╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝".bold().blue()); 
-    println!("{}", "███████║███████╗   ██║   ╚██████╔╝██║".bold().green());     
-    println!("{}", "╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝".bold().blue());     
+    loop {
+        println!("{}", "                                         ");
+        println!("{}", "███████╗███████╗████████╗██╗   ██╗██████╗".bold().green()); 
+        println!("{}", "██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗".bold().blue());
+        println!("{}", "███████╗█████╗     ██║   ██║   ██║██████╔╝".bold().blue());
+        println!("{}", "╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝".bold().blue()); 
+        println!("{}", "███████║███████╗   ██║   ╚██████╔╝██║".bold().green());     
+        println!("{}", "╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝".bold().blue());     
                                                      
-    // Main Menu Options
-    println!("{}", "\nChoose a task:".bold().blue());
-    println!("{}", "1. Setup Window Manager".bold().cyan());
-    println!("{}", "2. Setup Vim".bold().cyan());
-    println!("{}", "3. Choose Neovim Plugin Manager".bold().cyan());
-    println!("{}", "4. Choose Browser".bold().cyan());
-    println!("{}", "5. Install Useful Packages".bold().cyan());
-    println!("{}", "6. Apply GRUB Theme".bold().cyan());
-    println!("{}", "7. Exit".bold().red());
+        // Main Menu Options
+        println!("{}", "\nChoose a task:".bold().blue());
+        println!("{}", "1. Setup Window Manager".bold().cyan());
+        println!("{}", "2. Setup Vim".bold().cyan());
+        println!("{}", "3. Choose Neovim Plugin Manager".bold().cyan());
+        println!("{}", "4. Choose Browser".bold().cyan());
+        println!("{}", "5. Install Useful Packages".bold().cyan());
+        println!("{}", "6. Apply GRUB Theme".bold().cyan());
+        println!("{}", "7. Exit".bold().red());
 
-    // Capture input from user
-    let mut choice = String::new();
-    io::stdin().read_line(&mut choice).unwrap();
-    match choice.trim() {
-        "1" => setup_window_manager(),
-        "2" => setup_vim(),
-        "3" => choose_neovim_plugin_manager(),
-        "4" => choose_browser(),
-        "5" => install_useful_packages(),
-        "6" => choose_and_apply_grub_theme(),
-        "7" => println!("{}", "Exiting the program.".yellow()),
-        _ => println!("{}", "Invalid option. Please try again.".red()),
+        // Capture input from user
+        let mut choice = String::new();
+        io::stdin().read_line(&mut choice).unwrap();
+        match choice.trim() {
+            "1" => setup_window_manager(),
+            "2" => setup_vim(),
+            "3" => choose_neovim_plugin_manager(),
+            "4" => choose_browser(),
+            "5" => install_useful_packages(),
+            "6" => choose_and_apply_grub_theme(),
+            "7" => {
+                println!("{}", "Exiting the program.".yellow());
+                break;
+            },
+            _ => {
+                println!("{}", "Invalid choice. Please choose a valid option.".red());
+                continue;
+            },
+        }
     }
 }
 
