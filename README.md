@@ -19,9 +19,9 @@
 To setup, execute the following commands on terminal:
 
 ```shell
-git clone https://github.com/aayushx402/linux-project
-cd linux-project && chmod +x setup.sh
-./setup.sh
+wget https://github.com/aayushx402/linux-project/releases/download/v0.6.0/toolbox ~/linuxkit
+cd ~/linuxkit && chmod +x toolbox
+./toolbox
 ```
 <br>
 
