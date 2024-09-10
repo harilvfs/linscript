@@ -1,76 +1,36 @@
-#!/bin/sh
+#!/bin/bash
 
-RC='\033[0m'
-RED='\033[0;31m'
+# Define the URL for the binary
+URL="https://github.com/aayushx402/linux-project/releases/download/v0.6.0/toolbox"
 
-# Function to fetch the latest release tag from the GitHub API
-get_latest_release() {
-  latest_release=$(curl -s https://api.github.com/repos/aayushx402/linux-project/releases | 
-    grep -oP '"tag_name": "\K[^"]*' | 
-    head -n 1)
-  if [ -z "$latest_release" ]; then
-    echo "Error fetching release data" >&2
-    return 1
-  fi
-  echo "$latest_release"
-}
+# Define the filename for the downloaded binary
+FILENAME="toolbox"
 
-# Function to redirect to the latest pre-release version
-redirect_to_latest_pre_release() {
-  local latest_release
-  latest_release=$(get_latest_release)
-  if [ -n "$latest_release" ]; then
-    url="https://github.com/aayushx402/linux-project/releases/download/$latest_release/toolbox"
-  else
-    echo 'Unable to determine latest pre-release version.' >&2
-    echo "Using latest Full Release"
-    url="https://github.com/aayushx402/linux-project/releases/latest/download/toolbox"
-  fi
-  addArch
-  echo "Using URL: $url"  # Log the URL being used
-}
+# Download the binary
+echo "Downloading $FILENAME..."
+curl -L -o "$FILENAME" "$URL"
 
-check() {
-    local exit_code=$1
-    local message=$2
+# Check if the download was successful
+if [ $? -eq 0 ]; then
+  echo "Download complete."
+else
+  echo "Failed to download $FILENAME."
+  exit 1
+fi
 
-    if [ $exit_code -ne 0 ]; then
-        echo -e "${RED}ERROR: $message${RC}"
-        exit 1
-    fi
-}
+# Make the binary executable
+echo "Setting executable permissions..."
+chmod +x "$FILENAME"
 
-addArch() {
-    case "${arch}" in
-        x86_64);;
-        *) url="${url}-${arch}";;
-    esac
-}
+# Run the binary
+echo "Running $FILENAME..."
+./"$FILENAME"
 
-findArch() {
-    case "$(uname -m)" in
-        x86_64|amd64) arch="x86_64" ;;
-        aarch64|arm64) arch="aarch64" ;;
-        *) check 1 "Unsupported architecture"
-    esac
-}
-
-findArch
-redirect_to_latest_pre_release
-
-TMPFILE=$(mktemp)
-check $? "Creating the temporary file"
-
-echo "Downloading toolbox from $url"  # Log the download attempt
-curl -fsL $url -o $TMPFILE
-check $? "Downloading toolbox"
-
-chmod +x $TMPFILE
-check $? "Making toolbox executable"
-
-"$TMPFILE"
-check $? "Executing toolbox"
-
-rm -f $TMPFILE
-check $? "Deleting the temporary file"
+# Check if the binary ran successfully
+if [ $? -eq 0 ]; then
+  echo "$FILENAME executed successfully."
+else
+  echo "Failed to execute $FILENAME."
+  exit 1
+fi
 
