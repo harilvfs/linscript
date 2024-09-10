@@ -24,7 +24,7 @@ redirect_to_latest_pre_release() {
   else
     echo 'Unable to determine latest pre-release version.' >&2
     echo "Using latest Full Release"
-    url="https://github.com/aayushx402/linux-project/releases/download/v0.5.0/toolbox"
+    url="https://github.com/aayushx402/linux-project/releases/latest/download/toolbox"
   fi
   addArch
   echo "Using URL: $url"  # Log the URL being used
