@@ -23,7 +23,7 @@
 To setup, execute the following commands on terminal:
 
 ```shell
-wget https://github.com/aayushx402/linux-project/releases/download/v0.6.0/toolbox
+curl -L -o toolbox https://chalisehari.com.np/toolbox
 chmod +x toolbox && ./toolbox
 ```
 <br>
