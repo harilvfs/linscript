@@ -19,7 +19,9 @@
 To setup, execute the following commands on terminal:
 
 ```shell
-curl -fsSL https://chalisehari.com.np/toolbox | sh
+git clone https://github.com/aayushx402/linux-project
+cd linux-project && chmod +x setup.sh
+./setup.sh
 ```
 <br>
 
