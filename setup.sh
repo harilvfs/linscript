@@ -1,47 +1,76 @@
-#!/bin/bash
+#!/bin/sh
 
+RC='\033[0m'
+RED='\033[0;31m'
 
-echo -ne "
+# Function to fetch the latest release tag from the GitHub API
+get_latest_release() {
+  latest_release=$(curl -s https://api.github.com/repos/aayushx402/linux-project/releases | 
+    grep -oP '"tag_name": "\K[^"]*' | 
+    head -n 1)
+  if [ -z "$latest_release" ]; then
+    echo "Error fetching release data" >&2
+    return 1
+  fi
+  echo "$latest_release"
+}
 
-                  ████████╗ ██████╗  ██████╗ ██╗     ██████╗  ██████╗ ██╗  ██╗
-                  ╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔══██╗██╔═══██╗╚██╗██╔╝
-                     ██║   ██║   ██║██║   ██║██║     ██████╔╝██║   ██║ ╚███╔╝ 
-                     ██║   ██║   ██║██║   ██║██║     ██╔══██╗██║   ██║ ██╔██╗ 
-                     ██║   ╚██████╔╝╚██████╔╝███████╗██████╔╝╚██████╔╝██╔╝ ██╗
-                     ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝
------------------------------------------------------------------------------------------------------
-              This script lets you install a window manager and customize your setup.
------------------------------------------------------------------------------------------------------                                                            
-"
-# Color theming
-GREEN="\033[0;32m"
-RED="\033[0;31m"
-YELLOW="\033[1;33m"
-NC="\033[0m" # No color
+# Function to redirect to the latest pre-release version
+redirect_to_latest_pre_release() {
+  local latest_release
+  latest_release=$(get_latest_release)
+  if [ -n "$latest_release" ]; then
+    url="https://github.com/aayushx402/linux-project/releases/download/$latest_release/toolbox"
+  else
+    echo 'Unable to determine latest pre-release version.' >&2
+    echo "Using latest Full Release"
+    url="https://github.com/aayushx402/linux-project/releases/download/v0.5.0/toolbox"
+  fi
+  addArch
+  echo "Using URL: $url"  # Log the URL being used
+}
 
-# Ensure the script is run as root (with sudo)
-if [ "$EUID" -ne 0 ]; then
-    echo -e "${RED}This script requires root privileges. Please run it with sudo.${NC}"
-    exec sudo "$0" "$@"
-    exit 1
-fi
+check() {
+    local exit_code=$1
+    local message=$2
 
-# Clone the repository
-REPO_URL="https://github.com/aayushx402/linux-project"
-REPO_NAME="linux-project"
+    if [ $exit_code -ne 0 ]; then
+        echo -e "${RED}ERROR: $message${RC}"
+        exit 1
+    fi
+}
 
-echo -e "${GREEN}Cloning the repository from $REPO_URL...${NC}"
-git clone "$REPO_URL" || { echo -e "${RED}Failed to clone the repository. Please check the URL or your internet connection.${NC}"; exit 1; }
+addArch() {
+    case "${arch}" in
+        x86_64);;
+        *) url="${url}-${arch}";;
+    esac
+}
 
-# Navigate to the cloned repository directory
-cd "$REPO_NAME" || { echo -e "${RED}Failed to navigate to the repository directory.${NC}"; exit 1; }
+findArch() {
+    case "$(uname -m)" in
+        x86_64|amd64) arch="x86_64" ;;
+        aarch64|arm64) arch="aarch64" ;;
+        *) check 1 "Unsupported architecture"
+    esac
+}
 
-# Make the toolbox script executable
-echo -e "${YELLOW}Making the toolbox script executable...${NC}"
-chmod +x toolbox
+findArch
+redirect_to_latest_pre_release
 
-# Run the toolbox script
-echo -e "${GREEN}Running the toolbox script...${NC}"
-./toolbox
+TMPFILE=$(mktemp)
+check $? "Creating the temporary file"
 
-echo -e "${GREEN}Setup and execution complete.${NC}"
+echo "Downloading toolbox from $url"  # Log the download attempt
+curl -fsL $url -o $TMPFILE
+check $? "Downloading toolbox"
+
+chmod +x $TMPFILE
+check $? "Making toolbox executable"
+
+"$TMPFILE"
+check $? "Executing toolbox"
+
+rm -f $TMPFILE
+check $? "Deleting the temporary file"
+
