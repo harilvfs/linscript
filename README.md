@@ -4,7 +4,9 @@
 
 [![Version](https://img.shields.io/github/v/release/aayushx402/linux-project?color=%230567ff&label=Latest%20Release&style=for-the-badge)](https://github.com/aayushx402/linux-project/releases/latest)
 
-![Preview](https://github.com/aayushx402/linux-project/blob/main/preview.png)
+<p align="center">
+  <img src="https://github.com/aayushx402/linux-project/blob/main/preview.png" alt="Preview">
+</p>
 
 <br>
 
