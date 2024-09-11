@@ -7,6 +7,7 @@ use std::env;
 use colored::*;
 
 fn main() {
+    
     println!("{}", "                                         ");
     println!("{}", "███████╗███████╗████████╗██╗   ██╗██████╗".bold().green()); 
     println!("{}", "██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗".bold().blue());
@@ -23,7 +24,9 @@ fn main() {
     println!("{}", "4. Choose Browser".bold().cyan());
     println!("{}", "5. Install Useful Packages".bold().cyan());
     println!("{}", "6. Apply GRUB Theme".bold().cyan());
-    println!("{}", "7. Exit".bold().red());
+    println!("{}", "7. Setup SDDM Theme".bold().cyan());
+    println!("{}", "8. Setup Fonts".bold().cyan());
+    println!("{}", "9. Exit".bold().red());
 
     loop {
         // Capture input from user
@@ -38,7 +41,9 @@ fn main() {
             "4" => choose_browser(),
             "5" => install_useful_packages(),
             "6" => choose_and_apply_grub_theme(),
-            "7" => {
+            "7" => setup_sddm_theme(),
+            "8" => setup_fonts(),
+            "9" => {
                 println!("{}", "Exiting the program.".yellow());
                 break;
             },
@@ -455,6 +460,7 @@ fn install_useful_packages() {
     let packages = [
         "obs-studio",
         "thunar",
+        "nemo",
         "github-desktop",
         "telegram-desktop",
         "gedit",
@@ -463,12 +469,26 @@ fn install_useful_packages() {
         "discord",
     ];
 
+    println!("The following packages will be installed:");
     for package in &packages {
-        match package_manager {
-            "pacman" => install_with_pacman(package),
-            "apt" => install_with_apt(package),
-            _ => println!("{}", "Unsupported package manager.".red()),
+        println!("{}", package);
+    }
+
+    println!("\nDo you want to proceed with the installation? (y/n)");
+
+    let mut choice = String::new();
+    io::stdin().read_line(&mut choice).unwrap();
+
+    if choice.trim().eq_ignore_ascii_case("y") {
+        for package in &packages {
+            match package_manager {
+                "pacman" => install_with_pacman(package),
+                "apt" => install_with_apt(package),
+                _ => println!("{}", "Unsupported package manager.".red()),
+            }
         }
+    } else {
+        println!("{}", "Installation cancelled.".yellow());
     }
 }
 
@@ -565,4 +585,133 @@ fn install_grub_theme(repo_url: &str, theme_name: &str) {
         println!("{}", "Theme directory does not exist or is empty.".red());
         panic!("Theme directory does not exist or is empty.");
     }
+}
+
+fn setup_sddm_theme() {
+    let theme_url = "https://github.com/catppuccin/sddm/releases/download/v1.0.0/catppuccin-mocha.zip";
+    let theme_zip_path = "/tmp/catppuccin-mocha.zip";
+    let _theme_dir = "/usr/share/sddm/themes/catppuccin-mocha";
+
+    // Download the theme zip file
+    println!("{}", "Downloading SDDM theme...".bold().blue());
+    let status = Command::new("wget")
+        .arg(theme_url)
+        .arg("-O")
+        .arg(theme_zip_path)
+        .status()
+        .expect("Failed to download SDDM theme");
+    if !status.success() {
+        panic!("Failed to download SDDM theme.");
+    }
+
+    // Unzip the downloaded file
+    println!("{}", "Unzipping SDDM theme...".bold().blue());
+    let status = Command::new("unzip")
+        .arg(theme_zip_path)
+        .arg("-d")
+        .arg("/tmp")
+        .status()
+        .expect("Failed to unzip SDDM theme");
+    if !status.success() {
+        panic!("Failed to unzip SDDM theme.");
+    }
+
+    // Copy the unzipped theme to the SDDM themes directory
+    println!("{}", "Copying SDDM theme to /usr/share/sddm/themes/...".bold().blue());
+    let status = Command::new("sudo")
+        .arg("cp")
+        .arg("-r")
+        .arg("/tmp/catppuccin-mocha")
+        .arg("/usr/share/sddm/themes/")
+        .status()
+        .expect("Failed to copy SDDM theme");
+    if !status.success() {
+        panic!("Failed to copy SDDM theme.");
+    }
+
+    // Update the SDDM configuration file to apply the new theme
+    println!("{}", "Updating SDDM configuration...".bold().blue());
+    let status = Command::new("sudo")
+        .arg("sh")
+        .arg("-c")
+        .arg("sed -i 's/^Current=.*/Current=catppuccin-mocha/' /etc/sddm.conf")
+        .status()
+        .expect("Failed to update SDDM configuration");
+    if !status.success() {
+        panic!("Failed to update SDDM configuration.");
+    }
+
+    // Notify the user that the theme has been applied
+    println!("{}", "SDDM theme applied: catppuccin-mocha".green());
+}
+
+fn setup_fonts() {
+    println!("{}", "Choose a font to install:".bold().blue());
+    println!("{}", "1. FiraCode".cyan());
+    println!("{}", "2. FiraMono".cyan());
+    println!("{}", "3. JetBrainsMono".cyan());
+    println!("{}", "4. Meslo".cyan());
+    println!("{}", "5. Hack".cyan());
+
+    let stdin = io::stdin();
+    let mut choice = String::new();
+    stdin.lock().read_line(&mut choice).expect("Failed to read line");
+
+    let (font_name, font_url) = match choice.trim() {
+        "1" => ("FiraCode", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraCode.zip"),
+        "2" => ("FiraMono", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraMono.zip"),
+        "3" => ("JetBrainsMono", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"),
+        "4" => ("Meslo", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Meslo.zip"),
+        "5" => ("Hack", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip"),
+        _ => {
+            println!("{}", "Invalid choice. Please run the program again and choose a valid option.".red());
+            return;
+        }
+    };
+
+    let font_dir = format!("{}/.local/share/fonts", env::var("HOME").unwrap());
+    let font_zip_path = format!("/tmp/{}.zip", font_name);
+
+    println!("{}", format!("Downloading {} font...", font_name).bold().blue());
+    let status = Command::new("wget")
+        .arg(font_url)
+        .arg("-O")
+        .arg(&font_zip_path)
+        .status()
+        .expect("Failed to download font");
+    if !status.success() {
+        panic!("Failed to download font.");
+    }
+
+    println!("{}", "Unzipping font...".bold().blue());
+    let status = Command::new("unzip")
+        .arg(&font_zip_path)
+        .arg("-d")
+        .arg("/tmp")
+        .status()
+        .expect("Failed to unzip font");
+    if !status.success() {
+        panic!("Failed to unzip font.");
+    }
+
+    println!("{}", "Moving font to fonts directory...".bold().blue());
+    let status = Command::new("sh")
+        .arg("-c")
+        .arg(format!("mv /tmp/{}* {}", font_name, font_dir))
+        .status()
+        .expect("Failed to move font");
+    if !status.success() {
+        panic!("Failed to move font.");
+    }
+
+    println!("{}", "Reloading font cache...".bold().blue());
+    let status = Command::new("fc-cache")
+        .arg("-fv")
+        .status()
+        .expect("Failed to reload font cache");
+    if !status.success() {
+        panic!("Failed to reload font cache.");
+    }
+
+    println!("{}", format!("{} font applied successfully.", font_name).green());
 }
