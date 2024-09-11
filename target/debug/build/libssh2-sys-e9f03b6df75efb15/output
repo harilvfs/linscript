@@ -56,14 +56,6 @@ cargo:warning=In file included from /usr/include/openssl/engine.h:28:
 cargo:warning=/usr/include/openssl/ec.h:1022:28: note: declared here
 cargo:warning= 1022 | OSSL_DEPRECATEDIN_3_0 void EC_KEY_free(EC_KEY *key);
 cargo:warning=      |                            ^~~~~~~~~~~
-exit status: 0
-exit status: 0
-exit status: 0
-exit status: 0
-exit status: 0
-exit status: 0
-exit status: 0
-exit status: 0
 cargo:warning=libssh2/src/kex.c: In function ‘kex_method_ecdh_key_exchange’:
 cargo:warning=libssh2/src/kex.c:2322:9: warning: ‘EC_KEY_free’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
 cargo:warning= 2322 |         _libssh2_ecdsa_free(key_state->private_key);
@@ -76,41 +68,14 @@ cargo:warning=                 from libssh2/src/kex.c:39:
 cargo:warning=/usr/include/openssl/ec.h:1022:28: note: declared here
 cargo:warning= 1022 | OSSL_DEPRECATEDIN_3_0 void EC_KEY_free(EC_KEY *key);
 cargo:warning=      |                            ^~~~~~~~~~~
-cargo:warning=libssh2/src/knownhost.c: In function ‘knownhost_check’:
-cargo:warning=libssh2/src/knownhost.c:423:21: warning: ‘HMAC_CTX_new’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
-cargo:warning=  423 |                     libssh2_hmac_ctx_init(ctx);
-cargo:warning=      |                     ^~~~~~~~~~~~~~~~~~~~~
-cargo:warning=In file included from libssh2/src/openssl.h:92,
-cargo:warning=                 from libssh2/src/crypto.h:42,
-cargo:warning=                 from libssh2/src/libssh2_priv.h:141,
-cargo:warning=                 from libssh2/src/knownhost.c:39:
-cargo:warning=/usr/include/openssl/hmac.h:33:33: note: declared here
-cargo:warning=   33 | OSSL_DEPRECATEDIN_3_0 HMAC_CTX *HMAC_CTX_new(void);
-cargo:warning=      |                                 ^~~~~~~~~~~~
-cargo:warning=libssh2/src/knownhost.c:430:21: warning: ‘HMAC_Init_ex’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
-cargo:warning=  430 |                     libssh2_hmac_sha1_init(&ctx, (unsigned char *)node->salt,
-cargo:warning=      |                     ^~~~~~~~~~~~~~~~~~~~~~
-cargo:warning=/usr/include/openssl/hmac.h:43:27: note: declared here
-cargo:warning=   43 | OSSL_DEPRECATEDIN_3_0 int HMAC_Init_ex(HMAC_CTX *ctx, const void *key, int len,
-cargo:warning=      |                           ^~~~~~~~~~~~
-cargo:warning=libssh2/src/knownhost.c:432:21: warning: ‘HMAC_Update’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
-cargo:warning=  432 |                     libssh2_hmac_update(ctx, (unsigned char *)host,
-cargo:warning=      |                     ^~~~~~~~~~~~~~~~~~~
-cargo:warning=/usr/include/openssl/hmac.h:45:27: note: declared here
-cargo:warning=   45 | OSSL_DEPRECATEDIN_3_0 int HMAC_Update(HMAC_CTX *ctx, const unsigned char *data,
-cargo:warning=      |                           ^~~~~~~~~~~
-cargo:warning=libssh2/src/knownhost.c:434:21: warning: ‘HMAC_Final’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
-cargo:warning=  434 |                     libssh2_hmac_final(ctx, hash);
-cargo:warning=      |                     ^~~~~~~~~~~~~~~~~~
-cargo:warning=/usr/include/openssl/hmac.h:47:27: note: declared here
-cargo:warning=   47 | OSSL_DEPRECATEDIN_3_0 int HMAC_Final(HMAC_CTX *ctx, unsigned char *md,
-cargo:warning=      |                           ^~~~~~~~~~
-cargo:warning=libssh2/src/knownhost.c:435:21: warning: ‘HMAC_CTX_free’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
-cargo:warning=  435 |                     libssh2_hmac_cleanup(&ctx);
-cargo:warning=      |                     ^~~~~~~~~~~~~~~~~~~~
-cargo:warning=/usr/include/openssl/hmac.h:35:28: note: declared here
-cargo:warning=   35 | OSSL_DEPRECATEDIN_3_0 void HMAC_CTX_free(HMAC_CTX *ctx);
-cargo:warning=      |                            ^~~~~~~~~~~~~
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
+exit status: 0
 cargo:warning=libssh2/src/mac.c: In function ‘mac_method_hmac_sha2_512_hash’:
 cargo:warning=libssh2/src/mac.c:117:5: warning: ‘HMAC_CTX_new’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
 cargo:warning=  117 |     libssh2_hmac_ctx_init(ctx);
@@ -327,6 +292,41 @@ cargo:warning=      |                           ^~~~~~~~~~
 cargo:warning=libssh2/src/mac.c:361:5: warning: ‘HMAC_CTX_free’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
 cargo:warning=  361 |     libssh2_hmac_cleanup(&ctx);
 cargo:warning=      |     ^~~~~~~~~~~~~~~~~~~~
+cargo:warning=/usr/include/openssl/hmac.h:35:28: note: declared here
+cargo:warning=   35 | OSSL_DEPRECATEDIN_3_0 void HMAC_CTX_free(HMAC_CTX *ctx);
+cargo:warning=      |                            ^~~~~~~~~~~~~
+cargo:warning=libssh2/src/knownhost.c: In function ‘knownhost_check’:
+cargo:warning=libssh2/src/knownhost.c:423:21: warning: ‘HMAC_CTX_new’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+cargo:warning=  423 |                     libssh2_hmac_ctx_init(ctx);
+cargo:warning=      |                     ^~~~~~~~~~~~~~~~~~~~~
+cargo:warning=In file included from libssh2/src/openssl.h:92,
+cargo:warning=                 from libssh2/src/crypto.h:42,
+cargo:warning=                 from libssh2/src/libssh2_priv.h:141,
+cargo:warning=                 from libssh2/src/knownhost.c:39:
+cargo:warning=/usr/include/openssl/hmac.h:33:33: note: declared here
+cargo:warning=   33 | OSSL_DEPRECATEDIN_3_0 HMAC_CTX *HMAC_CTX_new(void);
+cargo:warning=      |                                 ^~~~~~~~~~~~
+cargo:warning=libssh2/src/knownhost.c:430:21: warning: ‘HMAC_Init_ex’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+cargo:warning=  430 |                     libssh2_hmac_sha1_init(&ctx, (unsigned char *)node->salt,
+cargo:warning=      |                     ^~~~~~~~~~~~~~~~~~~~~~
+cargo:warning=/usr/include/openssl/hmac.h:43:27: note: declared here
+cargo:warning=   43 | OSSL_DEPRECATEDIN_3_0 int HMAC_Init_ex(HMAC_CTX *ctx, const void *key, int len,
+cargo:warning=      |                           ^~~~~~~~~~~~
+cargo:warning=libssh2/src/knownhost.c:432:21: warning: ‘HMAC_Update’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+cargo:warning=  432 |                     libssh2_hmac_update(ctx, (unsigned char *)host,
+cargo:warning=      |                     ^~~~~~~~~~~~~~~~~~~
+cargo:warning=/usr/include/openssl/hmac.h:45:27: note: declared here
+cargo:warning=   45 | OSSL_DEPRECATEDIN_3_0 int HMAC_Update(HMAC_CTX *ctx, const unsigned char *data,
+cargo:warning=      |                           ^~~~~~~~~~~
+cargo:warning=libssh2/src/knownhost.c:434:21: warning: ‘HMAC_Final’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+cargo:warning=  434 |                     libssh2_hmac_final(ctx, hash);
+cargo:warning=      |                     ^~~~~~~~~~~~~~~~~~
+cargo:warning=/usr/include/openssl/hmac.h:47:27: note: declared here
+cargo:warning=   47 | OSSL_DEPRECATEDIN_3_0 int HMAC_Final(HMAC_CTX *ctx, unsigned char *md,
+cargo:warning=      |                           ^~~~~~~~~~
+cargo:warning=libssh2/src/knownhost.c:435:21: warning: ‘HMAC_CTX_free’ is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+cargo:warning=  435 |                     libssh2_hmac_cleanup(&ctx);
+cargo:warning=      |                     ^~~~~~~~~~~~~~~~~~~~
 cargo:warning=/usr/include/openssl/hmac.h:35:28: note: declared here
 cargo:warning=   35 | OSSL_DEPRECATEDIN_3_0 void HMAC_CTX_free(HMAC_CTX *ctx);
 cargo:warning=      |                            ^~~~~~~~~~~~~
