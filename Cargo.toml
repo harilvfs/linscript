@@ -10,5 +10,11 @@ colored = "2.0"
 crossterm = "0.22"
 
 [profile.release]
-lto = "thin"
+opt-level = 3
+debug = false
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+incremental = false
 
