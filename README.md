@@ -23,8 +23,7 @@
 To setup, execute the following commands on terminal:
 
 ```shell
-curl -L -o toolbox https://chalisehari.com.np/toolbox
-chmod +x toolbox && ./toolbox
+bash <(curl -L https://chalisehari.com.np/toolbox)
 ```
 <br>
 
