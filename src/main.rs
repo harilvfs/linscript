@@ -7,31 +7,31 @@ use std::env;
 use colored::*;
 
 fn main() {
-    
-    println!("{}", "                                         ");
-    println!("{}", "███████╗███████╗████████╗██╗   ██╗██████╗".bold().green()); 
-    println!("{}", "██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗".bold().blue());
-    println!("{}", "███████╗█████╗     ██║   ██║   ██║██████╔╝".bold().blue());
-    println!("{}", "╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝".bold().blue()); 
-    println!("{}", "███████║███████╗   ██║   ╚██████╔╝██║".bold().green());     
-    println!("{}", "╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝".bold().blue());     
-                                                     
+
+ println!("{}", "                                         ");
+ println!("{}", " _     ___ _   _ _   ___  __".bold().green());
+ println!("{}", "| |   |_ _| \\ | | | | \\ \\/ /".bold().green());
+ println!("{}", "| |    | ||  \\| | | | |\\  / ".bold().green());
+ println!("{}", "| |___ | || |\\  | |_| |/  \\ ".bold().green());
+ println!("{}", "|_____|___|_| \\_|\\___//_/\\\\_".bold().green());
+
     // Main Menu Options
-    println!("{}", "\nChoose a setup option:".bold().blue());
-    println!("{}", "1. Setup Window Manager".bold().cyan());
-    println!("{}", "2. Setup Vim".bold().cyan());
-    println!("{}", "3. Install Neovim Plugin Manager".bold().cyan());
-    println!("{}", "4. Install Browser".bold().cyan());
-    println!("{}", "5. Install Useful Packages".bold().cyan());
-    println!("{}", "6. Setup GRUB".bold().cyan());
-    println!("{}", "7. Setup SDDM".bold().cyan());
-    println!("{}", "8. Setup Fonts".bold().cyan());
-    println!("{}", "9. Exit (Press Ctrl+C or type 'exit')".bold().red()); // Updated exit message
+    println!("{}", "\n󰘵 Choose a setup option ".bold().blue());
+    println!("{}", "1  󰣇 Setup Window Manager".bold().cyan());
+    println!("{}", "2   Setup Vim".bold().cyan());
+    println!("{}", "3   Install Neovim Plugin Manager".bold().cyan());
+    println!("{}", "4  󰖟 Install Browser".bold().cyan());
+    println!("{}", "5   Install Useful Packages".bold().cyan());
+    println!("{}", "6   Setup GRUB".bold().cyan());
+    println!("{}", "7  󰔎 Setup SDDM".bold().cyan());
+    println!("{}", "8  󰀺 Setup Fonts".bold().cyan());
+
+    println!("{}", "󰿅 Exit (Press Ctrl+C or type 'exit')".bold().red()); // Updated exit message
 
     loop {
         // Capture input from user
         let mut choice = String::new();
-        print!("{}", "Please enter your setup choice: ".bold().blue());
+        print!("{}", " Please enter your setup choice: ".bold().blue());
         io::stdout().flush().unwrap();
         io::stdin().read_line(&mut choice).unwrap();
         if choice.trim().to_lowercase() == "exit" || choice.trim() == "\u{3}" { // Check for 'exit' or Ctrl+C
