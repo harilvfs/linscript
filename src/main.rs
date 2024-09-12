@@ -507,18 +507,20 @@ fn choose_and_apply_grub_theme() {
     
     // Display GRUB theme options
     println!("{}", "1. Catppuccin Macchiato".bold().cyan());
-    println!("{}", "2. Exit".bold().cyan());
+    println!("{}", "2. CyberEXS".bold().cyan());
+    println!("{}", "3. Exit".bold().cyan());
 
     // Options explanation
     println!("\nOptions:");
     println!("C for Catppuccin Macchiato");
+    println!("CY for CyberEXS");
     println!("E for Exit");
 
     let stdin = io::stdin();
     
     loop {
         let mut choice = String::new();
-        print!("{}", "Enter your choice(C/E): ".bold().blue());
+        print!("{}", "Enter your choice (C/CY/E): ".bold().blue());
         io::stdout().flush().unwrap();
         stdin.lock().read_line(&mut choice).expect("Failed to read line");
 
@@ -528,12 +530,16 @@ fn choose_and_apply_grub_theme() {
                 install_grub_theme("https://github.com/catppuccin/grub.git", "catppuccin-macchiato-grub-theme");
                 break; // Exit loop after applying the theme
             },
-            "E" | "2" => {
+            "CY" | "2" => {
+                install_grub_theme("https://github.com/HenriqueLopes42/themeGrub.CyberEXS.git", "CyberEXS");
+                break; // Exit loop after applying the theme
+            },
+            "E" | "3" => {
                 println!("{}", "Exiting GRUB theme selection.".yellow());
                 break;
             },
             _ => {
-                println!("{}", "Invalid choice. Please choose a valid option (C/E).".red());
+                println!("{}", "Invalid choice. Please choose a valid option (C/CY/E).".red());
                 continue;
             },
         };
@@ -554,72 +560,72 @@ fn install_grub_theme(repo_url: &str, theme_name: &str) {
     }
 
     let theme_path = local_path.join("src").join(theme_name);
-    let grub_theme_dir = Path::new("/usr/share/grub/themes");
+    let grub_theme_dir = Path::new("/usr/share/grub/themes").join(theme_name);
 
-    if theme_path.exists() && theme_path.read_dir().unwrap().next().is_some() {
-        // Copy the theme to the GRUB theme directory
-        let status = Command::new("sudo")
-            .arg("cp")
-            .arg("-r")
-            .arg(&theme_path)
-            .arg(grub_theme_dir)
-            .status()
-            .expect("Failed to execute sudo command to copy GRUB theme");
-        if status.success() {
-            println!("{}", "GRUB theme copied successfully.".green());
-        } else {
-            println!("{}", "Failed to copy GRUB theme with sudo.".red());
-            panic!("Failed to copy GRUB theme with sudo.");
-        }
+    if !grub_theme_dir.exists() {
+        fs::create_dir_all(&grub_theme_dir).expect("Failed to create theme directory.");
+    }
 
-        // Define the path to the new theme
-        let theme_path_in_grub = format!("/usr/share/grub/themes/{}/theme.txt", theme_name);
-
-        // Update the GRUB configuration file to use the new theme
-        let grub_config_path = "/etc/default/grub";
-        let new_grub_theme_line = format!(
-            r#"GRUB_THEME="{}""#,
-            theme_path_in_grub
-        );
-
-        // Update the GRUB configuration file with the new theme line
-        let status = Command::new("sudo")
-            .arg("sh")
-            .arg("-c")
-            .arg(format!(
-                r#"
-                sed -i 's|^GRUB_THEME=.*|{}|' {}
-                "#,
-                new_grub_theme_line,
-                grub_config_path
-            ))
-            .status()
-            .expect("Failed to execute sudo command to update GRUB theme in config file");
-        if status.success() {
-            println!("{}", "GRUB configuration updated successfully.".green());
-        } else {
-            println!("{}", "Failed to update GRUB configuration with sudo.".red());
-            panic!("Failed to update GRUB configuration with sudo.");
-        }
-
-        // Regenerate the GRUB configuration
-        let status = Command::new("sudo")
-            .arg("grub-mkconfig")
-            .arg("-o")
-            .arg("/boot/grub/grub.cfg")
-            .status()
-            .expect("Failed to execute sudo command to update GRUB");
-        if status.success() {
-            println!("{}", "GRUB configuration regenerated successfully.".green());
-        } else {
-            println!("{}", "Failed to regenerate GRUB configuration with sudo.".red());
-            panic!("Failed to regenerate GRUB configuration with sudo.");
-        }
+    // Copy the theme to the GRUB theme directory
+    let status = Command::new("sudo")
+        .arg("cp")
+        .arg("-r")
+        .arg(theme_path.display().to_string())
+        .arg(grub_theme_dir.display().to_string())
+        .status()
+        .expect("Failed to execute sudo command to copy GRUB theme");
+    if status.success() {
+        println!("{}", "GRUB theme copied successfully.".green());
     } else {
-        println!("{}", "Theme directory does not exist or is empty.".red());
-        panic!("Theme directory does not exist or is empty.");
+        println!("{}", "Failed to copy GRUB theme with sudo.".red());
+        panic!("Failed to copy GRUB theme with sudo.");
+    }
+
+    // Define the path to the new theme
+    let theme_path_in_grub = format!("{}/theme.txt", grub_theme_dir.display());
+
+    // Update the GRUB configuration file to use the new theme
+    let grub_config_path = "/etc/default/grub";
+    let new_grub_theme_line = format!(
+        r#"GRUB_THEME="{}""#,
+        theme_path_in_grub
+    );
+
+    // Update the GRUB configuration file with the new theme line
+    let status = Command::new("sudo")
+        .arg("sh")
+        .arg("-c")
+        .arg(format!(
+            r#"
+            sed -i 's|^GRUB_THEME=.*|{}|' {}
+            "#,
+            new_grub_theme_line,
+            grub_config_path
+        ))
+        .status()
+        .expect("Failed to execute sudo command to update GRUB theme in config file");
+    if status.success() {
+        println!("{}", "GRUB configuration updated successfully.".green());
+    } else {
+        println!("{}", "Failed to update GRUB configuration with sudo.".red());
+        panic!("Failed to update GRUB configuration with sudo.");
+    }
+
+    // Regenerate the GRUB configuration
+    let status = Command::new("sudo")
+        .arg("grub-mkconfig")
+        .arg("-o")
+        .arg("/boot/grub/grub.cfg")
+        .status()
+        .expect("Failed to execute sudo command to update GRUB");
+    if status.success() {
+        println!("{}", "GRUB configuration regenerated successfully.".green());
+    } else {
+        println!("{}", "Failed to regenerate GRUB configuration with sudo.".red());
+        panic!("Failed to regenerate GRUB configuration with sudo.");
     }
 }
+
 
 fn setup_sddm_theme() {
     let theme_url = "https://github.com/catppuccin/sddm/releases/download/v1.0.0/catppuccin-mocha.zip";
