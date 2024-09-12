@@ -17,23 +17,27 @@ fn main() {
     println!("{}", "╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝".bold().blue());     
                                                      
     // Main Menu Options
-    println!("{}", "\nChoose a task:".bold().blue());
+    println!("{}", "\nChoose a setup option:".bold().blue());
     println!("{}", "1. Setup Window Manager".bold().cyan());
     println!("{}", "2. Setup Vim".bold().cyan());
-    println!("{}", "3. Choose Neovim Plugin Manager".bold().cyan());
-    println!("{}", "4. Choose Browser".bold().cyan());
+    println!("{}", "3. Install Neovim Plugin Manager".bold().cyan());
+    println!("{}", "4. Install Browser".bold().cyan());
     println!("{}", "5. Install Useful Packages".bold().cyan());
-    println!("{}", "6. Apply GRUB Theme".bold().cyan());
-    println!("{}", "7. Setup SDDM Theme".bold().cyan());
+    println!("{}", "6. Setup GRUB".bold().cyan());
+    println!("{}", "7. Setup SDDM".bold().cyan());
     println!("{}", "8. Setup Fonts".bold().cyan());
-    println!("{}", "9. Exit".bold().red());
+    println!("{}", "9. Exit (Press Ctrl+C or type 'exit')".bold().red()); // Updated exit message
 
     loop {
         // Capture input from user
         let mut choice = String::new();
-        print!("{}", "Enter your choice: ".bold().blue());
+        print!("{}", "Please enter your setup choice: ".bold().blue());
         io::stdout().flush().unwrap();
         io::stdin().read_line(&mut choice).unwrap();
+        if choice.trim().to_lowercase() == "exit" || choice.trim() == "\u{3}" { // Check for 'exit' or Ctrl+C
+            println!("{}", "Exiting the program.".yellow());
+            break;
+        }
         match choice.trim() {
             "1" => setup_window_manager(),
             "2" => setup_vim(),
@@ -43,12 +47,8 @@ fn main() {
             "6" => choose_and_apply_grub_theme(),
             "7" => setup_sddm_theme(),
             "8" => setup_fonts(),
-            "9" => {
-                println!("{}", "Exiting the program.".yellow());
-                break;
-            },
             _ => {
-                println!("{}", "Invalid choice. Please choose a valid option.".red());
+                println!("{}", "Invalid choice. Please choose a valid option or type 'exit' to exit.".red());
             },
         }
     }
@@ -206,19 +206,37 @@ fn download_vimrc(vimrc_url: &str, vimrc_path: &str) {
 
 fn choose_neovim_plugin_manager() {
     println!("\n{}", "Choose your Neovim plugin manager:".bold().blue());
-    println!("{}", "1. vim-plug".cyan());
-    println!("{}", "2. packer.nvim".cyan());
-    println!("{}", "3. Skip".cyan());
+    println!("{}", "1. vim-plug".bold().cyan());
+    println!("{}", "2. packer.nvim".bold().cyan());
+    println!("{}", "3. Skip".bold().cyan());
+
+    println!("\nOptions:");
+    println!("V for vim-plug");
+    println!("P for packer.nvim");
+    println!("S for Skip");
 
     let stdin = io::stdin();
-    let mut choice = String::new();
-    stdin.lock().read_line(&mut choice).expect("Failed to read line");
+    loop {
+        let mut choice = String::new();
+        print!("{}", "Enter your plugin manager choice (V/P/S): ".bold().blue());
+        io::stdout().flush().unwrap();
+        stdin.lock().read_line(&mut choice).expect("Failed to read line");
 
-    match choice.trim() {
-        "1" => install_vim_plug(),
-        "2" => install_packer_nvim(),
-        "3" => println!("{}", "Skipping plugin manager selection.".yellow()),
-        _ => println!("{}", "Invalid choice. Please run the program again and choose 1, 2, or 3.".red()),
+        match choice.trim().to_uppercase().as_str() {
+            "V" => {
+                install_vim_plug();
+                break;
+            },
+            "P" => {
+                install_packer_nvim();
+                break;
+            },
+            "S" => {
+                println!("{}", "Skipping plugin manager selection.".yellow());
+                break;
+            },
+            _ => println!("{}", "Invalid choice. Please choose a valid option (V/P/S).".red()),
+        }
     }
 }
 
@@ -301,20 +319,45 @@ fn install_packer_nvim() {
 }
 
 fn choose_browser() {
-    println!("\n{}", "Choose your favorite browser:".bold().blue());
-    println!("{}", "1. Brave".cyan());
-    println!("{}", "2. Firefox".cyan());
-    println!("{}", "3. Thorium".cyan());
+    println!("\n{}", "Choose your favorite browser (B/F/T/E):".bold().blue());
 
     let stdin = io::stdin();
-    let mut choice = String::new();
-    stdin.lock().read_line(&mut choice).expect("Failed to read line");
+    loop {
+        println!("{}", "1.Brave".bold().cyan());
+        println!("{}", "2.Firefox".bold().cyan());
+        println!("{}", "3.Thorium".bold().cyan());
+        println!("{}", "4.Exit".bold().cyan());
 
-    match choice.trim() {
-        "1" => install_browser("brave"),
-        "2" => install_browser("firefox"),
-        "3" => install_browser("thorium"),
-        _ => println!("{}", "Invalid choice. Please run the program again and choose 1, 2, or 3.".red()),
+        println!("\nOptions:");
+        println!("B for Brave");
+        println!("F for Firefox");
+        println!("T for Thorium");
+        println!("E for Exit");
+
+        let mut choice = String::new();
+        print!("{}", "Enter your browser choice: ".bold().blue());
+        io::stdout().flush().unwrap();
+        stdin.lock().read_line(&mut choice).expect("Failed to read line");
+
+        match choice.trim().to_uppercase().as_str() {
+            "B" => {
+                install_browser("brave");
+                break;
+            },
+            "F" => {
+                install_browser("firefox");
+                break;
+            },
+            "T" => {
+                install_browser("thorium");
+                break;
+            },
+            "E" => {
+                println!("{}", "Exiting browser selection.".yellow());
+                break;
+            },
+            _ => println!("{}", "Invalid choice. Please choose a valid option (B/F/T/E).".red()),
+        }
     }
 }
 
@@ -438,7 +481,8 @@ fn install_useful_packages() {
         println!("{}", package);
     }
 
-    println!("\nDo you want to proceed with the installation? (y/n)");
+    print!("\nDo you want to proceed with the installation? (y/n): ");
+    io::stdout().flush().unwrap();  // Ensure the prompt is printed immediately
 
     let mut choice = String::new();
     io::stdin().read_line(&mut choice).unwrap();
