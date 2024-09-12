@@ -7,14 +7,16 @@ use std::env;
 use colored::*;
 
 fn main() {
-    
- println!("{}", "                                         ");
- println!("{}", " _     ___ _   _ _   ___  __".bold().green());
- println!("{}", "| |   |_ _| \\ | | | | \\ \\/ /".bold().green());
- println!("{}", "| |    | ||  \\| | | | |\\  / ".bold().green());
- println!("{}", "| |___ | || |\\  | |_| |/  \\ ".bold().green());
- println!("{}", "|_____|___|_| \\_|\\___//_/\\\\_".bold().green());
 
+    Command::new("clear").status().unwrap();
+    
+    println!("{}", "                                         ");
+    println!("{}", " _     ___ _   _ _   ___  __".bold().green());
+    println!("{}", "| |   |_ _| \\ | | | | \\ \\/ /".bold().green());
+    println!("{}", "| |    | ||  \\| | | | |\\  / ".bold().green());
+    println!("{}", "| |___ | || |\\  | |_| |/  \\ ".bold().green());
+    println!("{}", "|_____|___|_| \\_|\\___//_/\\\\_".bold().green());
+    
     // Main Menu Options
     println!("{}", "\n󰘵 Choose a setup option ".bold().blue());
     println!("{}", "1  󰣇 Setup Window Manager".bold().cyan());
