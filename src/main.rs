@@ -504,15 +504,39 @@ fn install_useful_packages() {
 
 fn choose_and_apply_grub_theme() {
     println!("\n{}", "Choose a GRUB theme to install and apply:".bold().blue());
-    println!("{}", "1. Catppuccin Macchiato".cyan());
+    
+    // Display GRUB theme options
+    println!("{}", "1. Catppuccin Macchiato".bold().cyan());
+    println!("{}", "2. Exit".bold().cyan());
+
+    // Options explanation
+    println!("\nOptions:");
+    println!("C for Catppuccin Macchiato");
+    println!("E for Exit");
 
     let stdin = io::stdin();
-    let mut choice = String::new();
-    stdin.lock().read_line(&mut choice).expect("Failed to read line");
+    
+    loop {
+        let mut choice = String::new();
+        print!("{}", "Enter your choice(C/E): ".bold().blue());
+        io::stdout().flush().unwrap();
+        stdin.lock().read_line(&mut choice).expect("Failed to read line");
 
-    match choice.trim() {
-        "1" => install_grub_theme("https://github.com/catppuccin/grub.git", "catppuccin-macchiato-grub-theme"),
-        _ => println!("{}", "Invalid choice. Please run the program again and choose 1.".red()),
+        // Match the input to the corresponding theme and URL
+        match choice.trim().to_uppercase().as_str() {
+            "C" | "1" => {
+                install_grub_theme("https://github.com/catppuccin/grub.git", "catppuccin-macchiato-grub-theme");
+                break; // Exit loop after applying the theme
+            },
+            "E" | "2" => {
+                println!("{}", "Exiting GRUB theme selection.".yellow());
+                break;
+            },
+            _ => {
+                println!("{}", "Invalid choice. Please choose a valid option (C/E).".red());
+                continue;
+            },
+        };
     }
 }
 
@@ -656,72 +680,96 @@ fn setup_sddm_theme() {
 }
 
 fn setup_fonts() {
-    println!("{}", "Choose a font to install:".bold().blue());
-    println!("{}", "1. FiraCode".cyan());
-    println!("{}", "2. FiraMono".cyan());
-    println!("{}", "3. JetBrainsMono".cyan());
-    println!("{}", "4. Meslo".cyan());
-    println!("{}", "5. Hack".cyan());
+
+    println!("\n{}", "Choose a font to install (FC/FM/JB/M/H/E):".bold().blue());
+    
+    // Display font options
+    println!("{}", "1. FiraCode (FC)".cyan());
+    println!("{}", "2. FiraMono (FM)".cyan());
+    println!("{}", "3. JetBrainsMono (JB)".cyan());
+    println!("{}", "4. Meslo (M)".cyan());
+    println!("{}", "5. Hack (H)".cyan());
+    println!("{}", "6. Exit (E)".cyan());
+
+    // Options explanation
+    println!("\nOptions:");
+    println!("FC for FiraCode");
+    println!("FM for FiraMono");
+    println!("JB for JetBrainsMono");
+    println!("M  for Meslo");
+    println!("H  for Hack");
+    println!("E  for Exit");
 
     let stdin = io::stdin();
-    let mut choice = String::new();
-    stdin.lock().read_line(&mut choice).expect("Failed to read line");
+    
+    loop {
+        let mut choice = String::new();
+        print!("{}", "Enter your font choice: ".bold().blue());
+        io::stdout().flush().unwrap();
+        stdin.lock().read_line(&mut choice).expect("Failed to read line");
 
-    let (font_name, font_url) = match choice.trim() {
-        "1" => ("FiraCode", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraCode.zip"),
-        "2" => ("FiraMono", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraMono.zip"),
-        "3" => ("JetBrainsMono", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"),
-        "4" => ("Meslo", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Meslo.zip"),
-        "5" => ("Hack", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip"),
-        _ => {
-            println!("{}", "Invalid choice. Please run the program again and choose a valid option.".red());
-            return;
+        // Match the input to the corresponding font and URL
+        let (font_name, font_url) = match choice.trim().to_uppercase().as_str() {
+            "FC" | "1" => ("FiraCode", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraCode.zip"),
+            "FM" | "2" => ("FiraMono", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraMono.zip"),
+            "JB" | "3" => ("JetBrainsMono", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"),
+            "M"  | "4" => ("Meslo", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Meslo.zip"),
+            "H"  | "5" => ("Hack", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip"),
+            "E"  | "6" => {
+                println!("{}", "Exiting font selection.".yellow());
+                return;
+            },
+            _ => {
+                println!("{}", "Invalid choice. Please choose a valid option (FC/FM/JB/M/H/E).".red());
+                continue;
+            },
+        };
+
+        let font_dir = format!("{}/.local/share/fonts", env::var("HOME").unwrap());
+        let font_zip_path = format!("/tmp/{}.zip", font_name);
+
+        println!("{}", format!("Downloading {} font...", font_name).bold().blue());
+        let status = Command::new("wget")
+            .arg(font_url)
+            .arg("-O")
+            .arg(&font_zip_path)
+            .status()
+            .expect("Failed to download font");
+        if !status.success() {
+            panic!("Failed to download font.");
         }
-    };
 
-    let font_dir = format!("{}/.local/share/fonts", env::var("HOME").unwrap());
-    let font_zip_path = format!("/tmp/{}.zip", font_name);
+        println!("{}", "Unzipping font...".bold().blue());
+        let status = Command::new("unzip")
+            .arg(&font_zip_path)
+            .arg("-d")
+            .arg("/tmp")
+            .status()
+            .expect("Failed to unzip font");
+        if !status.success() {
+            panic!("Failed to unzip font.");
+        }
 
-    println!("{}", format!("Downloading {} font...", font_name).bold().blue());
-    let status = Command::new("wget")
-        .arg(font_url)
-        .arg("-O")
-        .arg(&font_zip_path)
-        .status()
-        .expect("Failed to download font");
-    if !status.success() {
-        panic!("Failed to download font.");
+        println!("{}", "Moving font to fonts directory...".bold().blue());
+        let status = Command::new("sh")
+            .arg("-c")
+            .arg(format!("mv /tmp/{}* {}", font_name, font_dir))
+            .status()
+            .expect("Failed to move font");
+        if !status.success() {
+            panic!("Failed to move font.");
+        }
+
+        println!("{}", "Reloading font cache...".bold().blue());
+        let status = Command::new("fc-cache")
+            .arg("-fv")
+            .status()
+            .expect("Failed to reload font cache");
+        if !status.success() {
+            panic!("Failed to reload font cache.");
+        }
+
+        println!("{}", format!("{} font applied successfully.", font_name).green());
+        break; // Exit the loop after successful font installation
     }
-
-    println!("{}", "Unzipping font...".bold().blue());
-    let status = Command::new("unzip")
-        .arg(&font_zip_path)
-        .arg("-d")
-        .arg("/tmp")
-        .status()
-        .expect("Failed to unzip font");
-    if !status.success() {
-        panic!("Failed to unzip font.");
-    }
-
-    println!("{}", "Moving font to fonts directory...".bold().blue());
-    let status = Command::new("sh")
-        .arg("-c")
-        .arg(format!("mv /tmp/{}* {}", font_name, font_dir))
-        .status()
-        .expect("Failed to move font");
-    if !status.success() {
-        panic!("Failed to move font.");
-    }
-
-    println!("{}", "Reloading font cache...".bold().blue());
-    let status = Command::new("fc-cache")
-        .arg("-fv")
-        .status()
-        .expect("Failed to reload font cache");
-    if !status.success() {
-        panic!("Failed to reload font cache.");
-    }
-
-    println!("{}", format!("{} font applied successfully.", font_name).green());
 }
