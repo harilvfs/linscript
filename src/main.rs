@@ -7,7 +7,7 @@ use std::env;
 use colored::*;
 
 fn main() {
-
+    
  println!("{}", "                                         ");
  println!("{}", " _     ___ _   _ _   ___  __".bold().green());
  println!("{}", "| |   |_ _| \\ | | | | \\ \\/ /".bold().green());
