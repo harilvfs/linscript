@@ -10,7 +10,7 @@ fn main() {
 
     Command::new("clear").status().unwrap();
     
-    println!("{}", "                                         ");
+    println!("                                         ");
     println!("{}", " _     ___ _   _ _   ___  __".bold().green());
     println!("{}", "| |   |_ _| \\ | | | | \\ \\/ /".bold().green());
     println!("{}", "| |    | ||  \\| | | | |\\  / ".bold().green());
