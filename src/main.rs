@@ -56,21 +56,35 @@ fn main() {
 
 fn setup_window_manager() {
     println!("{}", "Setting up window manager:".bold().blue());
-    println!("{}", "1. DWM".cyan());
-    println!("{}", "2. i3".cyan());
-    println!("{}", "3. Sway".cyan());
-    println!("{}", "4. Skip".cyan());
+    println!("{}", "1. DWM".bold().cyan()); 
+    println!("{}", "2. Skip".bold().cyan());
+
+    println!("\nOptions:");
+    println!("  d for DWM");
+    println!("  e for Exit");
+
+    println!("\nNote:");
+    println!("{}", "If you want to use i3 or Sway, check my GitHub for dotfiles:".bold().red());
+    println!("{}", "https://github.com/aayushx402".bold().blue().underline());
 
     let stdin = io::stdin();
-    let mut choice = String::new();
-    stdin.lock().read_line(&mut choice).expect("Failed to read line");
+    loop {
+        let mut choice = String::new();
+        print!("{}", "Which window manager do you want to install (d/e): ".bold().blue());
+        io::stdout().flush().unwrap();
+        stdin.lock().read_line(&mut choice).expect("Failed to read line");
 
-    match choice.trim() {
-        "1" => install_dwm(),
-        "2" => install_i3(),
-        "3" => install_sway(),
-        "4" => println!("{}", "Skipping window manager setup.".yellow()),
-        _ => println!("{}", "Invalid choice. Please run the program again and choose 1, 2, 3, or 4.".red()),
+        match choice.trim().to_lowercase().as_str() {
+            "d" => {
+                install_dwm();
+                break;
+            },
+            "e" => {
+                println!("{}", "Skipping window manager setup.".yellow());
+                break;
+            },
+            _ => println!("{}", "Invalid choice. Please choose a valid option (d/e).".red()),
+        }
     }
 }
 
@@ -96,56 +110,6 @@ fn install_dwm() {
         println!("{}", "dwm installed successfully.".green());
     } else {
         panic!("Failed to install dwm.");
-    }
-}
-
-fn install_i3() {
-    let repo_url = "https://github.com/aayushx402/i3-CatDotfiles";
-    let local_path = Path::new("/tmp/i3-CatDotfiles");
-
-    if local_path.exists() && local_path.read_dir().unwrap().next().is_some() {
-        println!("{}", "Directory already exists and is not empty. Skipping clone.".yellow());
-    } else {
-        match Repository::clone(repo_url, local_path) {
-            Ok(_) => println!("{}", "Repository cloned successfully.".green()),
-            Err(e) => panic!("Failed to clone repository: {}", e),
-        }
-    }
-
-    let status = Command::new("sh")
-        .arg("-c")
-        .arg("cd /tmp/i3-CatDotfiles && chmod +x setup.sh && ./setup.sh")
-        .status()
-        .expect("Failed to install i3");
-    if status.success() {
-        println!("{}", "i3 installed successfully.".green());
-    } else {
-        panic!("Failed to install i3.");
-    }
-}
-
-fn install_sway() {
-    let repo_url = "https://github.com/aayushx402/sway";
-    let local_path = Path::new("/tmp/sway");
-
-    if local_path.exists() && local_path.read_dir().unwrap().next().is_some() {
-        println!("{}", "Directory already exists and is not empty. Skipping clone.".yellow());
-    } else {
-        match Repository::clone(repo_url, local_path) {
-            Ok(_) => println!("{}", "Repository cloned successfully.".green()),
-            Err(e) => panic!("Failed to clone repository: {}", e),
-        }
-    }
-
-    let status = Command::new("sh")
-        .arg("-c")
-        .arg("cd /tmp/sway && chmod +x setup.sh && ./setup.sh")
-        .status()
-        .expect("Failed to install sway");
-    if status.success() {
-        println!("{}", "sway installed successfully.".green());
-    } else {
-        panic!("Failed to install sway.");
     }
 }
 
