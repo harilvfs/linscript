@@ -59,7 +59,7 @@ fn main() {
 fn setup_window_manager() {
     println!("{}", "Setting up window manager:".bold().blue());
     println!("{}", "1. DWM".bold().cyan()); 
-    println!("{}", "2. Skip".bold().cyan());
+    println!("{}", "2. Exit".bold().cyan());
 
     println!("\nOptions:");
     println!("  d for DWM");
@@ -82,7 +82,7 @@ fn setup_window_manager() {
                 break;
             },
             "e" => {
-                println!("{}", "Skipping window manager setup.".yellow());
+                println!("{}", "Exiting window manager setup.".yellow());
                 break;
             },
             _ => println!("{}", "Invalid choice. Please choose a valid option (d/e).".red()),
