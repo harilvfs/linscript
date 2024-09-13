@@ -958,7 +958,20 @@ fn setup_alacritty() {
 }
 
 fn setup_neovim() {
-    // Step 1: Check if Neovim is installed; if not, install it with pacman
+
+        println!("{}", "Important: If you have an existing Neovim configuration, make sure to back it up before proceeding".bold().red());
+        print!("Do you want to continue with the Neovim setup (y/n): ");
+        io::stdout().flush().expect("Failed to flush stdout");
+    
+        let mut response = String::new();
+        io::stdin().read_line(&mut response).expect("Failed to read user input");
+        let response = response.trim().to_lowercase();
+    
+        if response != "y" {
+            println!("Neovim setup canceled.");
+            return;
+        }
+
     let check_neovim = Command::new("pacman")
         .arg("-Qi")
         .arg("neovim")
@@ -978,7 +991,7 @@ fn setup_neovim() {
         println!("Neovim is already installed. Skipping installation...");
     }
 
-    // Step 2: Create $HOME/TOOLBOX directory if it doesn't exist
+
     let home_dir = dirs::home_dir().expect("Could not find home directory");
     let toolbox_dir = home_dir.join("TOOLBOX");
     if !toolbox_dir.exists() {
@@ -986,13 +999,13 @@ fn setup_neovim() {
         fs::create_dir_all(&toolbox_dir).expect("Failed to create $HOME/TOOLBOX directory");
     }
 
-    // Step 3: Create $TOOLBOX/neovim directory if it doesn't exist
+    // Create $TOOLBOX/neovim directory if it doesn't exist
     let toolbox_neovim_dir = toolbox_dir.join("neovim");
     if !toolbox_neovim_dir.exists() {
         fs::create_dir_all(&toolbox_neovim_dir).expect("Failed to create $TOOLBOX/neovim directory");
     }
 
-    // Step 4: Backup existing .config/nvim if it exists
+    //  Backup existing .config/nvim if it exists
     let nvim_config_dir = home_dir.join(".config/nvim");
     if nvim_config_dir.exists() {
         println!("Backing up existing Neovim configuration...");
@@ -1004,7 +1017,6 @@ fn setup_neovim() {
         println!("Neovim configuration moved to $TOOLBOX/neovim.");
     }
 
-    // Step 5: Clone Neovim config repo and rename to nvim
     let repo_url = "https://github.com/aayushx402/neovim";
     let clone_dir = Path::new("/tmp/neovim-repo");
     if clone_dir.exists() {
@@ -1017,7 +1029,6 @@ fn setup_neovim() {
         Err(e) => panic!("Failed to clone repository: {}", e),
     }
 
-    // Step 6: Move contents of the cloned repository to .config/nvim
     let nvim_target_dir = home_dir.join(".config/nvim");
     if nvim_target_dir.exists() {
         fs::remove_dir_all(&nvim_target_dir).expect("Failed to remove old nvim config");
@@ -1035,7 +1046,7 @@ fn setup_neovim() {
         }
     }
 
-    // Step 7: Share system clipboard with unnamedplus
+    //  Share system clipboard with unnamedplus
     let os_release_path = Path::new("/etc/os-release");
     if os_release_path.exists() {
         let output = Command::new("sh")
