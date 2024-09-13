@@ -6,7 +6,7 @@
   <img src="https://github.com/aayushx402/linux-project/blob/main/preview.png" alt="Preview">
 </p>
 
-<strong>A 'simple' Rust-written script to set up window managers, install packages, and give GRUB a makeover—because who doesn't love more automation? <img src='https://user-images.githubusercontent.com/74038190/216122041-518ac897-8d92-4c6b-9b3f-ca01dcaf38ee.png' width="20"></strong>
+<strong>A 'simple' Rust-written script designed to streamline and automate your Linux setup—effortlessly. <img src='https://user-images.githubusercontent.com/74038190/216122041-518ac897-8d92-4c6b-9b3f-ca01dcaf38ee.png' width="20"></strong>
 
 > [!Note]
 > This project is still in development, and you may encounter some bugs. Please feel free to submit an issue if you run into any problems: [Submit an Issue](https://github.com/aayushx402/linux-project/issues).
