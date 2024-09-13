@@ -14,7 +14,7 @@
 <br>
 
 > [!IMPORTANT]
-> The installation script is for Arch-based systems but may work on Debian-based ones too. Report any bugs by submitting an issue.
+> The installation script is primarily designed for Arch and Arch-based systems, but some setup functions may work on Debian-based distributions as well. If you encounter any issues, please submit a report via an issue. Thank you!
 
 <img src='https://github.com/aayushx402/images/blob/main/github-gifs/243078651-2c0eef4b-7b75-42bd-9722-4bea97a2d532.gif' width="30">**Installation**
 
