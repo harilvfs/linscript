@@ -17,10 +17,10 @@ fn main() {
     println!("{}", "| |    | ||  \\| | | | |\\  / ".bold().green());
     println!("{}", "| |___ | || |\\  | |_| |/  \\ ".bold().green());
     println!("{}", "|_____|___|_| \\_|\\___//_/\\\\_".bold().green());
-    
+
     // Main Menu Options
     println!("{}", "\n󰘵 Choose a setup option ".bold().blue());
-    println!("{}", "1  󰣇 Setup Window Manager".bold().cyan());
+    println!("{}", "1   Setup Window Manager".bold().cyan());
     println!("{}", "2   Setup Vim".bold().cyan());
     println!("{}", "3   Install Neovim Plugin Manager".bold().cyan());
     println!("{}", "4  󰖟 Install Browsers".bold().cyan());
@@ -31,8 +31,11 @@ fn main() {
     println!("{}", "9   Setup Rofi".bold().cyan());
     println!("{}", "10   Setup Alacritty".bold().cyan());
     println!("{}", "11   Setup Neovim".bold().cyan());
+    println!("{}", "12   Aur Helper".bold().cyan());
 
-    println!("{}", "󰿅 Exit (Press Ctrl+C or type 'exit')".bold().red()); // Updated exit message
+    // Prompt for instructions and exit
+    println!("{}", "󰾙 Type 'i' for Instructions".bold().magenta());
+    println!("{}", "󰿅 Exit (Press Ctrl+C or type 'e')".bold().red());
 
     loop {
         // Capture input from user
@@ -40,7 +43,8 @@ fn main() {
         print!("{}", " Please enter your setup choice: ".bold().blue());
         io::stdout().flush().unwrap();
         io::stdin().read_line(&mut choice).unwrap();
-        if choice.trim().to_lowercase() == "exit" || choice.trim() == "\u{3}" { // Check for 'exit' or Ctrl+C
+        // Check for 'E' or 'e'
+        if choice.trim().to_uppercase() == "E" {
             println!("{}", "Exiting the program.".yellow());
             break;
         }
@@ -56,6 +60,8 @@ fn main() {
             "9" => setup_rofi(),
             "10" => setup_alacritty(),
             "11" => setup_neovim(),
+            "12" => setup_aurhelper(),
+            "I" | "i" => show_instructions(),
             _ => {
                 println!("{}", "Invalid choice. Please choose a valid option or type 'exit' to exit.".red());
             },
@@ -1084,3 +1090,86 @@ fn setup_neovim() {
 
     println!("Neovim setup completed successfully.");
 }
+
+fn setup_aurhelper() {
+    let stdin = io::stdin();
+
+    loop {
+        println!("{}", "Choose your AUR helper".bold().blue());
+
+        println!("{}", "1.Paru".bold().cyan());
+        println!("{}", "2.Yay".bold().cyan());
+        println!("{}", "3.Exit".bold().cyan());
+
+        println!("\nOptions:");
+        println!("P for paru");
+        println!("Y for yay");
+        println!("E for Exit");
+
+        let mut choice = String::new();
+        print!("{}", "Enter your choice(P/Y/E): ".bold().blue());
+        io::stdout().flush().unwrap();
+        stdin.lock().read_line(&mut choice).expect("Failed to read line");
+
+        match choice.trim().to_uppercase().as_str() {
+            "P" => {
+                install_aur_helper("paru");
+                break;
+            },
+            "Y" => {
+                install_aur_helper("yay");
+                break;
+            },
+            "E" => {
+                println!("{}", "Exiting AUR helper selection.".yellow());
+                break;
+            },
+            _ => println!("{}", "Invalid choice. Please choose a valid option (P/Y/E).".red()),
+        }
+    }
+}
+
+fn install_aur_helper(helper: &str) {
+    match helper {
+        "paru" => {
+            println!("{}", "Installing paru...".cyan());
+            // Execute the installation commands for paru
+            let output = Command::new("sh")
+                .arg("-c")
+                .arg("sudo pacman -S --needed base-devel && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si")
+                .output()
+                .expect("Failed to execute command");
+            
+            if !output.status.success() {
+                println!("{}", "Failed to install paru. Check the output for errors.".red());
+                return;
+            }
+            
+            println!("{}", "Successfully installed paru.".green());
+        },
+        "yay" => {
+            println!("{}", "Installing yay...".cyan());
+            // Execute the installation commands for yay
+            let output = Command::new("sh")
+                .arg("-c")
+                .arg("sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si")
+                .output()
+                .expect("Failed to execute command");
+            
+            if !output.status.success() {
+                println!("{}", "Failed to install yay. Check the output for errors.".red());
+                return;
+            }
+            
+            println!("{}", "Successfully installed yay.".green());
+        },
+        _ => println!("{}", "Invalid AUR helper selection.".red()),
+    }
+
+    }
+
+    fn show_instructions() {
+        println!("\nInstructions:");
+        println!("{}", "Use the number in front of the setup function to choose an option.".bold().white());
+        println!("{}", "For example, type '1' to Setup Window Manager or '12' to Install an Aur Helper.".bold().white());
+    }
