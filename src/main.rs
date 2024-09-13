@@ -5,6 +5,8 @@ use std::process::Command;
 use std::io::{self, Write, BufRead};
 use std::env;
 use colored::*;
+use std::fs::create_dir_all;
+use dirs;
 
 fn main() {
 
@@ -27,6 +29,9 @@ fn main() {
     println!("{}", "6   Setup GRUB".bold().cyan());
     println!("{}", "7  󰔎 Setup SDDM".bold().cyan());
     println!("{}", "8  󰀺 Setup Fonts".bold().cyan());
+    println!("{}", "9   Setup Rofi".bold().cyan());
+    println!("{}", "10   Setup Alacritty".bold().cyan());
+    println!("{}", "11   Setup Neovim".bold().cyan());
 
     println!("{}", "󰿅 Exit (Press Ctrl+C or type 'exit')".bold().red()); // Updated exit message
 
@@ -49,6 +54,9 @@ fn main() {
             "6" => choose_and_apply_grub_theme(),
             "7" => setup_sddm_theme(),
             "8" => setup_fonts(),
+            "9" => setup_rofi(),
+            "10" => setup_alacritty(),
+            "11" => setup_neovim(),
             _ => {
                 println!("{}", "Invalid choice. Please choose a valid option or type 'exit' to exit.".red());
             },
@@ -778,4 +786,291 @@ fn setup_fonts() {
         println!("{}", format!("{} font applied successfully.", font_name).green());
         break; // Exit the loop after successful font installation
     }
+}
+
+fn setup_rofi() {
+// Check if Rofi is installed
+let check_rofi = Command::new("pacman")
+.arg("-Qs")
+.arg("rofi")
+.output()
+.expect("Failed to check if Rofi is installed");
+
+if !check_rofi.status.success() {
+println!("Rofi is not installed. Installing it now...");
+let install_rofi = Command::new("sudo")
+    .arg("pacman")
+    .arg("-S")
+    .arg("--noconfirm")
+    .arg("rofi")
+    .output()
+    .expect("Failed to install Rofi");
+
+if !install_rofi.status.success() {
+    eprintln!("Error installing Rofi.");
+    return;
+}
+} else {
+println!("Rofi is already installed. Skipping installation...");
+}
+
+// Backup existing Rofi config if exists
+let home_dir = env::var("HOME").unwrap();
+let rofi_config_dir = format!("{}/.config/rofi", home_dir);
+let backup_dir = format!("{}/.config/rofi.bak", home_dir);
+
+if Path::new(&rofi_config_dir).exists() {
+println!("Backing up existing Rofi configuration...");
+let backup_status = Command::new("cp")
+    .arg("-r")
+    .arg(&rofi_config_dir)
+    .arg(&backup_dir)
+    .output()
+    .expect("Failed to backup Rofi config");
+
+if !backup_status.status.success() {
+    eprintln!("Failed to create backup: {:?}", backup_status.stderr);
+    return;
+}
+}
+
+// Create the Rofi config directory
+println!("Setting up Rofi configuration...");
+if let Err(e) = create_dir_all(&rofi_config_dir) {
+eprintln!("Failed to create Rofi config directory: {}", e);
+return;
+}
+
+// Download the new Rofi config and themes
+let config_url = "https://raw.githubusercontent.com/aayushx402/dwm-ayx/main/config/rofi/config.rasi";
+let theme_dir = format!("{}/themes", rofi_config_dir);
+let nord_theme_url = "https://raw.githubusercontent.com/aayushx402/dwm-ayx/main/config/rofi/themes/nord.rasi";
+let sidetab_nord_theme_url = "https://raw.githubusercontent.com/aayushx402/dwm-ayx/main/config/rofi/themes/sidetab-nord.rasi";
+
+if let Err(e) = create_dir_all(&theme_dir) {
+eprintln!("Failed to create Rofi themes directory: {}", e);
+return;
+}
+
+let download_commands = vec![
+("config.rasi", config_url),
+("themes/nord.rasi", nord_theme_url),
+("themes/sidetab-nord.rasi", sidetab_nord_theme_url),
+];
+
+for (file, url) in download_commands {
+let output_file = format!("{}/{}", rofi_config_dir, file);
+let wget = Command::new("wget")
+    .arg("-O")
+    .arg(&output_file)
+    .arg(url)
+    .output();
+
+match wget {
+    Ok(_) => println!("Downloaded {}", file),
+    Err(e) => eprintln!("Failed to download {}: {}", file, e),
+}
+}
+
+// Notify the user setup is complete
+println!("Rofi setup complete!");
+
+}
+
+fn setup_alacritty() {
+    // Check if Alacritty is installed
+    let check_alacritty = Command::new("pacman")
+        .arg("-Qs")
+        .arg("alacritty")
+        .output()
+        .expect("Failed to check if Alacritty is installed");
+
+    if !check_alacritty.status.success() {
+        println!("Alacritty is not installed. Installing it now...");
+        let install_alacritty = Command::new("sudo")
+            .arg("pacman")
+            .arg("-S")
+            .arg("--noconfirm")
+            .arg("alacritty")
+            .output()
+            .expect("Failed to install Alacritty");
+
+        if !install_alacritty.status.success() {
+            eprintln!("Error installing Alacritty.");
+            return;
+        }
+    } else {
+        println!("Alacritty is already installed. Skipping installation...");
+    }
+
+    // Backup existing Alacritty config if exists
+    let home_dir = env::var("HOME").unwrap();
+    let alacritty_config_dir = format!("{}/.config/alacritty", home_dir);
+    let backup_dir = format!("{}/.config/alacritty-bak", home_dir);
+
+    if Path::new(&alacritty_config_dir).exists() {
+        println!("Backing up existing Alacritty configuration...");
+        let backup_status = Command::new("cp")
+            .arg("-r")
+            .arg(&alacritty_config_dir)
+            .arg(&backup_dir)
+            .output()
+            .expect("Failed to backup Alacritty config");
+
+        if !backup_status.status.success() {
+            eprintln!("Failed to create backup: {:?}", backup_status.stderr);
+            return;
+        }
+    }
+
+    // Create the Alacritty config directory
+    println!("Setting up Alacritty configuration...");
+    if let Err(e) = create_dir_all(&alacritty_config_dir) {
+        eprintln!("Failed to create Alacritty config directory: {}", e);
+        return;
+    }
+
+    // Download the new Alacritty config files
+    let alacritty_config_url = "https://raw.githubusercontent.com/aayushx402/dwm-ayx/main/config/alacritty/alacritty.toml";
+    let nordic_theme_url = "https://raw.githubusercontent.com/aayushx402/dwm-ayx/main/config/alacritty/nordic.toml";
+
+    let download_commands = vec![
+        ("alacritty.toml", alacritty_config_url),
+        ("nordic.toml", nordic_theme_url),
+    ];
+
+    for (file, url) in download_commands {
+        let output_file = format!("{}/{}", alacritty_config_dir, file);
+        let wget = Command::new("wget")
+            .arg("-O")
+            .arg(&output_file)
+            .arg(url)
+            .output();
+
+        match wget {
+            Ok(_) => println!("Downloaded {}", file),
+            Err(e) => eprintln!("Failed to download {}: {}", file, e),
+        }
+    }
+
+    // Notify the user setup is complete
+    println!("Alacritty setup complete!");
+}
+
+fn setup_neovim() {
+    // Step 1: Check if Neovim is installed; if not, install it with pacman
+    let check_neovim = Command::new("pacman")
+        .arg("-Qi")
+        .arg("neovim")
+        .status()
+        .expect("Failed to check if Neovim is installed");
+
+    if !check_neovim.success() {
+        println!("Neovim not found, installing Neovim...");
+        Command::new("sudo")
+            .arg("pacman")
+            .arg("-S")
+            .arg("neovim")
+            .arg("--noconfirm")
+            .status()
+            .expect("Failed to install Neovim");
+    } else {
+        println!("Neovim is already installed. Skipping installation...");
+    }
+
+    // Step 2: Create $HOME/TOOLBOX directory if it doesn't exist
+    let home_dir = dirs::home_dir().expect("Could not find home directory");
+    let toolbox_dir = home_dir.join("TOOLBOX");
+    if !toolbox_dir.exists() {
+        println!("Creating $HOME/TOOLBOX directory...");
+        fs::create_dir_all(&toolbox_dir).expect("Failed to create $HOME/TOOLBOX directory");
+    }
+
+    // Step 3: Create $TOOLBOX/neovim directory if it doesn't exist
+    let toolbox_neovim_dir = toolbox_dir.join("neovim");
+    if !toolbox_neovim_dir.exists() {
+        fs::create_dir_all(&toolbox_neovim_dir).expect("Failed to create $TOOLBOX/neovim directory");
+    }
+
+    // Step 4: Backup existing .config/nvim if it exists
+    let nvim_config_dir = home_dir.join(".config/nvim");
+    if nvim_config_dir.exists() {
+        println!("Backing up existing Neovim configuration...");
+        let backup_dir = toolbox_neovim_dir.join("nvim-backup");
+        if backup_dir.exists() {
+            fs::remove_dir_all(&backup_dir).expect("Failed to remove old backup");
+        }
+        fs::rename(&nvim_config_dir, &backup_dir).expect("Failed to move nvim directory to backup");
+        println!("Neovim configuration moved to $TOOLBOX/neovim.");
+    }
+
+    // Step 5: Clone Neovim config repo and rename to nvim
+    let repo_url = "https://github.com/aayushx402/neovim";
+    let clone_dir = Path::new("/tmp/neovim-repo");
+    if clone_dir.exists() {
+        fs::remove_dir_all(&clone_dir).unwrap();
+    }
+
+    println!("Cloning Neovim configuration repository...");
+    match Repository::clone(repo_url, clone_dir) {
+        Ok(_) => println!("Repository cloned successfully."),
+        Err(e) => panic!("Failed to clone repository: {}", e),
+    }
+
+    // Step 6: Move contents of the cloned repository to .config/nvim
+    let nvim_target_dir = home_dir.join(".config/nvim");
+    if nvim_target_dir.exists() {
+        fs::remove_dir_all(&nvim_target_dir).expect("Failed to remove old nvim config");
+    }
+    fs::create_dir_all(&nvim_target_dir).expect("Failed to create .config/nvim directory");
+
+    for entry in fs::read_dir(clone_dir).expect("Failed to read cloned repository") {
+        let entry = entry.expect("Failed to read entry");
+        let path = entry.path();
+        let dest = nvim_target_dir.join(entry.file_name());
+        if path.is_dir() {
+            fs::rename(&path, &dest).expect("Failed to move directory to .config/nvim");
+        } else {
+            fs::copy(&path, &dest).expect("Failed to copy file to .config/nvim");
+        }
+    }
+
+    // Step 7: Share system clipboard with unnamedplus
+    let os_release_path = Path::new("/etc/os-release");
+    if os_release_path.exists() {
+        let output = Command::new("sh")
+            .arg("-c")
+            .arg(r#"
+                source /etc/os-release
+                if [[ $XDG_SESSION_TYPE == "wayland" ]]; then
+                    echo "wl-clipboard"
+                else
+                    echo "xclip"
+                fi
+            "#)
+            .output()
+            .expect("Failed to determine clipboard manager");
+
+        let clipboard_pkg = String::from_utf8_lossy(&output.stdout).trim().to_string();
+
+        println!("Installing clipboard packages and other Neovim dependencies...");
+        Command::new("sudo")
+            .arg("pacman")
+            .arg("-S")
+            .arg("ripgrep")
+            .arg("fzf")
+            .arg(&clipboard_pkg)
+            .arg("neovim")
+            .arg("python-virtualenv")
+            .arg("luarocks")
+            .arg("go")
+            .arg("shellcheck")
+            .arg("--noconfirm")
+            .status()
+            .expect("Failed to install Neovim dependencies");
+    } else {
+        println!("Unable to determine OS. Please install the required packages manually.");
+    }
+
+    println!("Neovim setup completed successfully.");
 }
