@@ -334,7 +334,7 @@ fn install_packer_nvim() {
 }
 
 fn choose_browser() {
-    println!("\n{}", "Choose your favorite browser (B/F/T/E):".bold().blue());
+    println!("\n{}", "Choose your favorite browser".bold().blue());
 
     let stdin = io::stdin();
     loop {
@@ -350,7 +350,7 @@ fn choose_browser() {
         println!("E for Exit");
 
         let mut choice = String::new();
-        print!("{}", "Enter your browser choice: ".bold().blue());
+        print!("{}", "Enter your browser choice(B/F/T/E): ".bold().blue());
         io::stdout().flush().unwrap();
         stdin.lock().read_line(&mut choice).expect("Failed to read line");
 
@@ -456,7 +456,7 @@ fn install_thorium_debian() {
 }
 
 fn install_useful_packages() {
-    println!("\n{}", "Installing useful packages...".bold().blue());
+    println!("\n{}", "Installing Packages...".bold().blue());
 
     let package_manager = if Command::new("sh")
         .arg("-c")
@@ -496,7 +496,7 @@ fn install_useful_packages() {
         println!("{}", package);
     }
 
-    print!("\nDo you want to proceed with the installation? (y/n): ");
+    print!("{}","Do you want to proceed with the installation? (y/n): ".bold().blue());
     io::stdout().flush().unwrap();  // Ensure the prompt is printed immediately
 
     let mut choice = String::new();
@@ -700,15 +700,15 @@ fn setup_sddm_theme() {
 
 fn setup_fonts() {
 
-    println!("\n{}", "Choose a font to install (FC/FM/JB/M/H/E):".bold().blue());
+    println!("\n{}", "Choose a font to install".bold().blue());
     
     // Display font options
-    println!("{}", "1. FiraCode (FC)".cyan());
-    println!("{}", "2. FiraMono (FM)".cyan());
-    println!("{}", "3. JetBrainsMono (JB)".cyan());
-    println!("{}", "4. Meslo (M)".cyan());
-    println!("{}", "5. Hack (H)".cyan());
-    println!("{}", "6. Exit (E)".cyan());
+    println!("{}", "1. FiraCode ".bold().cyan());
+    println!("{}", "2. FiraMono ".bold().cyan());
+    println!("{}", "3. JetBrainsMono ".bold().cyan());
+    println!("{}", "4. Meslo ".bold().cyan());
+    println!("{}", "5. Hack ".bold().cyan());
+    println!("{}", "6. Exit ".bold().cyan());
 
     // Options explanation
     println!("\nOptions:");
@@ -723,7 +723,7 @@ fn setup_fonts() {
     
     loop {
         let mut choice = String::new();
-        print!("{}", "Enter your font choice: ".bold().blue());
+        print!("{}", "Enter your font choice(FC/FM/JB/M/H/E): ".bold().blue());
         io::stdout().flush().unwrap();
         stdin.lock().read_line(&mut choice).expect("Failed to read line");
 
@@ -965,7 +965,7 @@ fn setup_alacritty() {
 fn setup_neovim() {
 
         println!("{}", "Important: If you have an existing Neovim configuration, make sure to back it up before proceeding".bold().red());
-        print!("Do you want to continue with the Neovim setup (y/n): ");
+        print!("{}", "Do you want to continue with the Neovim setup (y/n): ".bold().white());
         io::stdout().flush().expect("Failed to flush stdout");
     
         let mut response = String::new();
