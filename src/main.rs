@@ -6,7 +6,6 @@ use std::io::{self, Write, BufRead};
 use std::env;
 use colored::*;
 use std::fs::create_dir_all;
-use dirs;
 
 fn main() {
 
@@ -1020,7 +1019,7 @@ fn setup_neovim() {
     let repo_url = "https://github.com/aayushx402/neovim";
     let clone_dir = Path::new("/tmp/neovim-repo");
     if clone_dir.exists() {
-        fs::remove_dir_all(&clone_dir).unwrap();
+        fs::remove_dir_all(clone_dir).unwrap();
     }
 
     println!("Cloning Neovim configuration repository...");
