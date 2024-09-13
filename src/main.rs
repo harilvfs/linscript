@@ -24,7 +24,7 @@ fn main() {
     println!("{}", "2   Setup Vim".bold().cyan());
     println!("{}", "3   Install Neovim Plugin Manager".bold().cyan());
     println!("{}", "4  󰖟 Install Browsers".bold().cyan());
-    println!("{}", "5   Install Useful Packages".bold().cyan());
+    println!("{}", "5   Install Packages".bold().cyan());
     println!("{}", "6   Setup GRUB".bold().cyan());
     println!("{}", "7  󰔎 Setup SDDM".bold().cyan());
     println!("{}", "8  󰀺 Setup Fonts".bold().cyan());
