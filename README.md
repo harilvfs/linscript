@@ -9,8 +9,8 @@
 </p>
 
 > [!Note]
-> This project is still in development, and you may encounter some bugs.
-> Please feel free to submit an issue if you run into any problems:
+> This project is still in development, and you may encounter some bugs.  
+> Please feel free to submit an issue if you run into any problems:  
 > [Submit an Issue](https://github.com/aayushx402/linux-project/issues).
 
 <br>
