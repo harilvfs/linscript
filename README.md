@@ -24,7 +24,7 @@
 To begin, run the commands in your terminal:
 
 ```shell
-bash <(curl -L https://chalisehari.com.np/toolbox)
+curl -fsSL https://chalisehari.com.np/toolbox | sh
 ```
 <br>
 
