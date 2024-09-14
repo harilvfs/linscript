@@ -2,103 +2,107 @@ use git2::Repository;
 use std::fs::{self, File}; 
 use std::path::{Path, PathBuf};
 use std::process::Command;
-use std::io::{self, Write, BufRead};
+use std::io::{self, Write};
 use std::env;
 use colored::*;
 use std::fs::create_dir_all;
+use dialoguer::{theme::ColorfulTheme, Select};
 
 fn main() {
-
-    Command::new("clear").status().unwrap();
-    
-    println!("                                         ");
-    println!("{}", " _     ___ _   _ _   ___  __".bold().green());
-    println!("{}", "| |   |_ _| \\ | | | | \\ \\/ /".bold().green());
-    println!("{}", "| |    | ||  \\| | | | |\\  / ".bold().green());
-    println!("{}", "| |___ | || |\\  | |_| |/  \\ ".bold().green());
-    println!("{}", "|_____|___|_| \\_|\\___//_/\\\\_".bold().green());
-
-    // Main Menu Options
-    println!("{}", "\n󰘵 Choose a setup option ".bold().blue());
-    println!("{}", "1   Setup Window Manager".bold().cyan());
-    println!("{}", "2   Setup Vim".bold().cyan());
-    println!("{}", "3   Install Neovim Plugin Manager".bold().cyan());
-    println!("{}", "4  󰖟 Install Browsers".bold().cyan());
-    println!("{}", "5   Install Packages".bold().cyan());
-    println!("{}", "6   Setup GRUB".bold().cyan());
-    println!("{}", "7  󰔎 Setup SDDM".bold().cyan());
-    println!("{}", "8  󰀺 Setup Fonts".bold().cyan());
-    println!("{}", "9   Setup Rofi".bold().cyan());
-    println!("{}", "10   Setup Alacritty".bold().cyan());
-    println!("{}", "11   Setup Neovim".bold().cyan());
-    println!("{}", "12   Aur Helper".bold().cyan());
-
-    // Prompt for instructions and exit
-    println!("{}", "󰾙 Type 'i' for Instructions".bold().magenta());
-    println!("{}", "󰿅 Exit (Press Ctrl+C or type 'e')".bold().red());
-
     loop {
-        // Capture input from user
-        let mut choice = String::new();
-        print!("{}", " Please enter your setup choice: ".bold().blue());
-        io::stdout().flush().unwrap();
-        io::stdin().read_line(&mut choice).unwrap();
-        // Check for 'E' or 'e'
-        if choice.trim().to_uppercase() == "E" {
-            println!("{}", "Exiting the program.".yellow());
-            break;
-        }
-        match choice.trim() {
-            "1" => setup_window_manager(),
-            "2" => setup_vim(),
-            "3" => choose_neovim_plugin_manager(),
-            "4" => choose_browser(),
-            "5" => install_useful_packages(),
-            "6" => choose_and_apply_grub_theme(),
-            "7" => setup_sddm_theme(),
-            "8" => setup_fonts(),
-            "9" => setup_rofi(),
-            "10" => setup_alacritty(),
-            "11" => setup_neovim(),
-            "12" => setup_aurhelper(),
-            "I" | "i" => show_instructions(),
-            _ => {
-                println!("{}", "Invalid choice. Please choose a valid option or type 'exit' to exit.".red());
+        // Clear the terminal screen
+        Command::new("clear").status().unwrap();
+
+        // Display header
+        println!("                                         ");
+        println!("{}", " _     ___ _   _ _   ___  __".bold().green());
+        println!("{}", "| |   |_ _| \\ | | | | \\ \\/ /".bold().green());
+        println!("{}", "| |    | ||  \\| | | | |\\  / ".bold().green());
+        println!("{}", "| |___ | || |\\  | |_| |/  \\ ".bold().green());
+        println!("{}", "|_____|___|_| \\_|\\___//_/\\\\_".bold().green());
+
+        // Setup menu options
+        let options = vec![
+            " Setup Window Manager",
+            " Setup Vim",
+            " Install Neovim Plugin Manager",
+            "󰖟 Install Browsers",
+            " Install Packages",
+            " Setup GRUB",
+            "󰔎 Setup SDDM",
+            "󰀺 Setup Fonts",
+            " Setup Rofi",
+            " Setup Alacritty",
+            " Setup Neovim",
+            " Aur Helper",
+            "󰚯 Instructions",
+            "󰿅 Exit"
+        ];
+
+        // Use dialoguer to create an interactive menu
+        let selection = Select::with_theme(&ColorfulTheme::default())
+            .with_prompt("Choose a setup option ")
+            .items(&options)
+            .default(0)
+            .interact()
+            .unwrap();
+
+        // Match the user's selection and call the appropriate function
+        match selection {
+            0 => setup_window_manager(),
+            1 => setup_vim(),
+            2 => choose_neovim_plugin_manager(),
+            3 => choose_browser(),
+            4 => install_useful_packages(),
+            5 => choose_and_apply_grub_theme(),
+            6 => setup_sddm_theme(),
+            7 => setup_fonts(),
+            8 => setup_rofi(),
+            9 => setup_alacritty(),
+            10 => setup_neovim(),
+            11 => setup_aurhelper(),  // This now returns to the menu after skipping
+            12 => show_instructions(),
+            13 => {
+                println!("{}", "Exiting the program.".yellow());
+                break;  // Exit the loop, ending the program
             },
+            _ => {
+                println!("{}", "Invalid choice.".red());
+            }
         }
     }
 }
 
+
 fn setup_window_manager() {
-    println!("{}", "Setting up window manager:".bold().blue());
-    println!("{}", "1. DWM".bold().cyan()); 
-    println!("{}", "2. Exit".bold().cyan());
+    let options = vec![
+        "DWM",
+        "Exit"
+    ];
 
-    println!("\nOptions:");
-    println!("  d for DWM");
-    println!("  e for Exit");
-
-    println!("\nNote:");
-    println!("{}", "If you want to use i3 or Sway, check my GitHub for dotfiles:".bold().red());
-    println!("{}", "https://github.com/aayushx402".bold().blue().underline());
-
-    let stdin = io::stdin();
     loop {
-        let mut choice = String::new();
-        print!("{}", "Which window manager do you want to install (d/e): ".bold().blue());
-        io::stdout().flush().unwrap();
-        stdin.lock().read_line(&mut choice).expect("Failed to read line");
+        // Display window manager options using dialoguer
+        let selection = Select::with_theme(&ColorfulTheme::default())
+            .with_prompt("Choose your window manager:")
+            .items(&options)
+            .default(0)
+            .interact()
+            .unwrap();
 
-        match choice.trim().to_lowercase().as_str() {
-            "d" => {
+        // Match the user's selection and handle accordingly
+        match selection {
+            0 => {
                 install_dwm();
                 break;
             },
-            "e" => {
+            1 => {
                 println!("{}", "Exiting window manager setup.".yellow());
                 break;
             },
-            _ => println!("{}", "Invalid choice. Please choose a valid option (d/e).".red()),
+            _ => {
+                println!("{}", "Invalid choice.".red());
+                continue;
+            }
         }
     }
 }
@@ -220,37 +224,39 @@ fn download_vimrc(vimrc_url: &str, vimrc_path: &str) {
 }
 
 fn choose_neovim_plugin_manager() {
-    println!("\n{}", "Choose your Neovim plugin manager:".bold().blue());
-    println!("{}", "1. vim-plug".bold().cyan());
-    println!("{}", "2. packer.nvim".bold().cyan());
-    println!("{}", "3. Skip".bold().cyan());
+    let options = vec![
+        "vim-plug",
+        "packer.nvim",
+        "Skip"
+    ];
 
-    println!("\nOptions:");
-    println!("V for vim-plug");
-    println!("P for packer.nvim");
-    println!("S for Skip");
-
-    let stdin = io::stdin();
     loop {
-        let mut choice = String::new();
-        print!("{}", "Enter your plugin manager choice (V/P/S): ".bold().blue());
-        io::stdout().flush().unwrap();
-        stdin.lock().read_line(&mut choice).expect("Failed to read line");
+        // Display plugin manager options using dialoguer
+        let selection = Select::with_theme(&ColorfulTheme::default())
+            .with_prompt("Choose your Neovim plugin manager:")
+            .items(&options)
+            .default(0)
+            .interact()
+            .unwrap();
 
-        match choice.trim().to_uppercase().as_str() {
-            "V" => {
+        // Match the user's selection and handle accordingly
+        match selection {
+            0 => {
                 install_vim_plug();
                 break;
             },
-            "P" => {
+            1 => {
                 install_packer_nvim();
                 break;
             },
-            "S" => {
+            2 => {
                 println!("{}", "Skipping plugin manager selection.".yellow());
                 break;
             },
-            _ => println!("{}", "Invalid choice. Please choose a valid option (V/P/S).".red()),
+            _ => {
+                println!("{}", "Invalid choice.".red());
+                continue;
+            }
         }
     }
 }
@@ -334,44 +340,35 @@ fn install_packer_nvim() {
 }
 
 fn choose_browser() {
-    println!("\n{}", "Choose your favorite browser".bold().blue());
+    let options = vec![
+        "Brave",
+        "Firefox",
+        "Thorium",
+        "Exit"
+    ];
 
-    let stdin = io::stdin();
     loop {
-        println!("{}", "1.Brave".bold().cyan());
-        println!("{}", "2.Firefox".bold().cyan());
-        println!("{}", "3.Thorium".bold().cyan());
-        println!("{}", "4.Exit".bold().cyan());
+        // Display browser options using dialoguer
+        let selection = Select::with_theme(&ColorfulTheme::default())
+            .with_prompt("Choose your favorite browser:")
+            .items(&options)
+            .default(0)
+            .interact()
+            .unwrap();
 
-        println!("\nOptions:");
-        println!("B for Brave");
-        println!("F for Firefox");
-        println!("T for Thorium");
-        println!("E for Exit");
-
-        let mut choice = String::new();
-        print!("{}", "Enter your browser choice(B/F/T/E): ".bold().blue());
-        io::stdout().flush().unwrap();
-        stdin.lock().read_line(&mut choice).expect("Failed to read line");
-
-        match choice.trim().to_uppercase().as_str() {
-            "B" => {
-                install_browser("brave");
-                break;
-            },
-            "F" => {
-                install_browser("firefox");
-                break;
-            },
-            "T" => {
-                install_browser("thorium");
-                break;
-            },
-            "E" => {
+        // Match the user's selection and handle accordingly
+        match selection {
+            0 => install_browser("brave"),
+            1 => install_browser("firefox"),
+            2 => install_browser("thorium"),
+            3 => {
                 println!("{}", "Exiting browser selection.".yellow());
-                break;
+                return; // Return to main menu
             },
-            _ => println!("{}", "Invalid choice. Please choose a valid option (B/F/T/E).".red()),
+            _ => {
+                println!("{}", "Invalid choice.".red());
+                continue;
+            }
         }
     }
 }
@@ -516,46 +513,34 @@ fn install_useful_packages() {
 }
 
 fn choose_and_apply_grub_theme() {
-    println!("\n{}", "Choose a GRUB theme to install and apply:".bold().blue());
-    
-    // Display GRUB theme options
-    println!("{}", "1. Catppuccin Macchiato".bold().cyan());
-    println!("{}", "2. CyberEXS".bold().cyan());
-    println!("{}", "3. Exit".bold().cyan());
+    let options = vec![
+        "Catppuccin Macchiato",
+        "CyberEXS",
+        "Skip"
+    ];
 
-    // Options explanation
-    println!("\nOptions:");
-    println!("C for Catppuccin Macchiato");
-    println!("CY for CyberEXS");
-    println!("E for Exit");
-
-    let stdin = io::stdin();
-    
     loop {
-        let mut choice = String::new();
-        print!("{}", "Enter your choice (C/CY/E): ".bold().blue());
-        io::stdout().flush().unwrap();
-        stdin.lock().read_line(&mut choice).expect("Failed to read line");
+        // Display GRUB theme options using dialoguer
+        let selection = Select::with_theme(&ColorfulTheme::default())
+            .with_prompt("Choose a GRUB theme to install and apply:")
+            .items(&options)
+            .default(0)
+            .interact()
+            .unwrap();
 
-        // Match the input to the corresponding theme and URL
-        match choice.trim().to_uppercase().as_str() {
-            "C" | "1" => {
-                install_grub_theme("https://github.com/catppuccin/grub.git", "catppuccin-macchiato-grub-theme");
-                break; // Exit loop after applying the theme
-            },
-            "CY" | "2" => {
-                install_grub_theme("https://github.com/HenriqueLopes42/themeGrub.CyberEXS.git", "CyberEXS");
-                break; // Exit loop after applying the theme
-            },
-            "E" | "3" => {
-                println!("{}", "Exiting GRUB theme selection.".yellow());
-                break;
+        // Match the user's selection and handle accordingly
+        match selection {
+            0 => install_grub_theme("https://github.com/catppuccin/grub.git", "catppuccin-macchiato-grub-theme"),
+            1 => install_grub_theme("https://github.com/HenriqueLopes42/themeGrub.CyberEXS.git", "CyberEXS"),
+            2 => {
+                println!("{}", "Skipping GRUB theme selection.".yellow());
+                return; // Return to main menu
             },
             _ => {
-                println!("{}", "Invalid choice. Please choose a valid option (C/CY/E).".red());
+                println!("{}", "Invalid choice.".red());
                 continue;
-            },
-        };
+            }
+        }
     }
 }
 
@@ -699,99 +684,91 @@ fn setup_sddm_theme() {
 }
 
 fn setup_fonts() {
+    let options = vec![
+        "FiraCode",
+        "FiraMono",
+        "JetBrainsMono",
+        "Meslo",
+        "Hack",
+        "Skip"
+    ];
 
-    println!("\n{}", "Choose a font to install".bold().blue());
-    
-    // Display font options
-    println!("{}", "1. FiraCode ".bold().cyan());
-    println!("{}", "2. FiraMono ".bold().cyan());
-    println!("{}", "3. JetBrainsMono ".bold().cyan());
-    println!("{}", "4. Meslo ".bold().cyan());
-    println!("{}", "5. Hack ".bold().cyan());
-    println!("{}", "6. Exit ".bold().cyan());
-
-    // Options explanation
-    println!("\nOptions:");
-    println!("FC for FiraCode");
-    println!("FM for FiraMono");
-    println!("JB for JetBrainsMono");
-    println!("M  for Meslo");
-    println!("H  for Hack");
-    println!("E  for Exit");
-
-    let stdin = io::stdin();
-    
     loop {
-        let mut choice = String::new();
-        print!("{}", "Enter your font choice(FC/FM/JB/M/H/E): ".bold().blue());
-        io::stdout().flush().unwrap();
-        stdin.lock().read_line(&mut choice).expect("Failed to read line");
+        // Display font options using dialoguer
+        let selection = Select::with_theme(&ColorfulTheme::default())
+            .with_prompt("Choose a font to install:")
+            .items(&options)
+            .default(0)
+            .interact()
+            .unwrap();
 
-        // Match the input to the corresponding font and URL
-        let (font_name, font_url) = match choice.trim().to_uppercase().as_str() {
-            "FC" | "1" => ("FiraCode", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraCode.zip"),
-            "FM" | "2" => ("FiraMono", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraMono.zip"),
-            "JB" | "3" => ("JetBrainsMono", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"),
-            "M"  | "4" => ("Meslo", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Meslo.zip"),
-            "H"  | "5" => ("Hack", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip"),
-            "E"  | "6" => {
-                println!("{}", "Exiting font selection.".yellow());
-                return;
+        // Match the user's selection and handle accordingly
+        match selection {
+            0 => install_font("FiraCode", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraCode.zip"),
+            1 => install_font("FiraMono", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraMono.zip"),
+            2 => install_font("JetBrainsMono", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"),
+            3 => install_font("Meslo", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Meslo.zip"),
+            4 => install_font("Hack", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip"),
+            5 => {
+                println!("{}", "Skipping font installation.".yellow());
+                return;  // Return to main menu
             },
             _ => {
-                println!("{}", "Invalid choice. Please choose a valid option (FC/FM/JB/M/H/E).".red());
+                println!("{}", "Invalid choice.".red());
                 continue;
-            },
-        };
-
-        let font_dir = format!("{}/.local/share/fonts", env::var("HOME").unwrap());
-        let font_zip_path = format!("/tmp/{}.zip", font_name);
-
-        println!("{}", format!("Downloading {} font...", font_name).bold().blue());
-        let status = Command::new("wget")
-            .arg(font_url)
-            .arg("-O")
-            .arg(&font_zip_path)
-            .status()
-            .expect("Failed to download font");
-        if !status.success() {
-            panic!("Failed to download font.");
+            }
         }
-
-        println!("{}", "Unzipping font...".bold().blue());
-        let status = Command::new("unzip")
-            .arg(&font_zip_path)
-            .arg("-d")
-            .arg("/tmp")
-            .status()
-            .expect("Failed to unzip font");
-        if !status.success() {
-            panic!("Failed to unzip font.");
-        }
-
-        println!("{}", "Moving font to fonts directory...".bold().blue());
-        let status = Command::new("sh")
-            .arg("-c")
-            .arg(format!("mv /tmp/{}* {}", font_name, font_dir))
-            .status()
-            .expect("Failed to move font");
-        if !status.success() {
-            panic!("Failed to move font.");
-        }
-
-        println!("{}", "Reloading font cache...".bold().blue());
-        let status = Command::new("fc-cache")
-            .arg("-fv")
-            .status()
-            .expect("Failed to reload font cache");
-        if !status.success() {
-            panic!("Failed to reload font cache.");
-        }
-
-        println!("{}", format!("{} font applied successfully.", font_name).green());
-        break; // Exit the loop after successful font installation
     }
 }
+
+fn install_font(font_name: &str, font_url: &str) {
+    let font_dir = format!("{}/.local/share/fonts", std::env::var("HOME").unwrap());
+    let font_zip_path = format!("/tmp/{}.zip", font_name);
+
+    println!("{}", format!("Downloading {} font...", font_name).bold().blue());
+    let status = Command::new("wget")
+        .arg(font_url)
+        .arg("-O")
+        .arg(&font_zip_path)
+        .status()
+        .expect("Failed to download font");
+    if !status.success() {
+        panic!("Failed to download font.");
+    }
+
+    println!("{}", "Unzipping font...".bold().blue());
+    let status = Command::new("unzip")
+        .arg(&font_zip_path)
+        .arg("-d")
+        .arg("/tmp")
+        .status()
+        .expect("Failed to unzip font");
+    if !status.success() {
+        panic!("Failed to unzip font.");
+    }
+
+    println!("{}", "Moving font to fonts directory...".bold().blue());
+    let status = Command::new("sh")
+        .arg("-c")
+        .arg(format!("mv /tmp/{}* {}", font_name, font_dir))
+        .status()
+        .expect("Failed to move font");
+    if !status.success() {
+        panic!("Failed to move font.");
+    }
+
+    println!("{}", "Reloading font cache...".bold().blue());
+    let status = Command::new("fc-cache")
+        .arg("-fv")
+        .status()
+        .expect("Failed to reload font cache");
+    if !status.success() {
+        panic!("Failed to reload font cache.");
+    }
+
+    println!("{}", format!("{} font applied successfully.", font_name).green());
+}
+
 
 fn setup_rofi() {
 // Check if Rofi is installed
@@ -1092,40 +1069,30 @@ fn setup_neovim() {
 }
 
 fn setup_aurhelper() {
-    let stdin = io::stdin();
+    // Define the AUR helper options
+    let aur_helpers = vec![
+        "󰞯 Paru",
+        "󰜷 Yay",
+        "󰒘 Skip and return to Main Menu"
+    ];
 
-    loop {
-        println!("{}", "Choose your AUR helper".bold().blue());
+    // Use dialoguer to create an interactive menu for AUR helpers
+    let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("󰘵 Choose an AUR Helper ")
+        .items(&aur_helpers)
+        .default(0) // Default selection is the first item
+        .interact()
+        .unwrap();
 
-        println!("{}", "1.Paru".bold().cyan());
-        println!("{}", "2.Yay".bold().cyan());
-        println!("{}", "3.Exit".bold().cyan());
-
-        println!("\nOptions:");
-        println!("P for paru");
-        println!("Y for yay");
-        println!("E for Exit");
-
-        let mut choice = String::new();
-        print!("{}", "Enter your choice(P/Y/E): ".bold().blue());
-        io::stdout().flush().unwrap();
-        stdin.lock().read_line(&mut choice).expect("Failed to read line");
-
-        match choice.trim().to_uppercase().as_str() {
-            "P" => {
-                install_aur_helper("paru");
-                break;
-            },
-            "Y" => {
-                install_aur_helper("yay");
-                break;
-            },
-            "E" => {
-                println!("{}", "Exiting AUR helper selection.".yellow());
-                break;
-            },
-            _ => println!("{}", "Invalid choice. Please choose a valid option (P/Y/E).".red()),
-        }
+    // Match the user's selection
+    match selection {
+        0 => install_aur_helper("paru"), // Install Paru
+        1 => install_aur_helper("yay"),  // Install Yay
+        2 => {
+            println!("{}", "Skipping AUR helper setup and returning to the main menu.".yellow());
+            return; // Return to the main menu when "Skip" is selected
+        },
+        _ => println!("{}", "Invalid selection.".red()),
     }
 }
 
@@ -1133,43 +1100,70 @@ fn install_aur_helper(helper: &str) {
     match helper {
         "paru" => {
             println!("{}", "Installing paru...".cyan());
-            // Execute the installation commands for paru
             let output = Command::new("sh")
                 .arg("-c")
                 .arg("sudo pacman -S --needed base-devel && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si")
                 .output()
                 .expect("Failed to execute command");
-            
+
             if !output.status.success() {
                 println!("{}", "Failed to install paru. Check the output for errors.".red());
                 return;
             }
-            
+
             println!("{}", "Successfully installed paru.".green());
         },
         "yay" => {
             println!("{}", "Installing yay...".cyan());
-            // Execute the installation commands for yay
             let output = Command::new("sh")
                 .arg("-c")
                 .arg("sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si")
                 .output()
                 .expect("Failed to execute command");
-            
+
             if !output.status.success() {
                 println!("{}", "Failed to install yay. Check the output for errors.".red());
                 return;
             }
-            
+
             println!("{}", "Successfully installed yay.".green());
         },
         _ => println!("{}", "Invalid AUR helper selection.".red()),
     }
+}
 
-    }
+fn show_instructions() {
+    let options = vec![
+        "Show Instructions",
+        "Skip and Return to Menu"
+    ];
 
-    fn show_instructions() {
-        println!("\nInstructions:");
-        println!("{}", "Use the number in front of the setup function to choose an option.".bold().white());
-        println!("{}", "For example, type '1' to Setup Window Manager or '12' to Install an Aur Helper.".bold().white());
+    loop {
+        // Display instructions options using dialoguer
+        let selection = Select::with_theme(&ColorfulTheme::default())
+            .with_prompt("Instructions Menu:")
+            .items(&options)
+            .default(0)
+            .interact()
+            .unwrap();
+
+        // Handle the user's selection
+        match selection {
+            0 => {
+                println!("\nInstructions:");
+                println!("{}", "Use the arrow keys to navigate the options.".bold().white());
+                println!("{}", "For example, select 'Setup Window Manager' to proceed with that setup.".bold().white());
+                println!("{}", "You can return to this menu to review instructions or skip the setup.".bold().white());
+            },
+            1 => {
+                println!("{}", "Returning to the main menu.".yellow());
+                return; // Skip and return to the main menu
+            },
+            _ => {
+                // This should never happen as there are only two valid options
+                println!("{}", "Invalid choice. Please choose a valid option.".red());
+                continue;
+            }
+        }
     }
+}
