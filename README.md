@@ -9,12 +9,15 @@
 </p>
 
 > [!Note]
-> This project is still in development, and you may encounter some bugs. Please feel free to submit an issue if you run into any problems: [Submit an Issue](https://github.com/aayushx402/linux-project/issues).
+> This project is still in development, and you may encounter some bugs.
+> Please feel free to submit an issue if you run into any problems:
+> [Submit an Issue](https://github.com/aayushx402/linux-project/issues).
 
 <br>
 
 > [!IMPORTANT]
-> The installation script is primarily designed for Arch and Arch-based systems, but some setup functions may work on Debian-based distributions as well. If you encounter any issues, please submit a report via an issue. Thank you!
+> The installation script is primarily designed for Arch and Arch-based systems, but some setup functions may work on Debian-based distributions as well.  
+> If you encounter any issues, please submit a report via an issue. Thank you!
 
 <img src='https://github.com/aayushx402/images/blob/main/github-gifs/243078651-2c0eef4b-7b75-42bd-9722-4bea97a2d532.gif' width="30">**Installation**
 
@@ -33,7 +36,7 @@ bash <(curl -L https://chalisehari.com.np/toolbox)
 
 <strong><img src='https://user-images.githubusercontent.com/74038190/216120981-b9507c36-0e04-4469-8e27-c99271b45ba5.png' width="20"> **Contributors** </strong>
 
-<strong>*Thanks to everyone who 'helped' make Linux Project better. Your 'contributions' are noted!* </strong>
+<strong>*Thanks to everyone who helped make **Linux Project** better. Your contributions are greatly appreciated!* </strong>
 
 [![Contributors](https://contrib.rocks/image?repo=aayushx402/linux-project)](https://github.com/aayushx402/linux-project/graphs/contributors)
 
