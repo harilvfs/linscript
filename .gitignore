@@ -1,4 +1,4 @@
-target/
-build/
-rust/target
-rust/build
+/target
+/build
+GitHub/linux-project/target
+GitHub/linux-project/build
