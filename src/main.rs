@@ -20,7 +20,7 @@ fn main() {
         );
         println!(
             "{}",
-            "║            󱓟  Setup Script v0.6  󱘗               ║"
+            "║            󱓟  Setup Script v0.7  󱘗               ║"
                 .bold()
                 .green()
         );
