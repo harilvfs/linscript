@@ -10,18 +10,17 @@ use dialoguer::{theme::ColorfulTheme, Select};
 
 fn main() {
     loop {
-        // Clear the terminal screen
         Command::new("clear").status().unwrap();
 
-        // Display header
-        println!("                                         ");
-        println!("{}", " _     ___ _   _ _   ___  __".bold().green());
-        println!("{}", "| |   |_ _| \\ | | | | \\ \\/ /".bold().green());
-        println!("{}", "| |    | ||  \\| | | | |\\  / ".bold().green());
-        println!("{}", "| |___ | || |\\  | |_| |/  \\ ".bold().green());
-        println!("{}", "|_____|___|_| \\_|\\___//_/\\\\_".bold().green());
+        println!("\n{}", "╔══════════════════════════════════════════════════╗".bold().green());
+        println!("{}", "║            󱓟  Setup Script v0.6  󱘗               ║".bold().green());
+        println!("{}", "╚══════════════════════════════════════════════════╝".bold().green());
+        println!("{}", "      Simplifying your  system setup process!         ".bold().green());
+        println!("{}", "────────────────────────────────────────────────────".bold().green());
+        println!("{}", "     Use the arrow keys to navigate the menu         ".bold().yellow());
+        println!("{}", "────────────────────────────────────────────────────\n".bold().green());
 
-        // Setup menu options
+
         let options = vec![
             " Setup Window Manager",
             " Setup Vim",
@@ -33,13 +32,13 @@ fn main() {
             "󰀺 Setup Fonts",
             " Setup Rofi",
             " Setup Alacritty",
+            "󰄛 Setup Kitty",
             " Setup Neovim",
             " Aur Helper",
             "󰚯 Instructions",
             "󰿅 Exit"
         ];
 
-        // Use dialoguer to create an interactive menu
         let selection = Select::with_theme(&ColorfulTheme::default())
             .with_prompt("Choose a setup option ")
             .items(&options)
@@ -47,7 +46,6 @@ fn main() {
             .interact()
             .unwrap();
 
-        // Match the user's selection and call the appropriate function
         match selection {
             0 => setup_window_manager(),
             1 => setup_vim(),
@@ -59,12 +57,13 @@ fn main() {
             7 => setup_fonts(),
             8 => setup_rofi(),
             9 => setup_alacritty(),
-            10 => setup_neovim(),
-            11 => setup_aurhelper(),  // This now returns to the menu after skipping
-            12 => show_instructions(),
-            13 => {
+            10 => setup_kitty(),
+            11 => setup_neovim(),
+            12 => setup_aurhelper(),  
+            13 => show_instructions(),
+            14 => {
                 println!("{}", "Exiting the program.".yellow());
-                break;  // Exit the loop, ending the program
+                break;
             },
             _ => {
                 println!("{}", "Invalid choice.".red());
@@ -76,12 +75,12 @@ fn main() {
 
 fn setup_window_manager() {
     let options = vec![
-        "DWM",
-        "Exit"
+        "󰞯 DWM",
+        "󰒘 Skip and return to Main Menu"
     ];
 
     loop {
-        // Display window manager options using dialoguer
+
         let selection = Select::with_theme(&ColorfulTheme::default())
             .with_prompt("Choose your window manager:")
             .items(&options)
@@ -89,7 +88,6 @@ fn setup_window_manager() {
             .interact()
             .unwrap();
 
-        // Match the user's selection and handle accordingly
         match selection {
             0 => {
                 install_dwm();
@@ -136,7 +134,6 @@ fn setup_vim() {
 let vimrc_url = "https://raw.githubusercontent.com/aayushx402/MyVim/main/vimrc";
     let vimrc_path = "/etc/vimrc";
 
-    // Check if Vim is installed
     let vim_check = Command::new("vim")
         .arg("--version")
         .output();
@@ -225,13 +222,13 @@ fn download_vimrc(vimrc_url: &str, vimrc_path: &str) {
 
 fn choose_neovim_plugin_manager() {
     let options = vec![
-        "vim-plug",
-        "packer.nvim",
-        "Skip"
+        "󰞯 vim-plug",
+        "󰜷 packer.nvim",
+        "󰒘 Skip"
     ];
 
     loop {
-        // Display plugin manager options using dialoguer
+
         let selection = Select::with_theme(&ColorfulTheme::default())
             .with_prompt("Choose your Neovim plugin manager:")
             .items(&options)
@@ -239,7 +236,6 @@ fn choose_neovim_plugin_manager() {
             .interact()
             .unwrap();
 
-        // Match the user's selection and handle accordingly
         match selection {
             0 => {
                 install_vim_plug();
@@ -341,14 +337,14 @@ fn install_packer_nvim() {
 
 fn choose_browser() {
     let options = vec![
-        "Brave",
-        "Firefox",
-        "Thorium",
-        "Exit"
+        "󰯯 Brave",
+        " Firefox",
+        " Thorium",
+        "󰒘 Skip and return to Main Menu"
     ];
 
     loop {
-        // Display browser options using dialoguer
+
         let selection = Select::with_theme(&ColorfulTheme::default())
             .with_prompt("Choose your favorite browser:")
             .items(&options)
@@ -356,7 +352,6 @@ fn choose_browser() {
             .interact()
             .unwrap();
 
-        // Match the user's selection and handle accordingly
         match selection {
             0 => install_browser("brave"),
             1 => install_browser("firefox"),
@@ -494,7 +489,7 @@ fn install_useful_packages() {
     }
 
     print!("{}","Do you want to proceed with the installation? (y/n): ".bold().blue());
-    io::stdout().flush().unwrap();  // Ensure the prompt is printed immediately
+    io::stdout().flush().unwrap(); 
 
     let mut choice = String::new();
     io::stdin().read_line(&mut choice).unwrap();
@@ -514,13 +509,13 @@ fn install_useful_packages() {
 
 fn choose_and_apply_grub_theme() {
     let options = vec![
-        "Catppuccin Macchiato",
-        "CyberEXS",
-        "Skip"
+        "󰔎 Catppuccin Macchiato",
+        " CyberEXS",
+        "󰒘 Skip"
     ];
 
     loop {
-        // Display GRUB theme options using dialoguer
+        
         let selection = Select::with_theme(&ColorfulTheme::default())
             .with_prompt("Choose a GRUB theme to install and apply:")
             .items(&options)
@@ -528,13 +523,13 @@ fn choose_and_apply_grub_theme() {
             .interact()
             .unwrap();
 
-        // Match the user's selection and handle accordingly
+        
         match selection {
             0 => install_grub_theme("https://github.com/catppuccin/grub.git", "catppuccin-macchiato-grub-theme"),
             1 => install_grub_theme("https://github.com/HenriqueLopes42/themeGrub.CyberEXS.git", "CyberEXS"),
             2 => {
                 println!("{}", "Skipping GRUB theme selection.".yellow());
-                return; // Return to main menu
+                return; 
             },
             _ => {
                 println!("{}", "Invalid choice.".red());
@@ -564,7 +559,6 @@ fn install_grub_theme(repo_url: &str, theme_name: &str) {
         fs::create_dir_all(&grub_theme_dir).expect("Failed to create theme directory.");
     }
 
-    // Copy the theme to the GRUB theme directory
     let status = Command::new("sudo")
         .arg("cp")
         .arg("-r")
@@ -589,7 +583,6 @@ fn install_grub_theme(repo_url: &str, theme_name: &str) {
         theme_path_in_grub
     );
 
-    // Update the GRUB configuration file with the new theme line
     let status = Command::new("sudo")
         .arg("sh")
         .arg("-c")
@@ -609,7 +602,6 @@ fn install_grub_theme(repo_url: &str, theme_name: &str) {
         panic!("Failed to update GRUB configuration with sudo.");
     }
 
-    // Regenerate the GRUB configuration
     let status = Command::new("sudo")
         .arg("grub-mkconfig")
         .arg("-o")
@@ -630,7 +622,6 @@ fn setup_sddm_theme() {
     let theme_zip_path = "/tmp/catppuccin-mocha.zip";
     let _theme_dir = "/usr/share/sddm/themes/catppuccin-mocha";
 
-    // Download the theme zip file
     println!("{}", "Downloading SDDM theme...".bold().blue());
     let status = Command::new("wget")
         .arg(theme_url)
@@ -642,7 +633,6 @@ fn setup_sddm_theme() {
         panic!("Failed to download SDDM theme.");
     }
 
-    // Unzip the downloaded file
     println!("{}", "Unzipping SDDM theme...".bold().blue());
     let status = Command::new("unzip")
         .arg(theme_zip_path)
@@ -654,7 +644,6 @@ fn setup_sddm_theme() {
         panic!("Failed to unzip SDDM theme.");
     }
 
-    // Copy the unzipped theme to the SDDM themes directory
     println!("{}", "Copying SDDM theme to /usr/share/sddm/themes/...".bold().blue());
     let status = Command::new("sudo")
         .arg("cp")
@@ -667,7 +656,6 @@ fn setup_sddm_theme() {
         panic!("Failed to copy SDDM theme.");
     }
 
-    // Update the SDDM configuration file to apply the new theme
     println!("{}", "Updating SDDM configuration...".bold().blue());
     let status = Command::new("sudo")
         .arg("sh")
@@ -679,22 +667,21 @@ fn setup_sddm_theme() {
         panic!("Failed to update SDDM configuration.");
     }
 
-    // Notify the user that the theme has been applied
     println!("{}", "SDDM theme applied: catppuccin-mocha".green());
 }
 
 fn setup_fonts() {
     let options = vec![
-        "FiraCode",
-        "FiraMono",
-        "JetBrainsMono",
-        "Meslo",
-        "Hack",
-        "Skip"
+        " FiraCode",
+        " FiraMono",
+        " JetBrainsMono",
+        " Meslo",
+        " Hack",
+        "󰒘 Skip"
     ];
 
     loop {
-        // Display font options using dialoguer
+       
         let selection = Select::with_theme(&ColorfulTheme::default())
             .with_prompt("Choose a font to install:")
             .items(&options)
@@ -702,7 +689,7 @@ fn setup_fonts() {
             .interact()
             .unwrap();
 
-        // Match the user's selection and handle accordingly
+
         match selection {
             0 => install_font("FiraCode", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraCode.zip"),
             1 => install_font("FiraMono", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraMono.zip"),
@@ -711,7 +698,7 @@ fn setup_fonts() {
             4 => install_font("Hack", "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip"),
             5 => {
                 println!("{}", "Skipping font installation.".yellow());
-                return;  // Return to main menu
+                return;  
             },
             _ => {
                 println!("{}", "Invalid choice.".red());
@@ -771,7 +758,7 @@ fn install_font(font_name: &str, font_url: &str) {
 
 
 fn setup_rofi() {
-// Check if Rofi is installed
+
 let check_rofi = Command::new("pacman")
 .arg("-Qs")
 .arg("rofi")
@@ -796,7 +783,7 @@ if !install_rofi.status.success() {
 println!("Rofi is already installed. Skipping installation...");
 }
 
-// Backup existing Rofi config if exists
+
 let home_dir = env::var("HOME").unwrap();
 let rofi_config_dir = format!("{}/.config/rofi", home_dir);
 let backup_dir = format!("{}/.config/rofi.bak", home_dir);
@@ -816,14 +803,14 @@ if !backup_status.status.success() {
 }
 }
 
-// Create the Rofi config directory
+
 println!("Setting up Rofi configuration...");
 if let Err(e) = create_dir_all(&rofi_config_dir) {
 eprintln!("Failed to create Rofi config directory: {}", e);
 return;
 }
 
-// Download the new Rofi config and themes
+
 let config_url = "https://raw.githubusercontent.com/aayushx402/dwm-ayx/main/config/rofi/config.rasi";
 let theme_dir = format!("{}/themes", rofi_config_dir);
 let nord_theme_url = "https://raw.githubusercontent.com/aayushx402/dwm-ayx/main/config/rofi/themes/nord.rasi";
@@ -854,7 +841,7 @@ match wget {
 }
 }
 
-// Notify the user setup is complete
+
 println!("Rofi setup complete!");
 
 }
@@ -885,7 +872,7 @@ fn setup_alacritty() {
         println!("Alacritty is already installed. Skipping installation...");
     }
 
-    // Backup existing Alacritty config if exists
+   
     let home_dir = env::var("HOME").unwrap();
     let alacritty_config_dir = format!("{}/.config/alacritty", home_dir);
     let backup_dir = format!("{}/.config/alacritty-bak", home_dir);
@@ -905,14 +892,12 @@ fn setup_alacritty() {
         }
     }
 
-    // Create the Alacritty config directory
     println!("Setting up Alacritty configuration...");
     if let Err(e) = create_dir_all(&alacritty_config_dir) {
         eprintln!("Failed to create Alacritty config directory: {}", e);
         return;
     }
 
-    // Download the new Alacritty config files
     let alacritty_config_url = "https://raw.githubusercontent.com/aayushx402/dwm-ayx/main/config/alacritty/alacritty.toml";
     let nordic_theme_url = "https://raw.githubusercontent.com/aayushx402/dwm-ayx/main/config/alacritty/nordic.toml";
 
@@ -935,8 +920,66 @@ fn setup_alacritty() {
         }
     }
 
-    // Notify the user setup is complete
     println!("Alacritty setup complete!");
+}
+
+fn setup_kitty() {
+
+    let kitty_installed = Command::new("which")
+        .arg("kitty")
+        .status()
+        .unwrap()
+        .success();
+
+    if !kitty_installed {
+        println!("Kitty not found. Installing with pacman...");
+        Command::new("sudo")
+            .arg("pacman")
+            .arg("-S")
+            .arg("kitty")
+            .arg("--noconfirm")
+            .status()
+            .expect("Failed to install Kitty");
+        println!("Kitty installed.");
+    } else {
+        println!("Kitty is already installed. Skipping installation.");
+    }
+
+
+    let kitty_config_path = format!("{}/.config/kitty", dirs::home_dir().unwrap().display());
+    let backup_path = format!("{}/.config/kitty-bak", dirs::home_dir().unwrap().display());
+
+
+    if Path::new(&kitty_config_path).exists() {
+
+        if Path::new(&backup_path).exists() {
+            println!("Removing old backup at ~/.config/kitty-bak...");
+            fs::remove_dir_all(&backup_path).expect("Failed to remove old kitty backup");
+        }
+        println!("Backing up existing kitty configuration...");
+        fs::rename(&kitty_config_path, &backup_path).expect("Failed to backup kitty configuration");
+        println!("Kitty configuration backed up to ~/.config/kitty-bak.");
+    }
+
+    fs::create_dir_all(&kitty_config_path).expect("Failed to create kitty config directory");
+
+    println!("Downloading kitty configuration files...");
+    Command::new("wget")
+        .arg("-O")
+        .arg(format!("{}/kitty.conf", &kitty_config_path))
+        .arg("https://raw.githubusercontent.com/aayushx402/dwm-ayx/main/config/kitty/kitty.conf")
+        .status()
+        .expect("Failed to download kitty.conf");
+
+    Command::new("wget")
+        .arg("-O")
+        .arg(format!("{}/nord.conf", &kitty_config_path))
+        .arg("https://raw.githubusercontent.com/aayushx402/dwm-ayx/main/config/kitty/nord.conf")
+        .status()
+        .expect("Failed to download nord.conf");
+
+    println!("Kitty configuration applied successfully!");
+
 }
 
 fn setup_neovim() {
@@ -981,13 +1024,11 @@ fn setup_neovim() {
         fs::create_dir_all(&toolbox_dir).expect("Failed to create $HOME/TOOLBOX directory");
     }
 
-    // Create $TOOLBOX/neovim directory if it doesn't exist
     let toolbox_neovim_dir = toolbox_dir.join("neovim");
     if !toolbox_neovim_dir.exists() {
         fs::create_dir_all(&toolbox_neovim_dir).expect("Failed to create $TOOLBOX/neovim directory");
     }
 
-    //  Backup existing .config/nvim if it exists
     let nvim_config_dir = home_dir.join(".config/nvim");
     if nvim_config_dir.exists() {
         println!("Backing up existing Neovim configuration...");
@@ -1028,7 +1069,6 @@ fn setup_neovim() {
         }
     }
 
-    //  Share system clipboard with unnamedplus
     let os_release_path = Path::new("/etc/os-release");
     if os_release_path.exists() {
         let output = Command::new("sh")
@@ -1069,28 +1109,26 @@ fn setup_neovim() {
 }
 
 fn setup_aurhelper() {
-    // Define the AUR helper options
+
     let aur_helpers = vec![
         "󰞯 Paru",
         "󰜷 Yay",
         "󰒘 Skip and return to Main Menu"
     ];
 
-    // Use dialoguer to create an interactive menu for AUR helpers
     let selection = Select::with_theme(&ColorfulTheme::default())
         .with_prompt("󰘵 Choose an AUR Helper ")
         .items(&aur_helpers)
-        .default(0) // Default selection is the first item
+        .default(0) 
         .interact()
         .unwrap();
 
-    // Match the user's selection
     match selection {
         0 => install_aur_helper("paru"), // Install Paru
         1 => install_aur_helper("yay"),  // Install Yay
         2 => {
             println!("{}", "Skipping AUR helper setup and returning to the main menu.".yellow());
-            return; // Return to the main menu when "Skip" is selected
+            return;
         },
         _ => println!("{}", "Invalid selection.".red()),
     }
@@ -1132,14 +1170,15 @@ fn install_aur_helper(helper: &str) {
     }
 }
 
+
 fn show_instructions() {
     let options = vec![
-        "Show Instructions",
-        "Skip and Return to Menu"
+        "󰰃 Show Instructions",
+        "󰒘 Skip and Return to Menu"
     ];
 
     loop {
-        // Display instructions options using dialoguer
+
         let selection = Select::with_theme(&ColorfulTheme::default())
             .with_prompt("Instructions Menu:")
             .items(&options)
@@ -1147,7 +1186,6 @@ fn show_instructions() {
             .interact()
             .unwrap();
 
-        // Handle the user's selection
         match selection {
             0 => {
                 println!("\nInstructions:");
@@ -1157,10 +1195,9 @@ fn show_instructions() {
             },
             1 => {
                 println!("{}", "Returning to the main menu.".yellow());
-                return; // Skip and return to the main menu
+                return;
             },
             _ => {
-                // This should never happen as there are only two valid options
                 println!("{}", "Invalid choice. Please choose a valid option.".red());
                 continue;
             }
