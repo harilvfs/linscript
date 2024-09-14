@@ -1,3 +1,0 @@
-*.rs linguist-language=Rust
-*.make linguist-language=Makefile
-*.mk linguist-language=Makefile
