@@ -8,6 +8,14 @@
   <img src="https://github.com/aayushx402/linux-project/blob/main/preview.png" alt="Preview">
 </p>
 
+<img src='https://github.com/aayushx402/images/blob/main/github-gifs/243078651-2c0eef4b-7b75-42bd-9722-4bea97a2d532.gif' width="30">**Installation**
+
+To begin, run the commands in your terminal:
+
+```shell
+curl -fsSL https://chalisehari.com.np/toolbox | sh
+```
+
 > [!Note]
 > This project is still in development, and you may encounter some bugs.  
 > Please feel free to submit an issue if you run into any problems:  
@@ -18,14 +26,7 @@
 > [!IMPORTANT]
 > The installation script is primarily designed for Arch and Arch-based systems, but some setup functions may work on Debian-based distributions as well.  
 > If you encounter any issues, please submit a report via an issue. Thank you!
-
-<img src='https://github.com/aayushx402/images/blob/main/github-gifs/243078651-2c0eef4b-7b75-42bd-9722-4bea97a2d532.gif' width="30">**Installation**
-
-To begin, run the commands in your terminal:
-
-```shell
-curl -fsSL https://chalisehari.com.np/toolbox | sh
-```
+> 
 <br>
 
 <strong><img src='https://user-images.githubusercontent.com/74038190/216122069-5b8169d7-1d8e-4a13-b245-a8e4176c99f8.png' width="20"> **Support** </strong>
