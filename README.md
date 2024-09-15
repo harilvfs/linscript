@@ -8,6 +8,13 @@
   <img src="https://github.com/aayushx402/linux-project/blob/main/preview.png" alt="Preview">
 </p>
 
+> [!Note]
+> This project is still in development, and you may encounter some bugs.  
+> Please feel free to submit an issue if you run into any problems:  
+> [Submit an Issue](https://github.com/aayushx402/linux-project/issues).
+
+<br>
+
 <img src='https://github.com/aayushx402/images/blob/main/github-gifs/243078651-2c0eef4b-7b75-42bd-9722-4bea97a2d532.gif' width="30">**Installation**
 
 To begin, run the commands in your terminal:
@@ -15,12 +22,6 @@ To begin, run the commands in your terminal:
 ```shell
 curl -fsSL https://chalisehari.com.np/toolbox | sh
 ```
-
-> [!Note]
-> This project is still in development, and you may encounter some bugs.  
-> Please feel free to submit an issue if you run into any problems:  
-> [Submit an Issue](https://github.com/aayushx402/linux-project/issues).
-
 <br>
 
 > [!IMPORTANT]
