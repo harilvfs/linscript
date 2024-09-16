@@ -16,15 +16,60 @@ fn main() {
 
         let current_date = Local::now().format("%Y-%m-%d").to_string();
 
-        println!("{}", " ___       ___  ________   ___  ___     ___    ___   ".bold().yellow());
-        println!("{}", "|\\  \\     |\\  \\|\\   ___  \\|\\  \\|\\  \\   |\\  \\  /  /|".bold().yellow());
-        println!("{}", "\\ \\  \\    \\ \\  \\ \\  \\\\ \\  \\ \\  \\\\   \\  \\ \\  \\/  / /".bold().yellow());
-        println!("{}", " \\ \\  \\    \\ \\  \\ \\  \\\\ \\  \\ \\  \\\\   \\  \\ \\    / / ".bold().yellow());
-        println!("{}", "  \\ \\  \\____\\ \\  \\ \\  \\\\ \\  \\ \\  \\\\   \\  /     \\/  ".bold().yellow());
-        println!("{}", "   \\ \\_______\\ \\__\\ \\__\\\\ \\__\\ \\_______\\/  /\\   \\  ".bold().yellow());
-        println!("{}", "    \\|_______|\\|__|\\|__| \\|__|\\|_______/__/ /\\ __\\ ".bold().yellow());
-        println!("{}", "                                       |__|/ \\|__| ".bold().yellow());
-        println!("{}", "        Use arrow keys to navigate the menu 󰄼".bold().bright_blue());
+        println!(
+            "{}",
+            " ___       ___  ________   ___  ___     ___    ___   "
+                .bold()
+                .yellow()
+        );
+        println!(
+            "{}",
+            "|\\  \\     |\\  \\|\\   ___  \\|\\  \\|\\  \\   |\\  \\  /  /|"
+                .bold()
+                .yellow()
+        );
+        println!(
+            "{}",
+            "\\ \\  \\    \\ \\  \\ \\  \\\\ \\  \\ \\  \\\\   \\  \\ \\  \\/  / /"
+                .bold()
+                .yellow()
+        );
+        println!(
+            "{}",
+            " \\ \\  \\    \\ \\  \\ \\  \\\\ \\  \\ \\  \\\\   \\  \\ \\    / / "
+                .bold()
+                .yellow()
+        );
+        println!(
+            "{}",
+            "  \\ \\  \\____\\ \\  \\ \\  \\\\ \\  \\ \\  \\\\   \\  /     \\/  "
+                .bold()
+                .yellow()
+        );
+        println!(
+            "{}",
+            "   \\ \\_______\\ \\__\\ \\__\\\\ \\__\\ \\_______\\/  /\\   \\  "
+                .bold()
+                .yellow()
+        );
+        println!(
+            "{}",
+            "    \\|_______|\\|__|\\|__| \\|__|\\|_______/__/ /\\ __\\ "
+                .bold()
+                .yellow()
+        );
+        println!(
+            "{}",
+            "                                       |__|/ \\|__| "
+                .bold()
+                .yellow()
+        );
+        println!(
+            "{}",
+            "        Use arrow keys to navigate the menu 󰄼"
+                .bold()
+                .bright_blue()
+        );
         println!(
             "{}",
             format!("            󰔚 Last Updated {}     ", current_date)
@@ -33,11 +78,9 @@ fn main() {
         );
         println!(
             "{}",
-            format!("                      ")
-                .bold()
-                .bright_green()
+            format!("                      ").bold().bright_green()
         );
-                                                    
+
         let options = vec![
             " Setup Window Manager",
             " Install Browsers",
@@ -51,7 +94,7 @@ fn main() {
             " Setup Neovim",
             " Aur Helper",
             " Instructions",
-            "󰿅 Exit" // Added Exit option
+            "󰿅 Exit", // Added Exit option
         ];
 
         let selection = Select::with_theme(&ColorfulTheme::default())
@@ -75,10 +118,11 @@ fn main() {
                     9 => setup_neovim(),
                     10 => setup_aurhelper(),
                     11 => show_instructions(),
-                    12 => { // Handle Exit option
+                    12 => {
+                        // Handle Exit option
                         println!("{}", "Exiting the program.".yellow());
                         break;
-                    },
+                    }
                     _ => {
                         println!("{}", "Invalid choice.".red());
                     }
@@ -90,7 +134,6 @@ fn main() {
         }
     }
 }
-
 
 fn setup_window_manager() {
     let options = vec!["󰞯 DWM", "󰒘 Skip and return to Main Menu"];
@@ -355,7 +398,12 @@ fn install_useful_packages() {
 }
 
 fn choose_and_apply_grub_theme() {
-    let options = vec!["󰔎 Catppuccin Macchiato", " CyberRe"," CyberEXS", "󰒘 Skip"];
+    let options = vec![
+        "󰔎 Catppuccin Macchiato",
+        " CyberRe",
+        " CyberEXS",
+        "󰒘 Skip",
+    ];
 
     loop {
         let selection = Select::with_theme(&ColorfulTheme::default())
@@ -367,10 +415,7 @@ fn choose_and_apply_grub_theme() {
 
         match selection {
             0 => install_catppuccin_macchiato_theme(),
-            1 => install_grub_theme(
-                "https://github.com/aayushx402/i3-CatDotfiles",
-                "CyberRe",
-            ),
+            1 => install_grub_theme("https://github.com/aayushx402/i3-CatDotfiles", "CyberRe"),
             2 => install_cyberexs_theme(),
             3 => {
                 println!("{}", "Skipping GRUB theme selection.".yellow());
@@ -385,7 +430,10 @@ fn choose_and_apply_grub_theme() {
 }
 
 fn install_catppuccin_macchiato_theme() {
-    println!("{}", "Cloning Catppuccin GRUB theme repository...".bold().blue());
+    println!(
+        "{}",
+        "Cloning Catppuccin GRUB theme repository...".bold().blue()
+    );
 
     let home_dir = dirs::home_dir().expect("Failed to get home directory");
     let local_path = home_dir.join("grub");
@@ -429,7 +477,8 @@ fn install_catppuccin_macchiato_theme() {
         panic!("Failed to copy GRUB theme with sudo.");
     }
 
-    let theme_path_in_grub = format!("/usr/share/grub/themes/catppuccin-macchiato-grub-theme/theme.txt");
+    let theme_path_in_grub =
+        format!("/usr/share/grub/themes/catppuccin-macchiato-grub-theme/theme.txt");
 
     let grub_config_path = "/etc/default/grub";
     let new_grub_theme_line = format!(r#"GRUB_THEME="{}""#, theme_path_in_grub);
@@ -471,7 +520,10 @@ fn install_catppuccin_macchiato_theme() {
 }
 
 fn install_cyberexs_theme() {
-    println!("{}", "Cloning CyberEXS GRUB theme repository...".bold().blue());
+    println!(
+        "{}",
+        "Cloning CyberEXS GRUB theme repository...".bold().blue()
+    );
 
     let home_dir = dirs::home_dir().expect("Failed to get home directory");
     let local_path = home_dir.join("themeGrub.CyberEXS");
@@ -547,11 +599,13 @@ fn install_cyberexs_theme() {
     if status.success() {
         println!("{}", "GRUB configuration regenerated successfully.".green());
     } else {
-        println!("{}", "Failed to regenerate GRUB configuration with sudo.".red());
+        println!(
+            "{}",
+            "Failed to regenerate GRUB configuration with sudo.".red()
+        );
         panic!("Failed to regenerate GRUB configuration with sudo.");
     }
 }
-
 
 fn install_grub_theme(repo_url: &str, theme_name: &str) {
     println!("{}", "Cloning GRUB theme repository...".bold().blue());
@@ -993,7 +1047,9 @@ fn setup_neovim() {
     println!("{}", "Important: If you have an existing Neovim configuration, make sure to back it up before proceeding".bold().red());
     print!(
         "{}",
-        "Do you want to continue with the Neovim setup (y/n): ".bold().white()
+        "Do you want to continue with the Neovim setup (y/n): "
+            .bold()
+            .white()
     );
     io::stdout().flush().expect("Failed to flush stdout");
 
