@@ -4,80 +4,93 @@ use dialoguer::{theme::ColorfulTheme, Select};
 use git2::Repository;
 use std::env;
 use std::fs::create_dir_all;
-use std::fs::{self, File};
+use std::fs::{self};
 use std::io::{self, Write};
-use std::path::{Path, PathBuf};
+use std::path::Path;
 use std::process::Command;
 
 fn main() {
     loop {
+        // Clear the terminal
         Command::new("clear").status().unwrap();
 
         let current_date = Local::now().format("%Y-%m-%d").to_string();
 
-        println!("{}", "  █████╗ ██╗   ██╗██╗  ██╗".bold().yellow());
-        println!("{}", " ██╔══██╗╚██╗ ██╔╝╚██╗██╔╝".bold().yellow());
-        println!("{}", " ███████║ ╚████╔╝  ╚███╔╝ ".bold().yellow());
-        println!("{}", " ██╔══██║  ╚██╔╝   ██╔██╗ ".bold().yellow());
-        println!("{}", " ██║  ██║   ██║   ██╔╝ ██╗".bold().yellow());
-        println!("{}", " ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝".bold().yellow());
+        println!("{}", " ___       ___  ________   ___  ___     ___    ___   ".bold().yellow());
+        println!("{}", "|\\  \\     |\\  \\|\\   ___  \\|\\  \\|\\  \\   |\\  \\  /  /|".bold().yellow());
+        println!("{}", "\\ \\  \\    \\ \\  \\ \\  \\\\ \\  \\ \\  \\\\   \\  \\ \\  \\/  / /".bold().yellow());
+        println!("{}", " \\ \\  \\    \\ \\  \\ \\  \\\\ \\  \\ \\  \\\\   \\  \\ \\    / / ".bold().yellow());
+        println!("{}", "  \\ \\  \\____\\ \\  \\ \\  \\\\ \\  \\ \\  \\\\   \\  /     \\/  ".bold().yellow());
+        println!("{}", "   \\ \\_______\\ \\__\\ \\__\\\\ \\__\\ \\_______\\/  /\\   \\  ".bold().yellow());
+        println!("{}", "    \\|_______|\\|__|\\|__| \\|__|\\|_______/__/ /\\ __\\ ".bold().yellow());
+        println!("{}", "                                       |__|/ \\|__| ".bold().yellow());
+        println!("{}", "        Use arrow keys to navigate the menu 󰄼".bold().bright_blue());
         println!(
             "{}",
-            format!("  Last Updated {}     ", current_date)
+            format!("            󰔚 Last Updated {}     ", current_date)
                 .bold()
                 .bright_green()
         );
-
+        println!(
+            "{}",
+            format!("                      ")
+                .bold()
+                .bright_green()
+        );
+                                                    
         let options = vec![
-            " Setup Window Manager".to_string(),
-            " Setup Vim".to_string(),
-            " Install Neovim Plugin Manager".to_string(),
-            "󰖟 Install Browsers".to_string(),
-            " Install Packages".to_string(),
-            " Setup GRUB".to_string(),
-            "󰔎 Setup SDDM".to_string(),
-            "󰀺 Setup Fonts".to_string(),
-            " Setup Rofi".to_string(),
-            " Setup Alacritty".to_string(),
-            "󰄛 Setup Kitty".to_string(),
-            " Setup Neovim".to_string(),
-            " Aur Helper".to_string(),
-            "󰚯 Instructions".to_string(),
-            "󰿅 Exit".to_string(),
+            " Setup Window Manager",
+            " Install Browsers",
+            " Install Packages",
+            " Setup GRUB",
+            " Setup SDDM",
+            " Setup Fonts",
+            " Setup Rofi",
+            " Setup Alacritty",
+            " Setup Kitty",
+            " Setup Neovim",
+            " Aur Helper",
+            " Instructions",
+            "󰿅 Exit" // Added Exit option
         ];
 
         let selection = Select::with_theme(&ColorfulTheme::default())
-            .with_prompt("Choose a setup option ")
+            .with_prompt("Select an option:")
             .items(&options)
             .default(0)
-            .interact()
-            .unwrap();
+            .interact();
 
         match selection {
-            0 => setup_window_manager(),
-            1 => setup_vim(),
-            2 => choose_neovim_plugin_manager(),
-            3 => choose_browser(),
-            4 => install_useful_packages(),
-            5 => choose_and_apply_grub_theme(),
-            6 => setup_sddm_theme(),
-            7 => setup_fonts(),
-            8 => setup_rofi(),
-            9 => setup_alacritty(),
-            10 => setup_kitty(),
-            11 => setup_neovim(),
-            12 => setup_aurhelper(),
-            13 => show_instructions(),
-            14 => {
-                println!("{}", "Exiting the program.".yellow());
-                break;
+            Ok(index) => {
+                match index {
+                    0 => setup_window_manager(),
+                    1 => choose_browser(),
+                    2 => install_useful_packages(),
+                    3 => choose_and_apply_grub_theme(),
+                    4 => setup_sddm_theme(),
+                    5 => setup_fonts(),
+                    6 => setup_rofi(),
+                    7 => setup_alacritty(),
+                    8 => setup_kitty(),
+                    9 => setup_neovim(),
+                    10 => setup_aurhelper(),
+                    11 => show_instructions(),
+                    12 => { // Handle Exit option
+                        println!("{}", "Exiting the program.".yellow());
+                        break;
+                    },
+                    _ => {
+                        println!("{}", "Invalid choice.".red());
+                    }
+                }
             }
-            _ => {
-                println!("{}", "Invalid choice.".red());
+            Err(_) => {
+                println!("{}", "Error with selection.".red());
             }
         }
     }
 }
+
 
 fn setup_window_manager() {
     let options = vec!["󰞯 DWM", "󰒘 Skip and return to Main Menu"];
@@ -133,219 +146,6 @@ fn install_dwm() {
     } else {
         panic!("Failed to install dwm.");
     }
-}
-
-fn setup_vim() {
-    let vimrc_url = "https://raw.githubusercontent.com/aayushx402/MyVim/main/vimrc";
-    let vimrc_path = "/etc/vimrc";
-
-    let vim_check = Command::new("vim").arg("--version").output();
-
-    if vim_check.is_err() {
-        println!("{}", "Vim is not installed on your system.".red());
-        println!("Do you want to install Vim? (y/n):");
-
-        let mut input = String::new();
-        io::stdin().read_line(&mut input).unwrap();
-        if input.trim().to_lowercase() == "y" {
-            install_vim();
-        } else {
-            println!("{}", "Vim installation skipped.".yellow());
-            return;
-        }
-    }
-
-    println!("{}", "Downloading Vim configuration...".bold().blue());
-    download_vimrc(vimrc_url, vimrc_path);
-}
-
-fn install_vim() {
-    let package_manager_check = Command::new("sh")
-        .arg("-c")
-        .arg("which apt-get || which pacman")
-        .output()
-        .expect("Failed to determine the package manager");
-
-    let package_manager = String::from_utf8_lossy(&package_manager_check.stdout);
-
-    if package_manager.contains("apt-get") {
-        let install_status = Command::new("sudo")
-            .arg("apt-get")
-            .arg("install")
-            .arg("vim")
-            .status()
-            .expect("Failed to install Vim with apt-get");
-
-        if !install_status.success() {
-            panic!("{}", "Failed to install Vim using apt-get.".red());
-        }
-        println!("{}", "Vim installed successfully using apt-get.".green());
-    } else if package_manager.contains("pacman") {
-        let install_status = Command::new("sudo")
-            .arg("pacman")
-            .arg("-S")
-            .arg("--noconfirm")
-            .arg("vim")
-            .status()
-            .expect("Failed to install Vim with pacman");
-
-        if !install_status.success() {
-            panic!("{}", "Failed to install Vim using pacman.".red());
-        }
-        println!("{}", "Vim installed successfully using pacman.".green());
-    } else {
-        println!("{}", "Unsupported package manager.".red());
-    }
-}
-
-fn download_vimrc(vimrc_url: &str, vimrc_path: &str) {
-    let response = reqwest::blocking::get(vimrc_url).unwrap();
-    if response.status().is_success() {
-        let mut file = File::create("temp_vimrc").unwrap();
-        file.write_all(&response.bytes().unwrap()).unwrap();
-
-        let status = Command::new("sudo")
-            .arg("cp")
-            .arg("temp_vimrc")
-            .arg(vimrc_path)
-            .status()
-            .expect("Failed to copy new Vim config");
-        if status.success() {
-            println!(
-                "{}",
-                "Vim configuration file replaced successfully.".green()
-            );
-        } else {
-            println!("{}", "Failed to replace Vim configuration file.".red());
-            panic!("Failed to replace Vim configuration file.");
-        }
-
-        fs::remove_file("temp_vimrc").unwrap();
-    } else {
-        println!("{}", "Failed to download the Vim configuration file.".red());
-    }
-}
-
-fn choose_neovim_plugin_manager() {
-    let options = vec!["󰞯 vim-plug", "󰜷 packer.nvim", "󰒘 Skip"];
-
-    loop {
-        let selection = Select::with_theme(&ColorfulTheme::default())
-            .with_prompt("Choose your Neovim plugin manager:")
-            .items(&options)
-            .default(0)
-            .interact()
-            .unwrap();
-
-        match selection {
-            0 => {
-                install_vim_plug();
-                break;
-            }
-            1 => {
-                install_packer_nvim();
-                break;
-            }
-            2 => {
-                println!("{}", "Skipping plugin manager selection.".yellow());
-                break;
-            }
-            _ => {
-                println!("{}", "Invalid choice.".red());
-                continue;
-            }
-        }
-    }
-}
-
-fn install_vim_plug() {
-    println!("{}", "Installing vim-plug...".bold().blue());
-    Command::new("sh")
-        .arg("-c")
-        .arg("curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim")
-        .status()
-        .expect("Failed to install vim-plug");
-
-    let init_vim_path = PathBuf::from(format!(
-        "{}/.config/nvim/init.vim",
-        env::var("HOME").unwrap()
-    ));
-    let config = r#"
-        call plug#begin('~/.config/nvim/plugged')
-        Plug 'catppuccin/nvim', {'as': 'catppuccin'}
-        call plug#end()
-        syntax enable
-        set background=dark
-        colorscheme catppuccin
-    "#;
-    fs::create_dir_all(init_vim_path.parent().unwrap()).unwrap();
-    let mut file = File::create(init_vim_path).unwrap();
-    file.write_all(config.as_bytes()).unwrap();
-
-    Command::new("nvim")
-        .arg("+PlugInstall")
-        .arg("+qall")
-        .status()
-        .expect("Failed to run :PlugInstall in Neovim");
-
-    println!(
-        "{}",
-        "vim-plug and Catppuccin theme installed successfully.".green()
-    );
-}
-
-fn install_packer_nvim() {
-    println!("{}", "Installing packer.nvim...".bold().blue());
-    Command::new("sh")
-        .arg("-c")
-        .arg("git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim")
-        .status()
-        .expect("Failed to install packer.nvim");
-
-    let init_lua_path = PathBuf::from(format!(
-        "{}/.config/nvim/init.lua",
-        env::var("HOME").unwrap()
-    ));
-    let config = r#"
-        local ensure_packer = function()
-            local fn = vim.fn
-            local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-            if fn.empty(fn.glob(install_path)) > 0 then
-                fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-                vim.cmd [[packadd packer.nvim]]
-                return true
-            end
-            return false
-        end
-
-        local packer_bootstrap = ensure_packer()
-
-        return require('packer').startup(function(use)
-            use 'wbthomason/packer.nvim'
-            use 'catppuccin/nvim'
-            if packer_bootstrap then
-                require('packer').sync()
-            end
-        end)
-
-        vim.cmd('syntax enable')
-        vim.o.background = 'dark'
-        vim.cmd('colorscheme catppuccin')
-    "#;
-    fs::create_dir_all(init_lua_path.parent().unwrap()).unwrap();
-    let mut file = File::create(init_lua_path).unwrap();
-    file.write_all(config.as_bytes()).unwrap();
-
-    Command::new("nvim")
-        .arg("+PackerSync")
-        .arg("+qall")
-        .status()
-        .expect("Failed to run :PackerSync in Neovim");
-
-    println!(
-        "{}",
-        "packer.nvim and Catppuccin theme installed successfully.".green()
-    );
 }
 
 fn choose_browser() {
@@ -555,7 +355,7 @@ fn install_useful_packages() {
 }
 
 fn choose_and_apply_grub_theme() {
-    let options = vec!["󰔎 Catppuccin Macchiato", " CyberEXS", "󰒘 Skip"];
+    let options = vec!["󰔎 Catppuccin Macchiato", " CyberRe"," CyberEXS", "󰒘 Skip"];
 
     loop {
         let selection = Select::with_theme(&ColorfulTheme::default())
@@ -566,15 +366,13 @@ fn choose_and_apply_grub_theme() {
             .unwrap();
 
         match selection {
-            0 => install_grub_theme(
-                "https://github.com/catppuccin/grub.git",
-                "catppuccin-macchiato-grub-theme",
-            ),
+            0 => install_catppuccin_macchiato_theme(),
             1 => install_grub_theme(
-                "https://github.com/HenriqueLopes42/themeGrub.CyberEXS.git",
-                "CyberEXS",
+                "https://github.com/aayushx402/i3-CatDotfiles",
+                "CyberRe",
             ),
-            2 => {
+            2 => install_cyberexs_theme(),
+            3 => {
                 println!("{}", "Skipping GRUB theme selection.".yellow());
                 return;
             }
@@ -585,6 +383,175 @@ fn choose_and_apply_grub_theme() {
         }
     }
 }
+
+fn install_catppuccin_macchiato_theme() {
+    println!("{}", "Cloning Catppuccin GRUB theme repository...".bold().blue());
+
+    let home_dir = dirs::home_dir().expect("Failed to get home directory");
+    let local_path = home_dir.join("grub");
+    if local_path.exists() {
+        fs::remove_dir_all(&local_path).unwrap();
+    }
+
+    match Command::new("git")
+        .arg("clone")
+        .arg("https://github.com/catppuccin/grub.git")
+        .arg(local_path.display().to_string())
+        .status()
+    {
+        Ok(status) if status.success() => println!("{}", "Repository cloned successfully.".green()),
+        _ => panic!("Failed to clone repository."),
+    }
+
+    let src_path = local_path.join("src");
+
+    if !src_path.exists() {
+        panic!("src directory not found: {:?}", src_path.display());
+    }
+
+    let theme_path = src_path.join("catppuccin-macchiato-grub-theme");
+
+    if !theme_path.exists() {
+        panic!("Theme directory not found: {:?}", theme_path.display());
+    }
+
+    let status = Command::new("sudo")
+        .arg("cp")
+        .arg("-r")
+        .arg(theme_path.display().to_string())
+        .arg("/usr/share/grub/themes/")
+        .status()
+        .expect("Failed to execute sudo command to copy GRUB theme");
+    if status.success() {
+        println!("{}", "GRUB theme copied successfully.".green());
+    } else {
+        println!("{}", "Failed to copy GRUB theme with sudo.".red());
+        panic!("Failed to copy GRUB theme with sudo.");
+    }
+
+    let theme_path_in_grub = format!("/usr/share/grub/themes/catppuccin-macchiato-grub-theme/theme.txt");
+
+    let grub_config_path = "/etc/default/grub";
+    let new_grub_theme_line = format!(r#"GRUB_THEME="{}""#, theme_path_in_grub);
+
+    let status = Command::new("sudo")
+        .arg("sh")
+        .arg("-c")
+        .arg(format!(
+            r#"
+            sed -i 's|^GRUB_THEME=.*|{}|' {}
+            "#,
+            new_grub_theme_line, grub_config_path
+        ))
+        .status()
+        .expect("Failed to execute sudo command to update GRUB theme in config file");
+    if status.success() {
+        println!("{}", "GRUB configuration updated successfully.".green());
+    } else {
+        println!("{}", "Failed to update GRUB configuration with sudo.".red());
+        panic!("Failed to update GRUB configuration with sudo.");
+    }
+
+    // Regenerate the GRUB configuration
+    let status = Command::new("sudo")
+        .arg("grub-mkconfig")
+        .arg("-o")
+        .arg("/boot/grub/grub.cfg")
+        .status()
+        .expect("Failed to execute sudo command to update GRUB");
+    if status.success() {
+        println!("{}", "GRUB configuration regenerated successfully.".green());
+    } else {
+        println!(
+            "{}",
+            "Failed to regenerate GRUB configuration with sudo.".red()
+        );
+        panic!("Failed to regenerate GRUB configuration with sudo.");
+    }
+}
+
+fn install_cyberexs_theme() {
+    println!("{}", "Cloning CyberEXS GRUB theme repository...".bold().blue());
+
+    let home_dir = dirs::home_dir().expect("Failed to get home directory");
+    let local_path = home_dir.join("themeGrub.CyberEXS");
+    if local_path.exists() {
+        fs::remove_dir_all(&local_path).unwrap();
+    }
+
+    match Command::new("git")
+        .arg("clone")
+        .arg("https://github.com/HenriqueLopes42/themeGrub.CyberEXS.git")
+        .arg(local_path.display().to_string())
+        .status()
+    {
+        Ok(status) if status.success() => println!("{}", "Repository cloned successfully.".green()),
+        _ => panic!("Failed to clone repository."),
+    }
+
+    let theme_dir = Path::new("/usr/share/grub/themes/CyberEXS");
+    if !theme_dir.exists() {
+        Command::new("sudo")
+            .arg("mkdir")
+            .arg("-p")
+            .arg(theme_dir.display().to_string())
+            .status()
+            .expect("Failed to execute sudo command to create theme directory");
+    }
+
+    let status = Command::new("sh")
+        .arg("-c")
+        .arg(format!(
+            "cd {} && sudo cp -r * {}",
+            local_path.display(),
+            theme_dir.display()
+        ))
+        .status()
+        .expect("Failed to execute shell command to copy GRUB theme");
+    if status.success() {
+        println!("{}", "GRUB theme copied successfully.".green());
+    } else {
+        println!("{}", "Failed to copy GRUB theme with sudo.".red());
+        panic!("Failed to copy GRUB theme with sudo.");
+    }
+
+    let theme_path_in_grub = format!("/usr/share/grub/themes/CyberEXS/theme.txt");
+
+    let grub_config_path = "/etc/default/grub";
+    let new_grub_theme_line = format!(r#"GRUB_THEME="{}""#, theme_path_in_grub);
+
+    let status = Command::new("sudo")
+        .arg("sh")
+        .arg("-c")
+        .arg(format!(
+            r#"
+            sed -i 's|^GRUB_THEME=.*|{}|' {}
+            "#,
+            new_grub_theme_line, grub_config_path
+        ))
+        .status()
+        .expect("Failed to execute sudo command to update GRUB theme in config file");
+    if status.success() {
+        println!("{}", "GRUB configuration updated successfully.".green());
+    } else {
+        println!("{}", "Failed to update GRUB configuration with sudo.".red());
+        panic!("Failed to update GRUB configuration with sudo.");
+    }
+
+    let status = Command::new("sudo")
+        .arg("grub-mkconfig")
+        .arg("-o")
+        .arg("/boot/grub/grub.cfg")
+        .status()
+        .expect("Failed to execute sudo command to update GRUB");
+    if status.success() {
+        println!("{}", "GRUB configuration regenerated successfully.".green());
+    } else {
+        println!("{}", "Failed to regenerate GRUB configuration with sudo.".red());
+        panic!("Failed to regenerate GRUB configuration with sudo.");
+    }
+}
+
 
 fn install_grub_theme(repo_url: &str, theme_name: &str) {
     println!("{}", "Cloning GRUB theme repository...".bold().blue());
@@ -599,12 +566,8 @@ fn install_grub_theme(repo_url: &str, theme_name: &str) {
         Err(e) => panic!("Failed to clone repository: {}", e),
     }
 
-    let theme_path = local_path.join("src").join(theme_name);
-    let grub_theme_dir = Path::new("/usr/share/grub/themes").join(theme_name);
-
-    if !grub_theme_dir.exists() {
-        fs::create_dir_all(&grub_theme_dir).expect("Failed to create theme directory.");
-    }
+    let theme_path = local_path.join("grub").join(theme_name);
+    let grub_theme_dir = Path::new("/usr/share/grub/themes");
 
     let status = Command::new("sudo")
         .arg("cp")
@@ -620,10 +583,8 @@ fn install_grub_theme(repo_url: &str, theme_name: &str) {
         panic!("Failed to copy GRUB theme with sudo.");
     }
 
-    // Define the path to the new theme
-    let theme_path_in_grub = format!("{}/theme.txt", grub_theme_dir.display());
+    let theme_path_in_grub = format!("{}/CyberRe/theme.txt", grub_theme_dir.display());
 
-    // Update the GRUB configuration file to use the new theme
     let grub_config_path = "/etc/default/grub";
     let new_grub_theme_line = format!(r#"GRUB_THEME="{}""#, theme_path_in_grub);
 
@@ -1032,9 +993,7 @@ fn setup_neovim() {
     println!("{}", "Important: If you have an existing Neovim configuration, make sure to back it up before proceeding".bold().red());
     print!(
         "{}",
-        "Do you want to continue with the Neovim setup (y/n): "
-            .bold()
-            .white()
+        "Do you want to continue with the Neovim setup (y/n): ".bold().white()
     );
     io::stdout().flush().expect("Failed to flush stdout");
 
@@ -1115,9 +1074,13 @@ fn setup_neovim() {
         let path = entry.path();
         let dest = nvim_target_dir.join(entry.file_name());
         if path.is_dir() {
-            fs::rename(&path, &dest).expect("Failed to move directory to .config/nvim");
+            // Use a recursive function to copy the directory
+            copy_dir_all(&path, &dest).expect("Failed to copy directory");
+            fs::remove_dir_all(&path).expect("Failed to remove old directory");
         } else {
-            fs::copy(&path, &dest).expect("Failed to copy file to .config/nvim");
+            // Copy files and then delete them
+            fs::copy(&path, &dest).expect("Failed to copy file");
+            fs::remove_file(&path).expect("Failed to remove old file");
         }
     }
 
@@ -1162,6 +1125,22 @@ fn setup_neovim() {
     println!("Neovim setup completed successfully.");
 }
 
+// Recursive function to copy directories
+fn copy_dir_all(src: &Path, dst: &Path) -> std::io::Result<()> {
+    fs::create_dir_all(dst)?;
+    for entry in fs::read_dir(src)? {
+        let entry = entry?;
+        let src_path = entry.path();
+        let dst_path = dst.join(entry.file_name());
+        if src_path.is_dir() {
+            copy_dir_all(&src_path, &dst_path)?;
+        } else {
+            fs::copy(&src_path, &dst_path)?;
+        }
+    }
+    Ok(())
+}
+
 fn setup_aurhelper() {
     let aur_helpers = vec!["󰞯 Paru", "󰜷 Yay", "󰒘 Skip and return to Main Menu"];
 
@@ -1189,17 +1168,36 @@ fn install_aur_helper(helper: &str) {
     match helper {
         "paru" => {
             println!("{}", "Installing paru...".cyan());
-            let output = Command::new("sh")
-                .arg("-c")
-                .arg("sudo pacman -S --needed base-devel && git clone https://aur.archlinux.org/paru.git && cd paru && makepkg -si")
-                .output()
-                .expect("Failed to execute command");
 
-            if !output.status.success() {
-                println!(
-                    "{}",
-                    "Failed to install paru. Check the output for errors.".red()
-                );
+            let status = Command::new("sudo")
+                .arg("pacman")
+                .arg("-S")
+                .arg("--needed")
+                .arg("base-devel")
+                .status()
+                .expect("Failed to install base-devel");
+            if !status.success() {
+                println!("{}", "Failed to install base-devel.".red());
+                return;
+            }
+
+            let status = Command::new("git")
+                .arg("clone")
+                .arg("https://aur.archlinux.org/paru.git")
+                .status()
+                .expect("Failed to clone paru repository");
+            if !status.success() {
+                println!("{}", "Failed to clone paru repository.".red());
+                return;
+            }
+
+            let status = Command::new("sh")
+                .arg("-c")
+                .arg("cd paru && makepkg -si")
+                .status()
+                .expect("Failed to build and install paru");
+            if !status.success() {
+                println!("{}", "Failed to build and install paru.".red());
                 return;
             }
 
@@ -1207,17 +1205,37 @@ fn install_aur_helper(helper: &str) {
         }
         "yay" => {
             println!("{}", "Installing yay...".cyan());
-            let output = Command::new("sh")
-                .arg("-c")
-                .arg("sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si")
-                .output()
-                .expect("Failed to execute command");
 
-            if !output.status.success() {
-                println!(
-                    "{}",
-                    "Failed to install yay. Check the output for errors.".red()
-                );
+            let status = Command::new("sudo")
+                .arg("pacman")
+                .arg("-S")
+                .arg("--needed")
+                .arg("git")
+                .arg("base-devel")
+                .status()
+                .expect("Failed to install base-devel and git");
+            if !status.success() {
+                println!("{}", "Failed to install base-devel and git.".red());
+                return;
+            }
+
+            let status = Command::new("git")
+                .arg("clone")
+                .arg("https://aur.archlinux.org/yay.git")
+                .status()
+                .expect("Failed to clone yay repository");
+            if !status.success() {
+                println!("{}", "Failed to clone yay repository.".red());
+                return;
+            }
+
+            let status = Command::new("sh")
+                .arg("-c")
+                .arg("cd yay && makepkg -si")
+                .status()
+                .expect("Failed to build and install yay");
+            if !status.success() {
+                println!("{}", "Failed to build and install yay.".red());
                 return;
             }
 
