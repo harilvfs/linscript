@@ -1,3 +1,4 @@
+
 [package]
 name = "toolbox"
 version = "0.1.0"
@@ -10,6 +11,7 @@ colored = "2.0"
 mio = "0.8.11"
 dirs = "4.0"
 dialoguer = "0.10"
+chrono = "0.4"
 
 
 [profile.release]
@@ -20,4 +22,3 @@ codegen-units = 1
 panic = "abort"
 strip = true
 incremental = false
-

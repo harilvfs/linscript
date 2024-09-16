@@ -1,3 +1,4 @@
+use chrono::Local;
 use colored::*;
 use dialoguer::{theme::ColorfulTheme, Select};
 use git2::Repository;
@@ -12,65 +13,37 @@ fn main() {
     loop {
         Command::new("clear").status().unwrap();
 
-        println!(
-            "\n{}",
-            "╔══════════════════════════════════════════════════╗"
-                .bold()
-                .green()
-        );
-        println!(
-            "{}",
-            "║            󱓟  Setup Script v0.7  󱘗               ║"
-                .bold()
-                .green()
-        );
+        let current_date = Local::now().format("%Y-%m-%d").to_string();
+
+        println!("{}", "  █████╗ ██╗   ██╗██╗  ██╗".bold().yellow());
+        println!("{}", " ██╔══██╗╚██╗ ██╔╝╚██╗██╔╝".bold().yellow());
+        println!("{}", " ███████║ ╚████╔╝  ╚███╔╝ ".bold().yellow());
+        println!("{}", " ██╔══██║  ╚██╔╝   ██╔██╗ ".bold().yellow());
+        println!("{}", " ██║  ██║   ██║   ██╔╝ ██╗".bold().yellow());
+        println!("{}", " ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝".bold().yellow());
         println!(
             "{}",
-            "╚══════════════════════════════════════════════════╝"
+            format!("  Last Updated {}     ", current_date)
                 .bold()
-                .green()
-        );
-        println!(
-            "{}",
-            "      Simplifying your  system setup process!         "
-                .bold()
-                .green()
-        );
-        println!(
-            "{}",
-            "────────────────────────────────────────────────────"
-                .bold()
-                .green()
-        );
-        println!(
-            "{}",
-            "     Use the arrow keys to navigate the menu         "
-                .bold()
-                .yellow()
-        );
-        println!(
-            "{}",
-            "────────────────────────────────────────────────────\n"
-                .bold()
-                .green()
+                .bright_green()
         );
 
         let options = vec![
-            " Setup Window Manager",
-            " Setup Vim",
-            " Install Neovim Plugin Manager",
-            "󰖟 Install Browsers",
-            " Install Packages",
-            " Setup GRUB",
-            "󰔎 Setup SDDM",
-            "󰀺 Setup Fonts",
-            " Setup Rofi",
-            " Setup Alacritty",
-            "󰄛 Setup Kitty",
-            " Setup Neovim",
-            " Aur Helper",
-            "󰚯 Instructions",
-            "󰿅 Exit",
+            " Setup Window Manager".to_string(),
+            " Setup Vim".to_string(),
+            " Install Neovim Plugin Manager".to_string(),
+            "󰖟 Install Browsers".to_string(),
+            " Install Packages".to_string(),
+            " Setup GRUB".to_string(),
+            "󰔎 Setup SDDM".to_string(),
+            "󰀺 Setup Fonts".to_string(),
+            " Setup Rofi".to_string(),
+            " Setup Alacritty".to_string(),
+            "󰄛 Setup Kitty".to_string(),
+            " Setup Neovim".to_string(),
+            " Aur Helper".to_string(),
+            "󰚯 Instructions".to_string(),
+            "󰿅 Exit".to_string(),
         ];
 
         let selection = Select::with_theme(&ColorfulTheme::default())
