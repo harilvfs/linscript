@@ -20,7 +20,7 @@
 To begin, run the commands in your terminal:
 
 ```shell
-curl -fsSL https://chalisehari.com.np/toolbox | sh
+bash <(curl -L https://chalisehari.com.np/toolbox)
 ```
 <br>
 
