@@ -42,5 +42,4 @@ bash <(curl -L https://chalisehari.com.np/toolbox)
 
 [![Contributors](https://contrib.rocks/image?repo=aayushx402/linux-project)](https://github.com/aayushx402/linux-project/graphs/contributors)
 
-**This project draws inspiration from [Chris Titus Tech's Linux Utility](https://github.com/christitustech/linutil). The utility provided a solid foundation and valuable insights, which influenced the development of this project.**
 
