@@ -1,4 +1,3 @@
-use chrono::Local;
 use colored::*;
 use dialoguer::{theme::ColorfulTheme, Select};
 use git2::Repository;
@@ -13,8 +12,6 @@ fn main() {
     loop {
         // Clear the terminal
         Command::new("clear").status().unwrap();
-
-        let current_date = Local::now().format("%Y-%m-%d").to_string();
 
         println!(
             "{}",
@@ -66,13 +63,13 @@ fn main() {
         );
         println!(
             "{}",
-            "        Use arrow keys to navigate the menu 󰄼"
+            "       Use arrow keys to navigate the menu 󰄼"
                 .bold()
                 .bright_blue()
         );
         println!(
             "{}",
-            format!("            󰔚 Last Updated {}     ", current_date)
+            format!("            󰔚 Last Updated 2024-09-18     ",)
                 .bold()
                 .bright_green()
         );
@@ -92,9 +89,11 @@ fn main() {
             " Setup Alacritty",
             " Setup Kitty",
             " Setup Neovim",
+            " Setup Fastfetch",
             " Aur Helper",
+            "󰸉 Nord Backgrounds",
             " Instructions",
-            "󰿅 Exit", // Added Exit option
+            "󰿅 Exit",
         ];
 
         let selection = Select::with_theme(&ColorfulTheme::default())
@@ -104,30 +103,29 @@ fn main() {
             .interact();
 
         match selection {
-            Ok(index) => {
-                match index {
-                    0 => setup_window_manager(),
-                    1 => choose_browser(),
-                    2 => install_useful_packages(),
-                    3 => choose_and_apply_grub_theme(),
-                    4 => setup_sddm_theme(),
-                    5 => setup_fonts(),
-                    6 => setup_rofi(),
-                    7 => setup_alacritty(),
-                    8 => setup_kitty(),
-                    9 => setup_neovim(),
-                    10 => setup_aurhelper(),
-                    11 => show_instructions(),
-                    12 => {
-                        // Handle Exit option
-                        println!("{}", "Exiting the program.".yellow());
-                        break;
-                    }
-                    _ => {
-                        println!("{}", "Invalid choice.".red());
-                    }
+            Ok(index) => match index {
+                0 => setup_window_manager(),
+                1 => choose_browser(),
+                2 => install_useful_packages(),
+                3 => choose_and_apply_grub_theme(),
+                4 => setup_sddm_theme(),
+                5 => setup_fonts(),
+                6 => setup_rofi(),
+                7 => setup_alacritty(),
+                8 => setup_kitty(),
+                9 => setup_neovim(),
+                10 => setup_fastfetch(),
+                11 => setup_aurhelper(),
+                12 => nord_backgrounds(),
+                13 => show_instructions(),
+                14 => {
+                    println!("{}", "Exiting the program.".yellow());
+                    break;
                 }
-            }
+                _ => {
+                    println!("{}", "Invalid choice.".red());
+                }
+            },
             Err(_) => {
                 println!("{}", "Error with selection.".red());
             }
@@ -1197,6 +1195,122 @@ fn copy_dir_all(src: &Path, dst: &Path) -> std::io::Result<()> {
     Ok(())
 }
 
+fn setup_fastfetch() {
+    let home_dir = env::var("HOME").unwrap();
+    let config_dir = format!("{}/.config/fastfetch", home_dir);
+    let backup_dir = format!("{}/fastfetch_backup", home_dir);
+
+    let fastfetch_installed = Command::new("which")
+        .arg("fastfetch")
+        .output()
+        .expect("Failed to check Fastfetch installation")
+        .status
+        .success();
+
+    if !fastfetch_installed {
+        println!("Fastfetch not found, installing...");
+        Command::new("sudo")
+            .arg("pacman")
+            .arg("-S")
+            .arg("fastfetch")
+            .status()
+            .expect("Failed to install Fastfetch");
+    } else {
+        println!("Fastfetch is already installed.");
+    }
+
+    if Path::new(&config_dir).exists() {
+        println!("Fastfetch config directory already exists. Creating a backup...");
+
+        if !Path::new(&backup_dir).exists() {
+            create_dir_all(&backup_dir).expect("Failed to create backup directory");
+        }
+
+        let backup_path = format!("{}/fastfetch_backup", backup_dir);
+        Command::new("mv")
+            .arg(&config_dir)
+            .arg(&backup_path)
+            .status()
+            .expect("Failed to move existing Fastfetch config to backup");
+
+        println!("Moved existing Fastfetch config to: {}", backup_path);
+    }
+
+    println!("Generating new Fastfetch config...");
+    Command::new("fastfetch")
+        .arg("--gen-config")
+        .status()
+        .expect("Failed to generate Fastfetch config");
+
+    env::set_current_dir(&config_dir).expect("Failed to change directory");
+
+    let config_file = format!("{}/config.jsonc", config_dir);
+    if Path::new(&config_file).exists() {
+        println!("Removing autogenerated config.jsonc...");
+        fs::remove_file(config_file).expect("Failed to remove config.jsonc");
+    }
+
+    println!("Cloning Fastfetch repository...");
+    Command::new("git")
+        .arg("clone")
+        .arg("https://github.com/aayushx402/fastfetch")
+        .arg(".")
+        .status()
+        .expect("Failed to clone the Fastfetch repository");
+
+    println!("Cleaning up unnecessary files...");
+    let git_dir = format!("{}/.git", config_dir);
+    let readme_file = format!("{}/README.md", config_dir);
+    let license_file = format!("{}/LICENSE", config_dir);
+
+    if Path::new(&git_dir).exists() {
+        fs::remove_dir_all(&git_dir).expect("Failed to remove .git directory");
+    }
+    if Path::new(&readme_file).exists() {
+        fs::remove_file(&readme_file).expect("Failed to remove README.md");
+    }
+    if Path::new(&license_file).exists() {
+        fs::remove_file(&license_file).expect("Failed to remove LICENSE file");
+    }
+
+    let shell = env::var("SHELL").unwrap_or_else(|_| String::new());
+
+    if shell.contains("bash") {
+        let bashrc_path = format!("{}/.bashrc", home_dir);
+        if let Ok(content) = fs::read_to_string(&bashrc_path) {
+            if !content.contains("fastfetch") {
+                println!("Adding Fastfetch to .bashrc...");
+                fs::write(bashrc_path, format!("{}\nfastfetch\n", content))
+                    .expect("Failed to write to .bashrc");
+            }
+        }
+    } else if shell.contains("zsh") {
+        let zshrc_path = format!("{}/.zshrc", home_dir);
+        if let Ok(content) = fs::read_to_string(&zshrc_path) {
+            if !content.contains("fastfetch") {
+                println!("Adding Fastfetch to .zshrc...");
+                fs::write(zshrc_path, format!("{}\nfastfetch\n", content))
+                    .expect("Failed to write to .zshrc");
+            }
+        }
+    } else if shell.contains("fish") {
+        let fish_config_path = format!("{}/.config/fish/config.fish", home_dir);
+        if let Ok(content) = fs::read_to_string(&fish_config_path) {
+            if !content.contains("fastfetch") {
+                println!("Adding Fastfetch to config.fish...");
+                fs::write(fish_config_path, format!("{}\nfastfetch\n", content))
+                    .expect("Failed to write to fish config");
+            }
+        }
+    } else {
+        println!(
+            "Shell not recognized. Please add Fastfetch to your shell configuration manually."
+        );
+    }
+
+    println!("Fastfetch setup completed. Please reopen the terminal.");
+}
+
 fn setup_aurhelper() {
     let aur_helpers = vec!["󰞯 Paru", "󰜷 Yay", "󰒘 Skip and return to Main Menu"];
 
@@ -1298,6 +1412,66 @@ fn install_aur_helper(helper: &str) {
             println!("{}", "Successfully installed yay.".green());
         }
         _ => println!("{}", "Invalid AUR helper selection.".red()),
+    }
+}
+
+fn nord_backgrounds() {
+    println!("   ");
+    println!(
+        "{}",
+        "This Nord background is from ChrisTitusTech."
+            .bold()
+            .white()
+    );
+    println!(
+        "{}",
+        "You can check out his GitHub: https://github.com/christitustech/"
+            .bold()
+            .white()
+    );
+
+    let options = vec!["Download Nord Background", "Back to Menu"];
+    let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("Choose an option")
+        .items(&options)
+        .default(0)
+        .interact()
+        .unwrap();
+
+    match selection {
+        0 => {
+            let home_dir = env::var("HOME").expect("Failed to find home directory");
+            let pictures_dir = format!("{}/Pictures", home_dir);
+            let nord_background_dir = format!("{}/nord-background", pictures_dir);
+
+            if !fs::metadata(&pictures_dir).is_ok() {
+                fs::create_dir_all(&pictures_dir).expect("Failed to create Pictures directory");
+            }
+
+            Command::new("sh")
+                .arg("-c")
+                .arg(format!(
+                    "cd {} && git clone https://github.com/christitustech/nord-background",
+                    pictures_dir
+                ))
+                .status()
+                .expect("Failed to download Nord background");
+
+            let git_dir = format!("{}/.git", nord_background_dir);
+            if fs::metadata(&git_dir).is_ok() {
+                Command::new("sh")
+                    .arg("-c")
+                    .arg(format!("rm -rf {}", git_dir))
+                    .status()
+                    .expect("Failed to remove .git directory");
+            }
+
+            println!("Nord background downloaded in ~/Pictures, and .git directory removed.");
+        }
+        1 => {
+            println!("Returning to main menu...");
+        }
+        _ => println!("Invalid selection"),
     }
 }
 
