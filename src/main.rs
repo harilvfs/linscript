@@ -381,7 +381,8 @@ fn install_useful_packages() {
         .interact()
         .expect("Selection failed");
 
-    if selection == 0 {  // User selected "Yes"
+    if selection == 0 {
+        // User selected "Yes"
         for package in &packages {
             match package_manager {
                 "pacman" => install_with_pacman(package),
@@ -1312,26 +1313,30 @@ fn setup_fastfetch() {
 }
 
 fn setup_ltskernal() {
-
     let kernel_output = Command::new("uname")
         .arg("-r")
         .output()
         .expect("Failed to detect current kernel");
-    let current_kernel = String::from_utf8_lossy(&kernel_output.stdout).trim().to_string();
+    let current_kernel = String::from_utf8_lossy(&kernel_output.stdout)
+        .trim()
+        .to_string();
 
-    println!("\x1b[1;33mCurrent kernel version: {}\x1b[0m", current_kernel);
-    
+    println!(
+        "\x1b[1;33mCurrent kernel version: {}\x1b[0m",
+        current_kernel
+    );
+
     println!("\x1b[1;36m\nMake sure to select the LTS kernel in GRUB when booting!\n\x1b[0m");
 
     let choices = &["Yes", "No"];
     let selection = Select::with_theme(&ColorfulTheme::default())
         .with_prompt("Do you want to install the LTS kernel and remove the current kernel?")
         .items(choices)
-        .default(1) 
+        .default(1)
         .interact()
         .expect("Selection failed");
 
-    if selection == 0 {  
+    if selection == 0 {
         let remove_command = format!("sudo pacman -Rnss linux-{}", current_kernel);
         Command::new("sh")
             .arg("-c")
@@ -1353,11 +1358,11 @@ fn setup_ltskernal() {
         let install_only_selection = Select::with_theme(&ColorfulTheme::default())
             .with_prompt("Do you want to install only the LTS kernel?")
             .items(choices)
-            .default(0) 
+            .default(0)
             .interact()
             .expect("Selection failed");
 
-        if install_only_selection == 0 {  
+        if install_only_selection == 0 {
             Command::new("sudo")
                 .arg("pacman")
                 .arg("-S")
