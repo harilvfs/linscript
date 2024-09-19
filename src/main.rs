@@ -69,7 +69,7 @@ fn main() {
         );
         println!(
             "{}",
-            format!("            󰔚 Last Updated 2024-09-18     ",)
+            format!("            󰔚 Last Updated 2024-09-20     ",)
                 .bold()
                 .bright_green()
         );
@@ -90,6 +90,7 @@ fn main() {
             " Setup Kitty",
             " Setup Neovim",
             " Setup Fastfetch",
+            " Install LTS Kernal",
             " Aur Helper",
             "󰸉 Nord Backgrounds",
             " Instructions",
@@ -115,10 +116,11 @@ fn main() {
                 8 => setup_kitty(),
                 9 => setup_neovim(),
                 10 => setup_fastfetch(),
-                11 => setup_aurhelper(),
-                12 => nord_backgrounds(),
-                13 => show_instructions(),
-                14 => {
+                11 => setup_ltskernal(),
+                12 => setup_aurhelper(),
+                13 => nord_backgrounds(),
+                14 => show_instructions(),
+                15 => {
                     println!("{}", "Exiting the program.".yellow());
                     break;
                 }
@@ -371,18 +373,15 @@ fn install_useful_packages() {
         println!("{}", package);
     }
 
-    print!(
-        "{}",
-        "Do you want to proceed with the installation? (y/n): "
-            .bold()
-            .blue()
-    );
-    io::stdout().flush().unwrap();
+    let choices = &["Yes", "No"];
+    let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("Do you want to proceed with the installation?")
+        .items(choices)
+        .default(0) // "Yes" is the default option
+        .interact()
+        .expect("Selection failed");
 
-    let mut choice = String::new();
-    io::stdin().read_line(&mut choice).unwrap();
-
-    if choice.trim().eq_ignore_ascii_case("y") {
+    if selection == 0 {  // User selected "Yes"
         for package in &packages {
             match package_manager {
                 "pacman" => install_with_pacman(package),
@@ -390,6 +389,7 @@ fn install_useful_packages() {
                 _ => println!("{}", "Unsupported package manager.".red()),
             }
         }
+        println!("{}", "Installation completed successfully.".green());
     } else {
         println!("{}", "Installation cancelled.".yellow());
     }
@@ -1309,6 +1309,67 @@ fn setup_fastfetch() {
     }
 
     println!("Fastfetch setup completed. Please reopen the terminal.");
+}
+
+fn setup_ltskernal() {
+
+    let kernel_output = Command::new("uname")
+        .arg("-r")
+        .output()
+        .expect("Failed to detect current kernel");
+    let current_kernel = String::from_utf8_lossy(&kernel_output.stdout).trim().to_string();
+
+    println!("\x1b[1;33mCurrent kernel version: {}\x1b[0m", current_kernel);
+    
+    println!("\x1b[1;36m\nMake sure to select the LTS kernel in GRUB when booting!\n\x1b[0m");
+
+    let choices = &["Yes", "No"];
+    let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("Do you want to install the LTS kernel and remove the current kernel?")
+        .items(choices)
+        .default(1) 
+        .interact()
+        .expect("Selection failed");
+
+    if selection == 0 {  
+        let remove_command = format!("sudo pacman -Rnss linux-{}", current_kernel);
+        Command::new("sh")
+            .arg("-c")
+            .arg(&remove_command)
+            .status()
+            .expect("Failed to remove existing kernel");
+
+        println!("Current kernel removed: {}", current_kernel);
+
+        Command::new("sudo")
+            .arg("pacman")
+            .arg("-S")
+            .arg("linux-lts")
+            .status()
+            .expect("Failed to install LTS kernel");
+
+        println!("LTS kernel installed successfully!");
+    } else {
+        let install_only_selection = Select::with_theme(&ColorfulTheme::default())
+            .with_prompt("Do you want to install only the LTS kernel?")
+            .items(choices)
+            .default(0) 
+            .interact()
+            .expect("Selection failed");
+
+        if install_only_selection == 0 {  
+            Command::new("sudo")
+                .arg("pacman")
+                .arg("-S")
+                .arg("linux-lts")
+                .status()
+                .expect("Failed to install LTS kernel");
+
+            println!("LTS kernel installed successfully!");
+        } else {
+            println!("No changes made to the kernel.");
+        }
+    }
 }
 
 fn setup_aurhelper() {
