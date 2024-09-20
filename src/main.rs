@@ -69,7 +69,7 @@ fn main() {
         );
         println!(
             "{}",
-            format!("            󰔚 Last Updated 2024-09-20     ",)
+            format!("            󰔚 Last Updated 2024-09-21     ",)
                 .bold()
                 .bright_green()
         );
@@ -91,6 +91,7 @@ fn main() {
             " Setup Neovim",
             " Setup Fastfetch",
             " Install LTS Kernal",
+            "󰪐 Setup Picom Animation",
             " Aur Helper",
             "󰸉 Nord Backgrounds",
             " Instructions",
@@ -117,10 +118,11 @@ fn main() {
                 9 => setup_neovim(),
                 10 => setup_fastfetch(),
                 11 => setup_ltskernal(),
-                12 => setup_aurhelper(),
-                13 => nord_backgrounds(),
-                14 => show_instructions(),
-                15 => {
+                12 => setup_picom(),
+                13 => setup_aurhelper(),
+                14 => nord_backgrounds(),
+                15 => show_instructions(),
+                16 => {
                     println!("{}", "Exiting the program.".yellow());
                     break;
                 }
@@ -1374,6 +1376,88 @@ fn setup_ltskernal() {
         } else {
             println!("No changes made to the kernel.");
         }
+    }
+}
+
+fn setup_picom() {
+    println!(
+        "{}",
+        "This Picom setup is from FT Lab. Check out their GitHub: https://github.com/FT-Labs/picom"
+            .bold()
+            .cyan()
+    );
+    println!(
+        "{}",
+        "Note: The animation will only work with the DWM."
+            .bold()
+            .red()
+    );
+
+    let choices = vec!["Yes", "No"];
+    let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("Do you want to continue with the Picom setup?")
+        .items(&choices)
+        .default(0)
+        .interact()
+        .expect("Failed to make a selection");
+
+    match selection {
+        0 => {
+            println!("Starting Picom setup...");
+
+            println!("Installing dependencies: ninja and meson");
+            Command::new("sudo")
+                .arg("pacman")
+                .arg("-S")
+                .arg("ninja")
+                .arg("meson")
+                .status()
+                .expect("Failed to install dependencies");
+
+            println!("Cloning Picom repository from https://github.com/FT-Labs/picom");
+            Command::new("git")
+                .arg("clone")
+                .arg("https://github.com/FT-Labs/picom.git")
+                .arg("~/build/picom")
+                .status()
+                .expect("Failed to clone the repository");
+
+            println!("Navigating to Picom directory");
+            Command::new("cd")
+                .arg("~/build/picom")
+                .status()
+                .expect("Failed to navigate to the Picom directory");
+
+            println!("Setting up and building Picom...");
+            Command::new("meson")
+                .arg("setup")
+                .arg("--buildtype=release")
+                .arg("build")
+                .status()
+                .expect("Meson setup failed");
+
+            Command::new("sudo")
+                .arg("ninja")
+                .arg("-C")
+                .arg("build")
+                .arg("install")
+                .status()
+                .expect("Ninja build failed");
+
+            println!("Downloading picom.conf for animations...");
+            Command::new("wget")
+                .arg("https://raw.githubusercontent.com/aayushx402/i3-CatDotfiles/main/picom/picom-animations/picom.conf")
+                .arg("-P")
+                .arg("~/.config")
+                .status()
+                .expect("Failed to download picom.conf");
+
+            println!("Picom setup completed! Returning to the main menu...");
+        }
+        1 => {
+            println!("Returning to the main menu...");
+        }
+        _ => unreachable!(),
     }
 }
 
