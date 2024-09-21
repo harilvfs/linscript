@@ -1,4 +1,4 @@
-[![Switched to Codeberg](https://img.shields.io/badge/Switched_to-Codeberg-blue?style=for-the-badge&logo=codeberg&logoColor=white)](https://codeberg.org/aayushchalise/quicktux)
+**This project has switched to Codeberg.**  [![Switched to Codeberg](https://img.shields.io/badge/Switched_to-Codeberg-blue?style=for-the-badge&logo=codeberg&logoColor=white)](https://codeberg.org/aayushchalise/quicktux)
 
 <strong> **Aayush's** **'Linux Project'**  <img src='https://github.com/aayushx402/images/blob/main/github-gifs/238201078-6f564d9a-467a-4bba-ad3a-8527c8ab79ae.gif' width="20"></strong>
 
