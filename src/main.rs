@@ -182,7 +182,10 @@ fn install_dwm() {
         Err(e) => panic!("Failed to clone repository: {}", e),
     }
 
-    println!("{}", "Setting up permissions and running setup script...".blue());
+    println!(
+        "{}",
+        "Setting up permissions and running setup script...".blue()
+    );
     let setup_status = Command::new("sh")
         .arg("-c")
         .arg("cd /tmp/dwm-ayx && chmod +x setup.sh && ./setup.sh")
