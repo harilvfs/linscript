@@ -169,28 +169,45 @@ fn install_dwm() {
     let repo_url = "https://github.com/aayushx402/dwm-ayx";
     let local_path = Path::new("/tmp/dwm-ayx");
 
-    if local_path.exists() && local_path.read_dir().unwrap().next().is_some() {
-        println!(
-            "{}",
-            "Directory already exists and is not empty. Skipping clone.".yellow()
-        );
-    } else {
-        match Repository::clone(repo_url, local_path) {
-            Ok(_) => println!("{}", "Repository cloned successfully.".green()),
-            Err(e) => panic!("Failed to clone repository: {}", e),
-        }
+    println!("{}", "Starting dwm installation...".blue());
+
+    if local_path.exists() {
+        println!("{}", "Directory exists. Removing old directory...".yellow());
+        fs::remove_dir_all(local_path).expect("Failed to remove old directory");
     }
 
-    let status = Command::new("sh")
+    println!("{}", "Cloning the dwm repository...".blue());
+    match Repository::clone(repo_url, local_path) {
+        Ok(_) => println!("{}", "Repository cloned successfully.".green()),
+        Err(e) => panic!("Failed to clone repository: {}", e),
+    }
+
+    println!("{}", "Setting up permissions and running setup script...".blue());
+    let setup_status = Command::new("sh")
         .arg("-c")
-        .arg("cd /tmp/dwm-ayx && chmod +x setup.sh && ./setup.sh && sudo make clean && sudo make clean install")
+        .arg("cd /tmp/dwm-ayx && chmod +x setup.sh && ./setup.sh")
         .status()
-        .expect("Failed to install dwm");
-    if status.success() {
-        println!("{}", "dwm installed successfully.".green());
+        .expect("Failed to run setup script");
+    if setup_status.success() {
+        println!("{}", "Setup script executed successfully.".green());
+    } else {
+        panic!("Failed to execute setup script.");
+    }
+
+    println!("{}", "Compiling and installing dwm...".blue());
+    let make_status = Command::new("sh")
+        .arg("-c")
+        .arg("cd /tmp/dwm-ayx && sudo make clean install")
+        .status()
+        .expect("Failed to compile and install dwm");
+
+    if make_status.success() {
+        println!("{}", "dwm installed successfully!".green());
     } else {
         panic!("Failed to install dwm.");
     }
+
+    println!("{}", "dwm installation completed!".blue());
 }
 
 fn choose_browser() {
@@ -502,7 +519,6 @@ fn install_catppuccin_macchiato_theme() {
         panic!("Failed to update GRUB configuration with sudo.");
     }
 
-    // Regenerate the GRUB configuration
     let status = Command::new("sudo")
         .arg("grub-mkconfig")
         .arg("-o")
