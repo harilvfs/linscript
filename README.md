@@ -20,7 +20,7 @@
 To begin, run the commands in your terminal:
 
 ```shell
-bash <(curl -L https://raw.githubusercontent.com/aayushxvf/linux-project/refs/heads/main/setup.sh?token=GHSAT0AAAAAACYGZ4RZSOO74J3HIRLTUQG2ZX25WBQ)
+bash <(curl -L )
 ```
 <br>
 
