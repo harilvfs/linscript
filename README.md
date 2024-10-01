@@ -5,7 +5,7 @@
 <strong>A 'simple' Rust-written script designed to streamline and automate your Linux setup—effortlessly. <img src='https://user-images.githubusercontent.com/74038190/216122041-518ac897-8d92-4c6b-9b3f-ca01dcaf38ee.png' width="20"></strong>
 
 <p align="center">
-  <img src="https://github.com/aayushx402/linux-project/blob/main/preview.png" alt="Preview">
+  <img src="https://github.com/harilvfs/linscript/blob/main/preview.png" alt="Preview">
 </p>
 
 > [!Note]
